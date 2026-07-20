@@ -29,7 +29,7 @@
   --shadow:      0 6px 26px rgba(214,180,90,0.16);
   --shadow-hover:0 10px 34px rgba(214,180,90,0.28);
   --transition:  0.2s ease;
-  --page-width: 1100px; /* 페이지 가로폭. SOOP에서 카드가 nav선까지 안 차면 키우고, 비율 깨지면 줄이기 */
+  --page-width: 1260px; /* 페이지 가로폭. SOOP에서 카드가 nav선까지 안 차면 키우고, 비율 깨지면 줄이기 */
 }
 
 /* ── 다크모드 색 (검정 배경 + 밝은 슬레이트 글자) ── */
@@ -57,6 +57,7 @@ body { transition: background var(--transition), color var(--transition); }
 
 /* ── 배경: 깅엄 체크 테이블보 (body 배경 레이어 — §0.0.6) ── */
 body {
+  margin: 0;
   background-color: var(--bg);
   background-image:
     radial-gradient(circle at 50% 0%,   rgba(255,251,212,.95) 0, transparent 32%),
@@ -491,3 +492,99 @@ body.dark .askbtns .yes{ background:var(--main-dark); color:#3A3050; }
 /* 태그 가독성 (§8.6 — 연한 색 금지) */
 .tag{ color:var(--main-deep) !important; font-weight:800; }
 body.dark .tag{ color:var(--main-deep) !important; }
+
+/* ==========================================================
+   ★ 오르골 테마 통일 (메인/프로필과 동일한 레이아웃 언어)
+   — 흰 시트 카드 제거 · 영수증 헤더 → 섹션 헤더
+   ========================================================== */
+*,*::before,*::after{ box-sizing:border-box; }
+.pagewrap{ max-width:var(--page-width); margin:0 auto; padding:0 30px; }
+.container{ max-width:none!important; }
+.nav{ max-width:none; }
+.pagecard{ background:none; box-shadow:none; border-radius:0; padding:0; }
+
+/* nav = 메인 헤더와 동일 (카드 테두리 없음) */
+.nav{ padding:22px 0 0; border-bottom:0; gap:18px; }
+.nav-logo{ font-size:32px; gap:10px; align-items:baseline; }
+.nav-logo .lg{ display:none; }
+.nav-logo::before{ content:'☾'; font-size:22px; color:var(--main-deep); }
+.nav-sub{
+  font-family:'Playfair Display',Georgia,serif; font-style:italic;
+  font-size:13px; letter-spacing:.2em; color:var(--text-soft); margin-left:2px;
+}
+.nav a.nav-logo{ font-size:32px!important; }
+
+/* 본문 폭 = 메인과 동일 리듬 */
+.container{ padding:22px 0 0; gap:36px; }
+
+/* 영수증 헤더 → 오르골 섹션 헤더 */
+.pagehero{
+  background:none!important; background-image:none!important; box-shadow:none!important;
+  clip-path:none!important; padding:0!important; margin:0 0 4px!important;
+  display:flex!important; align-items:baseline; gap:12px; text-align:left;
+  border-radius:0;
+}
+.pagehero::before,.pagehero::after{ display:none!important; }
+.ph-left,.ph-meta{ display:none!important; }
+.ph-center{ display:flex; align-items:baseline; gap:12px; flex:1; min-width:0; }
+.pagehero .ph-title{
+  font-family:var(--jua); font-size:26px; font-weight:400; color:var(--text);
+  letter-spacing:0; text-shadow:none; white-space:nowrap;
+}
+body.dark .pagehero .ph-title{ color:var(--text); }
+.pagehero .ph-line{
+  flex:1; height:1px; min-width:20px; margin:0;
+  background:linear-gradient(90deg,var(--line),transparent); border:0;
+}
+.pagehero .ph-sub{
+  font-size:12.5px; color:var(--text-soft); letter-spacing:0;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* 카드 = 오르골 카드 */
+.container .card{
+  border:1px solid var(--line); border-radius:24px; padding:24px;
+  box-shadow:0 12px 28px rgba(214,180,90,.12);
+}
+.container .card-title{ font-size:19px; margin-bottom:14px; }
+
+/* 푸터 */
+footer{ margin-top:44px; padding:0 20px 40px; }
+
+@media(max-width:980px){
+  .pagewrap{ padding:0 18px; }
+  .nav{ padding:16px 0 0; flex-wrap:wrap; gap:12px; }
+  .nm{ order:3; width:100%; margin:0; overflow-x:auto; justify-content:flex-start; }
+  .container{ padding:16px 0 0; gap:26px; }
+  .nav-sub{ display:none; }
+  .pagehero{ flex-wrap:wrap; }
+  .pagehero .ph-sub{ white-space:normal; }
+  .container .card{ padding:18px; border-radius:20px; }
+}
+
+/* LIVE 버튼 (메인과 동일) */
+.live{
+  display:flex; align-items:center; gap:8px; padding:11px 17px; border-radius:999px;
+  background:var(--card); border:1px solid #ECD9E2; color:#D4527D;
+  font-weight:900; font-size:13px; text-decoration:none; flex:none;
+  box-shadow:0 6px 16px rgba(210,160,190,.18);
+}
+.live i{ width:7px; height:7px; border-radius:50%; background:#D4527D; animation:liveBl 1.6s infinite; }
+@keyframes liveBl{ 50%{ opacity:.25 } }
+body.dark .live{ border-color:#5A4A55; }
+@media(max-width:980px){ .live{ padding:9px 13px; font-size:12px; } }
+
+/* 메뉴는 화면 기준 정중앙 고정 → 페이지 이동 시 상단바 안 튐 */
+@media(min-width:981px){
+  .nav{ position:relative; }
+  .nm{ position:absolute; left:50%; transform:translateX(-50%); margin:0; }
+  .nav-logo{ margin-right:auto; }
+}
+
+/* 중간 폭: 로고 부제가 메뉴와 겹치지 않게 */
+@media(min-width:981px) and (max-width:1180px){
+  .nav-sub{ display:none; }
+  .nm a{ padding:9px 12px; font-size:13.5px; }
+  .ask{ padding:10px 14px; font-size:13px; }
+  .live{ padding:10px 13px; font-size:12px; }
+}
