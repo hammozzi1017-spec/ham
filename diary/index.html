@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>햄모찌 · 추억창고</title>
+  <link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ── 갤러리 격자 ── */
+    .gal-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .gal-card{
+      position:relative; aspect-ratio:3/4; border-radius:18px; overflow:hidden; cursor:pointer;
+      background:var(--main-light); border:1.5px solid var(--main-light);
+      box-shadow:var(--shadow); transition:transform .2s, box-shadow .2s;
+    }
+    .gal-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-hover); }
+    .gal-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .gal-card .noimg{ width:100%; height:100%; display:grid; place-items:center; font-size:34px; color:var(--text-soft); }
+    .gal-cap{
+      position:absolute; left:0; right:0; bottom:0; padding:26px 12px 11px;
+      background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.62));
+      color:#fff; pointer-events:none;
+    }
+    .gal-cap b{ display:block; font-size:14px; font-weight:800; line-height:1.35; }
+    .gal-cap span{ font-size:11px; opacity:.85; letter-spacing:.04em; }
+    .gal-badge{
+      position:absolute; top:10px; left:10px; padding:4px 10px; border-radius:999px;
+      background:rgba(255,255,255,.92); color:var(--main-deep);
+      font-size:11px; font-weight:900; letter-spacing:.04em;
+    }
+    /* ── 라이트박스 ── */
+    .lb{ position:fixed; inset:0; background:rgba(50,42,30,.62); display:none; z-index:300; padding:20px; overflow-y:auto; }
+    .lb.on{ display:block; }
+    .lb-box{
+      max-width:760px; margin:40px auto; background:var(--card);
+      border-radius:24px; overflow:hidden; box-shadow:0 30px 70px rgba(0,0,0,.3);
+    }
+    .lb-imgs img{ width:100%; display:block; }
+    .lb-body{ padding:22px 24px 26px; }
+    .lb-body h3{ margin:0 0 4px; font-family:var(--jua); font-size:22px; color:var(--text); font-weight:400; }
+    .lb-meta{ font-size:12px; color:var(--text-soft); margin-bottom:12px; }
+    .lb-meta .mood{ display:inline-block; margin-left:8px; padding:2px 9px; border-radius:999px; background:var(--main-light); color:var(--main-deep); font-weight:800; }
+    .lb-text{ font-size:14.5px; line-height:1.85; color:var(--text-mid); white-space:pre-line; }
+    .lb-close{
+      position:sticky; top:0; float:right; margin:10px 12px 0 0; z-index:2;
+      width:36px; height:36px; border-radius:50%; border:0; cursor:pointer;
+      background:#fff; font-size:16px; color:#5B5270; box-shadow:0 3px 10px rgba(0,0,0,.18);
+    }
+    /* 댓글 */
+    .cmt-wrap{ margin-top:18px; border-top:1.5px dashed var(--main-light); padding-top:14px; }
+    .cmt-title{ font-size:13px; font-weight:800; color:var(--main-deep); margin-bottom:9px; }
+    .cmt-item{ padding:9px 12px; border-radius:12px; background:var(--main-light); margin-bottom:7px; }
+    .cmt-item .cn{ font-size:12px; font-weight:800; color:var(--main-deep); }
+    .cmt-item .cm{ font-size:13.5px; color:var(--text-mid); white-space:pre-wrap; }
+    .cmt-empty{ font-size:12.5px; color:var(--text-soft); padding:8px 2px; }
+    .cmt-form{ display:flex; gap:7px; margin-top:9px; flex-wrap:wrap; }
+    .cmt-nick{ width:110px; }
+    .cmt-msg{ flex:1; min-width:150px; }
+    .cmt-form input{
+      box-sizing:border-box; padding:9px 12px; border:1.5px solid var(--main-light);
+      border-radius:10px; font-family:inherit; font-size:13.5px; background:var(--card); color:var(--text);
+    }
+    .cmt-send{ border:0; padding:9px 16px; border-radius:10px; cursor:pointer;
+      background:linear-gradient(135deg,var(--main),var(--main-dark)); color:#6E5233; font-family:inherit; font-weight:900; font-size:13.5px; }
+    .page-btn{ border:1.5px solid var(--main-light); background:var(--card); color:var(--text-mid);
+      border-radius:10px; padding:7px 13px; cursor:pointer; font-family:inherit; font-weight:800; font-size:13px; }
+    .page-btn.active{ background:linear-gradient(135deg,var(--main),var(--main-dark)); color:#6E5233; border-color:transparent; }
+    #pagination{ display:flex; gap:6px; justify-content:center; margin-top:16px; flex-wrap:wrap; }
+    @media(max-width:900px){ .gal-grid{ grid-template-columns:repeat(3,1fr); gap:10px; } }
+    @media(max-width:600px){ .gal-grid{ grid-template-columns:repeat(2,1fr); gap:9px; } .lb-box{ margin:16px auto; } }
+  </style>
+</head>
+<body>
+<script>if(localStorage.getItem("theme")==="dark")document.body.classList.add("dark");</script>
+<svg width="0" height="0" style="position:absolute">
+<symbol id="gop" viewBox="0 0 110 98">
+  <circle cx="55" cy="52" r="30" fill="#FFEE9C" stroke="#C79A2E" stroke-width="6"/>
+  <path d="M25 44h60" stroke="#C79A2E" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="55" cy="66" r="6" fill="#C79A2E"/>
+  <path d="M40 20c-8-8-18-6-16 4 1 6 10 8 16 4Zm30 0c8-8 18-6 16 4-1 6-10 8-16 4Z" fill="#F7B8CB" stroke="#D4527D" stroke-width="4" stroke-linejoin="round"/>
+</symbol>
+</svg>
+
+
+<div class="pagewrap">
+  <div class="pagecard">
+  <!-- nav -->
+  <div class="nav">
+    <a class="nav-logo" href="../"><span class="lg"><svg viewBox="0 0 110 98" style="width:22px;height:22px"><use href="#gop"/></svg></span>햄모찌</a>
+    <nav class="nm"><a href="../">홈</a><a href="../profile/">프로필</a><a href="../schedule/">일정</a><a href="../song/">노래책</a><a href="../notice/">공지</a><a href="../work/">업보</a><a href="../dress/">옷장</a><a href="../diary/" class="act">추억창고</a></nav>
+    <div class="dk" id="dkbox"><span class="sw"><i></i></span></div>
+    <button class="ask" onclick="openAsk()">✉ 문의</button>
+  </div>
+
+  <div class="container stagger">
+  <div class="pagehero">
+    <div class="ph-left">
+      RECEIPT NO. <b>MEMORY</b><br>
+      DATE 2026<br>
+      GUEST · KKUKKKUKI
+    </div>
+    <div class="ph-center">
+      <div class="ph-title">추억창고</div>
+      <div class="ph-line"></div>
+      <div class="ph-sub">🖼 사진을 누르면 크게 볼 수 있어요</div>
+    </div>
+    <div class="ph-meta">
+      HAMMOZZI<br>
+      <b>MEMORY</b> · DREAM MUSIC BOX<br>
+      THANK YOU, KKUKKKUKI!
+    </div>
+  </div>
+
+  <div class="page-title">추억창고</div>
+  <div class="page-subtitle">모찌의 소중한 순간들을 모아둔 곳이에요</div>
+
+  <div class="card">
+    <div class="gal-grid" id="diary-list"><div class="spinner"></div></div>
+    <div id="pagination"></div>
+  </div>
+  </div>
+  <div class="pagination" id="pagination"></div>
+</div>
+  </div>
+</div>
+
+<footer>© 2026 햄모찌 Official.<br>비즈니스 문의 — 문의 버튼을 이용해 주세요</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../supabase.js"></script>
+<script>
+  const PAGE_SIZE = 16;
+  let allData = [], currentPage = 1;
+  function esc(t){ return String(t==null?'':t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  async function init() {
+    allData = await fetchAll('diary', { order: 'diary_date', asc: false });
+    renderPage(1);
+  }
+  function renderPage(page) {
+    currentPage = page;
+    const start = (page - 1) * PAGE_SIZE;
+    const items = allData.slice(start, start + PAGE_SIZE);
+    const el = document.getElementById('diary-list');
+    if (!allData.length) {
+      el.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🖼</div>아직 추억이 없어요</div>';
+      document.getElementById('pagination').innerHTML = ''; return;
+    }
+    el.innerHTML = items.map(d => {
+      const imgs = (d.images && d.images.length) ? d.images : (d.image_url ? [d.image_url] : []);
+      const inner = imgs.length
+        ? `<img src="${esc(imgs[0])}" loading="lazy" referrerpolicy="no-referrer" alt="${esc(d.title)}">`
+        : '<div class="noimg">🐹</div>';
+      const badge = imgs.length > 1 ? `<span class="gal-badge">🖼 ${imgs.length}</span>` : '';
+      return `<div class="gal-card" onclick="openLb(${d.id})">
+        ${inner}${badge}
+        <div class="gal-cap"><b>${esc(d.title)}</b><span>${esc(d.diary_date||'')}</span></div>
+      </div>`;
+    }).join('');
+
+    const totalPages = Math.ceil(allData.length / PAGE_SIZE);
+    const pg = document.getElementById('pagination');
+    pg.innerHTML = '';
+    if (totalPages > 1) for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'page-btn' + (i === page ? ' active' : '');
+      btn.textContent = i;
+      btn.onclick = () => { renderPage(i); window.scrollTo({top:0,behavior:'smooth'}); };
+      pg.appendChild(btn);
+    }
+    enableIframeAutoHeight();
+  }
+
+  /* ── 라이트박스 ── */
+  function openLb(id){
+    const d = allData.find(x => String(x.id) === String(id)); if(!d) return;
+    const imgs = (d.images && d.images.length) ? d.images : (d.image_url ? [d.image_url] : []);
+    document.getElementById('lb-imgs').innerHTML =
+      imgs.map(u => `<img src="${esc(u)}" referrerpolicy="no-referrer" alt="">`).join('');
+    document.getElementById('lb-title').textContent = d.title || '';
+    document.getElementById('lb-meta').innerHTML =
+      esc(d.diary_date||'') + (d.mood ? `<span class="mood">${esc(d.mood)}</span>` : '');
+    document.getElementById('lb-text').textContent = d.content || '';
+    document.getElementById('lb-cmt').id = 'cmt-list-' + d.id;
+    document.getElementById('lb-nick').id = 'cmt-nick-' + d.id;
+    document.getElementById('lb-msg').id  = 'cmt-msg-' + d.id;
+    document.getElementById('lb-send').setAttribute('onclick', 'addComment(' + d.id + ')');
+    document.getElementById('lb').classList.add('on');
+    document.body.style.overflow = 'hidden';
+    loadComments(d.id);
+  }
+  function closeLb(){
+    document.getElementById('lb').classList.remove('on');
+    document.body.style.overflow = '';
+    const c=document.querySelector('[id^="cmt-list-"]'); if(c) c.id='lb-cmt';
+    const n=document.querySelector('[id^="cmt-nick-"]'); if(n) n.id='lb-nick';
+    const m=document.querySelector('[id^="cmt-msg-"]'); if(m) m.id='lb-msg';
+  }
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLb(); });
+
+  let commentsCache = {};
+  async function loadComments(diaryId) {
+    const list = document.getElementById('cmt-list-' + diaryId);
+    if (!list) return;
+    const all = await fetchAll('comments', { order: 'created_at', asc: true });
+    const mine = all.filter(c => String(c.diary_id) === String(diaryId));
+    commentsCache[diaryId] = mine;
+    if (!mine.length) { list.innerHTML = '<div class="cmt-empty">아직 댓글이 없어요. 첫 댓글을 남겨보세요!</div>'; return; }
+    list.innerHTML = mine.map(c => `<div class="cmt-item"><div class="cn">${esc(c.nickname||'익명')}</div><div class="cm">${esc(c.message)}</div></div>`).join('');
+  }
+  async function addComment(diaryId) {
+    const msgEl = document.getElementById('cmt-msg-' + diaryId);
+    const nickEl = document.getElementById('cmt-nick-' + diaryId);
+    if(!msgEl) return;
+    const msg = msgEl.value.trim();
+    if (!msg) { alert('댓글을 입력해주세요'); return; }
+    const nick = (nickEl && nickEl.value.trim()) || '익명';
+    const ok = await insertRow('comments', { diary_id: diaryId, nickname: nick, message: msg });
+    if (ok) { msgEl.value=''; loadComments(diaryId); }
+    else alert('댓글 등록 실패 ㅠㅠ');
+  }
+
+  init();
+</script>
+
+<!-- 공통 연출(입자·클릭·기울기) -->
+<script src="../fx.js"></script>
+
+
+<div class="lb" id="lb" onclick="if(event.target.id==='lb')closeLb()">
+  <div class="lb-box">
+    <button class="lb-close" onclick="closeLb()">✕</button>
+    <div class="lb-imgs" id="lb-imgs"></div>
+    <div class="lb-body">
+      <h3 id="lb-title"></h3>
+      <div class="lb-meta" id="lb-meta"></div>
+      <div class="lb-text" id="lb-text"></div>
+      <div class="cmt-wrap">
+        <div class="cmt-title">💬 댓글</div>
+        <div class="cmt-list" id="lb-cmt"></div>
+        <div class="cmt-form">
+          <input class="cmt-nick" id="lb-nick" placeholder="닉네임">
+          <input class="cmt-msg" id="lb-msg" placeholder="댓글 달기...">
+          <button class="cmt-send" id="lb-send">등록</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="askmask" id="askmask">
+  <div class="askmodal">
+    <h3>💬 문의하기</h3>
+    <p>햄모찌에게 하고 싶은 말을 남겨주세요! (익명)</p>
+    <textarea id="askmsg" placeholder="문의 내용을 입력해주세요..."></textarea>
+    <div class="askbtns">
+      <button class="no" onclick="closeAsk()">취소</button>
+      <button class="yes" onclick="sendAsk()">보내기</button>
+    </div>
+  </div>
+</div>
+<script>
+function openAsk(){ document.getElementById('askmask').classList.add('on'); }
+function closeAsk(){ document.getElementById('askmask').classList.remove('on'); }
+async function sendAsk(){
+  var t = document.getElementById('askmsg');
+  var v = (t.value || '').trim();
+  if(!v){ alert('내용을 입력해주세요!'); return; }
+  try{ await insertRow('inquiries', { message: v }); alert('문의가 전송되었습니다! 고마워요 🐹'); }
+  catch(e){ alert('전송에 실패했어요. 잠시 후 다시 시도해 주세요.'); }
+  t.value = ''; closeAsk();
+}
+document.getElementById('askmask').onclick = function(e){ if(e.target.id === 'askmask') closeAsk(); };
+(function(){
+  var box = document.getElementById('dkbox'); if(!box) return;
+  box.onclick = function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  };
+})();
+</script>
+
+</body>
+</html>

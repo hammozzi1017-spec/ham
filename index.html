@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>햄모찌 · DREAM MUSIC BOX</title>
+<meta property="og:title" content="햄모찌 · DREAM MUSIC BOX">
+<meta property="og:description" content="귀차니즘 때문에 가출한 햄스터 영물">
+<meta property="og:image" content="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
+<link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&family=Playfair+Display:ital@1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== 색 5종 + 로고 (style.css :root 와 같은 값 유지) ===== */
+:root{
+  --main:#FFEE9C; --main-dark:#A8801F; --main-deep:#8A6A18; --main-light:#FFFBE0;
+  --bg:#FFF9E8; --card:#fff; --logo:#8B6FC4; --on-main:#6E5B24;
+  --main-2:#FFE07A; --glow:#FFFBD4;
+  --lav:#CBBCE9; --lav-soft:#EFE8FB; --pink:#F7B8CB; --pink-ink:#D4527D;
+  --ink:#5B5270; --sub:#6B6959; --line:#F0E4C0; --soft:#877B60;
+  --jua:'Jua','Noto Sans KR',sans-serif;
+  --page-width:1200px;
+}
+body.dark{
+  --main:#FFEE9C; --main-dark:#FFE07A; --main-deep:#FFEFA8; --main-light:#3A3550;
+  --bg:#232031; --card:#2E2A3E; --logo:#E7DEFB; --on-main:#3A3050;
+  --glow:rgba(255,238,156,.14); --line:#4A4560;
+  --ink:#F2EEE4; --sub:#C6BFD4; --soft:#ADA6BE; --lav-soft:#3A3550;
+}
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:hidden;max-width:100%}
+body{
+  font-family:"Noto Sans KR",sans-serif; color:var(--ink); overflow-x:hidden;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(circle at 50% 0%, var(--glow) 0, transparent 32%),
+    radial-gradient(circle at 88% 14%, rgba(255,224,122,.45), transparent 30%),
+    radial-gradient(circle at 6% 34%, rgba(203,188,233,.32), transparent 30%),
+    linear-gradient(180deg,#FFFCEB 0%,#FFFDF6 46%,#F7F2FD 100%);
+  background-attachment:fixed; background-repeat:no-repeat; min-height:100vh;
+  transition:background .2s,color .2s;
+}
+body.dark{
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(255,238,156,.10), transparent 34%),
+    radial-gradient(circle at 88% 14%, rgba(203,188,233,.12), transparent 30%),
+    linear-gradient(180deg,#272338 0%,#232031 100%);
+}
+/* FOUC 방지 */
+.wrapall{opacity:0;transition:opacity .35s}
+body.ready .wrapall{opacity:1}
+
+/* ===== nav ===== */
+.nav{max-width:var(--page-width);margin:auto;padding:22px 30px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:baseline;gap:10px;font-family:var(--jua);font-size:32px;color:var(--logo);text-decoration:none}
+.brand i{font-style:normal;font-size:22px;color:var(--main-deep)}
+body.dark .brand i{color:var(--main-dark)}
+.brand span{font-family:"Playfair Display";font-style:italic;font-size:13px;letter-spacing:.2em;color:var(--soft)}
+.menu{margin:0 auto;display:flex;gap:4px;padding:6px;background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:999px;box-shadow:0 8px 22px rgba(200,180,120,.12)}
+body.dark .menu{background:rgba(255,255,255,.06)}
+body.dark .menu a{color:#DED8EA}
+.menu a{padding:9px 17px;border-radius:999px;font-size:14.5px;font-weight:700;color:var(--sub);text-decoration:none;white-space:nowrap;transition:.18s}
+.menu a:hover{background:var(--main-light);color:var(--logo)}
+.menu a.on{background:linear-gradient(135deg,var(--main),var(--main-2));color:#6E5B24;box-shadow:0 4px 12px rgba(230,190,80,.28)}
+.navr{display:flex;align-items:center;gap:10px;flex:none}
+.dk{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:900;color:var(--soft);cursor:pointer;user-select:none}
+.dk .sw{width:44px;height:24px;border-radius:999px;background:var(--line);position:relative;transition:.2s}
+.dk .sw i{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 2px 5px rgba(0,0,0,.18);font-style:normal;font-size:10px;display:grid;place-items:center}
+body.dark .dk .sw{background:var(--main-dark)}
+body.dark .dk .sw i{left:23px}
+.ask{border:0;padding:11px 18px;border-radius:999px;background:linear-gradient(135deg,var(--main),var(--main-2));color:#6E5B24;font-family:inherit;font-weight:900;font-size:13.5px;cursor:pointer;box-shadow:0 6px 16px rgba(199,154,46,.28)}
+.live{display:flex;align-items:center;gap:8px;padding:11px 17px;border-radius:999px;background:var(--card);border:1px solid #ECD9E2;color:var(--pink-ink);font-weight:900;font-size:13px;text-decoration:none;box-shadow:0 6px 16px rgba(210,160,190,.18)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--pink-ink);animation:bl 1.6s infinite}
+@keyframes bl{50%{opacity:.25}}
+
+.wrap{max-width:var(--page-width);margin:auto;padding:22px 30px 0}
+
+/* ===== 히어로 ===== */
+.hero{display:grid;grid-template-columns:1fr 1.02fr;gap:44px;align-items:center;min-height:560px}
+.orbit{position:relative;display:grid;place-items:center;min-height:530px;cursor:pointer}
+.orbit::before{content:"";position:absolute;inset:14px 26px;border-radius:50%;border:2px dashed rgba(226,190,90,.55);animation:rot 26s linear infinite}
+.orbit::after{content:"";position:absolute;inset:52px 66px;border-radius:50%;border:1.5px dashed rgba(203,188,233,.6);animation:rot 34s linear infinite reverse}
+@keyframes rot{to{transform:rotate(360deg)}}
+.glowball{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,var(--main) 0,rgba(255,249,184,0) 68%)}
+#avatarWrap{position:relative;z-index:2;width:330px;height:400px;border-radius:170px 170px 26px 26px;overflow:hidden;background:var(--card);padding:13px;box-shadow:0 26px 54px rgba(214,180,90,.28),0 0 0 6px rgba(255,249,184,.55)}
+#avatarWrap .avatar{width:100%;height:100%;object-fit:cover;object-position:50% 22%;border-radius:158px 158px 16px 16px;display:block}
+.star{position:absolute;z-index:3;font-style:normal;font-size:26px;animation:fl 5s ease-in-out infinite;pointer-events:none}
+.s1{top:44px;left:20px;color:var(--main-dark)}
+.s2{top:96px;right:22px;color:var(--pink-ink);animation-delay:.8s}
+.s3{bottom:78px;left:4px;font-size:30px;animation-delay:1.4s}
+.s4{bottom:36px;right:34px;color:var(--lav);animation-delay:.4s}
+.s5{top:210px;right:-4px;font-size:22px;color:var(--main-dark);animation-delay:1.1s}
+@keyframes fl{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-14px) rotate(6deg)}}
+.otag{position:absolute;z-index:3;padding:6px 13px;background:var(--card);border:1px solid var(--line);border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--main-deep);box-shadow:0 6px 14px rgba(210,180,90,.16)}
+.t1{top:154px;left:-4px;transform:rotate(-8deg)}
+.t2{bottom:124px;right:-8px;transform:rotate(7deg);color:var(--pink-ink)}
+
+.kick{font-family:"DM Mono";font-size:12px;letter-spacing:.22em;color:var(--main-deep);background:linear-gradient(135deg,var(--main),var(--main-light));display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line)}
+h1{font-family:var(--jua);font-size:66px;line-height:1;margin:16px 0 8px;color:var(--ink);font-weight:400}
+h1 small{font-family:"Playfair Display";font-style:italic;font-size:22px;color:var(--main-deep);letter-spacing:.04em;margin-left:10px}
+.tagline{font-size:16px;color:var(--sub);margin:0 0 18px}
+.hashrow{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.hashrow span{font-size:12.5px;font-weight:700;color:var(--main-deep);background:var(--main-light);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+
+.player{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 26px rgba(214,180,90,.16);max-width:390px;margin-bottom:18px}
+.player button{width:40px;height:40px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(135deg,var(--main-2),var(--main-dark));color:#7A5F17;font-size:14px;font-weight:900;flex:none}
+.player small{display:block;font-family:"DM Mono";font-size:10px;letter-spacing:.16em;color:var(--soft)}
+.player b{font-size:14.5px;color:var(--ink)}
+.eq{margin-left:auto;display:flex;gap:3px;align-items:flex-end;height:18px}
+.eq i{width:3px;height:6px;background:var(--main-dark);border-radius:2px}
+.player.is-playing .eq i{animation:eq .9s ease-in-out infinite}
+.player.is-playing .eq i:nth-child(2){animation-delay:.15s}
+.player.is-playing .eq i:nth-child(3){animation-delay:.3s}
+.player.is-playing .eq i:nth-child(4){animation-delay:.45s}
+@keyframes eq{50%{height:18px}}
+
+.idgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:420px}
+.idgrid>div{padding:13px 16px;background:var(--card);border:1px solid var(--line);border-radius:16px}
+.idgrid small{display:block;font-family:"DM Mono";font-size:10px;letter-spacing:.16em;color:var(--soft);margin-bottom:3px}
+.idgrid b{font-size:16px;color:var(--ink)}
+.idgrid b em{font-style:normal;font-size:12px;color:var(--pink-ink);margin-left:6px;font-weight:900}
+
+/* ===== 섹션 공통 ===== */
+.sec{margin-top:36px}
+.sechd{display:flex;align-items:baseline;gap:12px;margin:0 0 14px}
+.sechd h2{font-family:var(--jua);font-size:24px;margin:0;color:var(--ink);font-weight:400}
+.sechd em{font-family:"DM Mono";font-style:normal;font-size:11px;letter-spacing:.18em;color:var(--soft)}
+.sechd .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.sechd a{margin-left:auto;font-size:12.5px;font-weight:800;color:#9A7420;text-decoration:none}
+body.dark .sechd a{color:var(--main-dark)}
+
+.clouds{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.clouds article{padding:28px 24px 24px;background:var(--card);border:1px solid var(--line);border-radius:74px 74px 22px 22px;box-shadow:0 14px 30px rgba(214,180,90,.14)}
+.clouds span{font-family:"DM Mono";font-size:12px;color:var(--soft)}
+.clouds i{font-style:normal;font-size:30px;display:block;margin:4px 0 8px}
+.clouds em{font-family:"DM Mono";font-style:normal;font-size:10px;letter-spacing:.16em;color:var(--pink-ink)}
+.clouds h3{font-family:var(--jua);font-size:19px;margin:2px 0 6px;color:var(--ink);font-weight:400}
+.clouds p{margin:0;font-size:13.5px;color:var(--sub);line-height:1.65}
+
+/* 이번 주 일정 7칸 */
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.day{padding:16px 6px;border-radius:18px;text-align:center;background:var(--card);border:1px solid var(--line)}
+.day small{display:block;font-family:"DM Mono";font-size:11px;letter-spacing:.1em;color:var(--soft);margin-bottom:8px}
+.day b{font-size:13px;font-weight:800;color:var(--sub)}
+.day.on{background:linear-gradient(160deg,var(--main),var(--main-light));border-color:var(--main-2)}
+body.dark .day.on{background:linear-gradient(160deg,var(--main),#FFE7A8);border-color:#C9A94E}
+body.dark .day.on b,body.dark .day.on small{color:#3A3050}
+.day.on b{color:#6E5B24}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{padding:24px;background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 12px 28px rgba(214,180,90,.12)}
+.card.yl{background:linear-gradient(150deg,var(--main) 0,var(--card) 62%)}
+.card h3{font-family:var(--jua);font-size:19px;margin:0 0 12px;color:var(--ink);font-weight:400}
+.card p{margin:0;font-size:14.5px;line-height:1.85;color:var(--sub);white-space:pre-line}
+.tastebox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tastebox div{padding:16px;border-radius:18px;text-align:center}
+.tastebox .lk{background:var(--main-light);border:1px solid var(--line)}
+.tastebox .dk2{background:var(--lav-soft);border:1px solid var(--line)}
+.tastebox small{display:block;font-family:"DM Mono";font-size:10px;letter-spacing:.16em;color:var(--soft);margin-bottom:6px}
+.tastebox b{font-size:15.5px;color:var(--ink)}
+.kv{display:flex;justify-content:space-between;gap:14px;padding:11px 2px;border-bottom:1px dashed var(--line);font-size:14px}
+.kv:last-child{border:0}
+.kv span{color:var(--soft);font-family:"DM Mono";font-size:11px;letter-spacing:.12em;flex:none}
+.kv b{color:var(--ink);font-weight:700;text-align:right}
+
+/* 추억창고 */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.gal a{aspect-ratio:3/4;border-radius:20px;overflow:hidden;background:linear-gradient(160deg,var(--main-light),var(--card));border:1px dashed var(--line);display:grid;place-items:center;color:var(--soft);font-size:26px;text-decoration:none}
+.gal a img{width:100%;height:100%;object-fit:cover}
+
+/* 일정 바 */
+.sched{display:flex;align-items:center;gap:24px;padding:22px 30px;background:linear-gradient(120deg,var(--main) 0,var(--lav-soft) 100%);border:1px solid var(--line);border-radius:26px;flex-wrap:wrap}
+.sched .cell small{font-family:"DM Mono";font-size:10px;letter-spacing:.16em;color:#7E6C38;display:block}
+.sched .cell strong{font-family:var(--jua);font-size:20px;color:#6A5F40;font-weight:400}
+body.dark .sched{background:linear-gradient(120deg,var(--main) 0,#FFE7A8 100%);border-color:#C9A94E}
+body.dark .sched .cell strong,body.dark .sched .cell small{color:#3A3050}
+body.dark .sched .go{background:#FFFDF2;color:#8A6A18;border-color:#DCC488}
+.sched .mid{font-size:26px;color:#E0C489}
+.sched .go{margin-left:auto;padding:13px 22px;border-radius:999px;background:#fff;border:1px solid #EED9BE;color:#B08432;font-weight:900;font-size:14px;text-decoration:none}
+
+/* 링크 */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.links a{display:flex;align-items:center;gap:12px;padding:18px 20px;background:var(--card);border:1px solid var(--line);border-radius:20px;text-decoration:none;color:var(--ink);font-weight:700;box-shadow:0 10px 24px rgba(214,180,90,.1);transition:.18s}
+.links a:hover{transform:translateY(-3px);box-shadow:0 16px 30px rgba(214,180,90,.2)}
+.links i{font-style:normal;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--main),var(--main-2));font-size:17px;flex:none}
+.links small{display:block;font-family:"DM Mono";font-size:10px;letter-spacing:.14em;color:var(--soft);font-weight:400}
+
+footer{text-align:center;color:var(--soft);font-size:12px;line-height:1.8;margin-top:44px;padding-bottom:40px}
+
+/* 문의 모달 */
+.mask{position:fixed;inset:0;background:rgba(60,50,40,.45);display:none;place-items:center;z-index:200;padding:20px}
+.mask.on{display:grid}
+.modal{background:var(--card);border-radius:26px;padding:26px;max-width:420px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.modal h3{font-family:var(--jua);font-size:20px;margin:0 0 4px;color:var(--main-deep);font-weight:400}
+.modal p{margin:0 0 14px;font-size:13px;color:var(--soft)}
+.modal textarea{width:100%;box-sizing:border-box;min-height:130px;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;font-family:inherit;font-size:14px;resize:vertical;background:var(--bg);color:var(--ink)}
+.modal .row{display:flex;gap:8px;margin-top:12px}
+.modal button{flex:1;padding:12px;border:0;border-radius:999px;font-family:inherit;font-weight:900;font-size:14px;cursor:pointer}
+.modal .send{background:linear-gradient(135deg,var(--main),var(--main-2));color:#6E5B24}
+.modal .cancel{background:var(--main-light);color:var(--sub)}
+
+.click-star{position:absolute;pointer-events:none;font-style:normal;font-size:18px;color:var(--main-dark);animation:cs .9s ease-out forwards}
+@keyframes cs{to{transform:translate(var(--x),var(--y)) scale(.3);opacity:0}}
+[data-reveal]{opacity:0;transform:translateY(18px);transition:.6s}
+body.ready [data-reveal].revealed{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none}}
+
+@media(max-width:980px){
+  .nav{flex-wrap:wrap;padding:16px 18px;gap:12px}
+  .menu{order:3;width:100%;margin:0;overflow-x:auto;justify-content:flex-start}
+  .navr{margin-left:auto}
+  .wrap{padding:16px 18px 0}
+  .hero{grid-template-columns:1fr;gap:16px;min-height:0}
+  .orbit{min-height:440px}
+  #avatarWrap{width:270px;height:330px}
+  .glowball{width:300px;height:300px}
+  h1{font-size:48px}
+  .clouds,.two,.links{grid-template-columns:1fr}
+  .gal{grid-template-columns:1fr 1fr}
+  .days{grid-template-columns:repeat(7,1fr);gap:5px}
+  .day{padding:11px 2px}
+  .day small{font-size:9px}
+  .day b{font-size:10px}
+  .sched .go{margin:0;width:100%;text-align:center}
+}
+</style>
+</head>
+<body>
+<script>if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');</script>
+
+<div class="wrapall">
+<header class="nav">
+  <a class="brand" href="./"><i>☾</i><span data-hook="info-name" style="font-family:var(--jua);font-size:32px;color:var(--logo);letter-spacing:0">햄모찌</span><span>DREAM MUSIC BOX</span></a>
+  <nav class="menu">
+    <a class="on" href="./">홈</a>
+    <a href="profile/">프로필</a><a href="schedule/">일정</a><a href="song/">노래책</a>
+    <a href="notice/">공지</a><a href="work/">업보</a><a href="dress/">옷장</a><a href="diary/">추억창고</a>
+  </nav>
+  <div class="navr">
+    <label class="dk" onclick="toggleDark()"><span class="sw"><i id="dkKnob">☀</i></span></label>
+    <button class="ask" onclick="openAsk()">문의</button>
+    <a class="live" id="link-soop" href="https://www.sooplive.com/station/hammojji" target="_blank"><i></i>LIVE</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="orbit" data-sparkle>
+      <span class="glowball"></span>
+      <span class="star s1">✦</span><span class="star s2">♡</span><span class="star s3">🔔</span>
+      <span class="star s4">✦</span><span class="star s5">🎀</span>
+      <span class="otag t1">HAMSTER</span><span class="otag t2">RIBBON</span>
+      <div id="avatarWrap">
+        <img class="avatar" id="avatarImg" referrerpolicy="no-referrer"
+             src="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg" alt="햄모찌">
+      </div>
+    </div>
+    <div>
+      <span class="kick">NOW PLAYING · TRACK 01</span>
+      <h1><span data-hook="info-name">햄모찌</span> <small data-hook="info-name-en">HAMMOZZI</small></h1>
+      <p class="tagline" data-hook="info-catchphrase">귀차니즘 때문에 가출한 햄스터 영물</p>
+      <div class="hashrow" id="tagRow"><span>#햄스터영물</span><span>#소통</span><span>#종겜</span><span>#꾹꾹이</span><span>#개인세</span></div>
+      <div class="player" id="mp">
+        <button data-play>▶</button>
+        <div><small>PROFILE BGM</small><b data-hook="bgm-title">말랑한 꿈의 행진곡</b></div>
+        <span class="eq"><i></i><i></i><i></i><i></i></span>
+      </div>
+      <div class="idgrid">
+        <div><small>BIRTH</small><b><span data-hook="info-birth">10월 17일</span><em id="dday"></em></b></div>
+        <div><small>DEBUT</small><b data-hook="info-debut">2026.01.06</b></div>
+        <div><small>FANDOM</small><b data-hook="info-fandom">꾹꾹이</b></div>
+        <div><small>TYPE</small><b><span data-hook="info-gender">여</span> · <span data-hook="info-agency">개인세</span></b></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" data-reveal>
+    <div class="sechd"><h2>모찌는 이런 방송을 해요</h2><em>ABOUT</em><span class="ln"></span><a href="profile/">프로필 전체 보기 →</a></div>
+    <div class="clouds">
+      <article><span>01</span><i>☁</i><em>CONTENT</em><h3 data-hook="info-content">소통 · 종합게임</h3><p data-hook="info-game">마크 · 배그 · 롤과 함께하는 느긋한 방송</p></article>
+      <article><span>02</span><i>♫</i><em>SONG</em><h3 data-hook="info-song">가끔 노래해요</h3><p data-hook="info-genre">J-POP · K-POP / 고음 곡은 살짝 피해요</p></article>
+      <article><span>03</span><i>♡</i><em>TASTE</em><h3 data-hook="like-list">디저트 · 고양이</h3><p><span data-hook="dislike-list">벌레 · 채소</span>는 아주 싫어해요</p></article>
+    </div>
+  </section>
+
+  <section class="sec" data-reveal>
+    <div class="sechd"><h2>이번 주 방송</h2><em>WEEKLY</em><span class="ln"></span><a href="schedule/">일정표 →</a></div>
+    <div class="days">
+      <div class="day" id="day-0"><small>MON</small><b>휴방</b></div>
+      <div class="day" id="day-1"><small>TUE</small><b>휴방</b></div>
+      <div class="day" id="day-2"><small>WED</small><b>휴방</b></div>
+      <div class="day" id="day-3"><small>THU</small><b>휴방</b></div>
+      <div class="day" id="day-4"><small>FRI</small><b>휴방</b></div>
+      <div class="day" id="day-5"><small>SAT</small><b>휴방</b></div>
+      <div class="day" id="day-6"><small>SUN</small><b>휴방</b></div>
+    </div>
+  </section>
+
+  <section class="sec two" data-reveal>
+    <div class="card yl">
+      <h3>🎀 모찌의 한마디</h3>
+      <p data-hook="quote">오늘도 느긋하게, 꾹꾹이와 함께.</p>
+      <div style="margin-top:16px">
+        <div class="tastebox">
+          <div class="lk"><small>LIKE</small><b data-hook="like-list">디저트 · 고양이</b></div>
+          <div class="dk2"><small>DISLIKE</small><b data-hook="dislike-list">벌레 · 채소</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🔔 모찌 명함</h3>
+      <div class="kv"><span>NAME</span><b data-hook="info-reading">햄모찌 / hammozzi</b></div>
+      <div class="kv"><span>FANDOM</span><b data-hook="info-fandom">꾹꾹이</b></div>
+      <div class="kv"><span>DEBUT</span><b data-hook="info-debut">2026.01.06</b></div>
+      <div class="kv"><span>MOTIF</span><b data-hook="info-motif">하트 · 리본 · 햄스터 · 방울</b></div>
+      <div class="kv"><span>SIGNATURE</span><b data-hook="info-signature">음율 - 절망 속에서 춤을 추어라</b></div>
+    </div>
+  </section>
+
+  <section class="sec" data-reveal>
+    <div class="sechd"><h2>모찌의 추억창고</h2><em>MEMORY</em><span class="ln"></span><a href="diary/">전체 보기 →</a></div>
+    <div class="gal" id="galGrid">
+      <a href="diary/">🖼</a><a href="diary/">🎀</a><a href="diary/">🐹</a><a href="diary/">🔔</a>
+    </div>
+  </section>
+
+  <section class="sec sched" data-reveal>
+    <div class="cell"><small>WEEKDAY</small><strong data-hook="sched-weekday">평일 오후 3시</strong></div>
+    <span class="mid">☾</span>
+    <div class="cell"><small>WEEKEND</small><strong data-hook="sched-weekend">주말 오후 6시</strong></div>
+    <a class="go" id="link-soop2" href="https://www.sooplive.com/station/hammojji" target="_blank">꿈속 방송 입장하기 →</a>
+  </section>
+
+  <section class="sec" data-reveal>
+    <div class="sechd"><h2>모찌에게 가는 길</h2><em>LINKS</em><span class="ln"></span></div>
+    <div class="links">
+      <a id="link-soop3" href="https://www.sooplive.com/station/hammojji" target="_blank"><i>🔔</i><span><small>SOOP</small>방송국</span></a>
+      <a id="link-x" href="https://x.com/mojji81290" target="_blank"><i>✦</i><span><small>X (TWITTER)</small>@mojji81290</span></a>
+      <a id="link-discord" href="https://discord.gg/pH8bUYjHqb" target="_blank"><i>♡</i><span><small>DISCORD</small>꾹꾹이 서버</span></a>
+    </div>
+  </section>
+
+  <footer>© 2026 HAMMOZZI · DREAM MUSIC BOX<br>비즈니스 문의 — 문의 버튼을 이용해 주세요</footer>
+</div>
+</div>
+
+<!-- 문의 모달 -->
+<div class="mask" id="askMask">
+  <div class="modal">
+    <h3>모찌에게 문의하기</h3>
+    <p>남겨주시면 모찌가 확인할게요. (익명)</p>
+    <textarea id="askText" placeholder="문의 내용을 적어주세요"></textarea>
+    <div class="row">
+      <button class="cancel" onclick="closeAsk()">취소</button>
+      <button class="send" onclick="sendAsk()">보내기</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase.js"></script>
+<script>
+/* ── 다크모드 ── */
+function toggleDark(){
+  const on=document.body.classList.toggle('dark');
+  localStorage.setItem('theme',on?'dark':'light');
+  document.getElementById('dkKnob').textContent=on?'🌙':'☀';
+}
+if(localStorage.getItem('theme')==='dark')document.getElementById('dkKnob').textContent='🌙';
+
+/* ── 문의 모달 ── */
+function openAsk(){document.getElementById('askMask').classList.add('on');}
+function closeAsk(){document.getElementById('askMask').classList.remove('on');}
+async function sendAsk(){
+  const t=document.getElementById('askText').value.trim();
+  if(!t){alert('내용을 적어주세요!');return;}
+  try{
+    const ok=await insertRow('inquiries',{message:t});
+    alert(ok?'문의가 전달됐어요! 감사합니다 🐹':'전송에 실패했어요. 잠시 후 다시 시도해주세요.');
+    if(ok){document.getElementById('askText').value='';closeAsk();}
+  }catch(e){alert('전송에 실패했어요.');}
+}
+document.getElementById('askMask').addEventListener('click',e=>{if(e.target.id==='askMask')closeAsk();});
+
+/* ── BGM ── */
+let bgmAudio=null;
+document.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>{
+  const p=document.getElementById('mp');
+  const url=p.dataset.url||'';
+  if(url){
+    if(!bgmAudio){bgmAudio=new Audio(url);bgmAudio.loop=true;bgmAudio.volume=.45;}
+    if(bgmAudio.paused){bgmAudio.play().catch(()=>{});}else{bgmAudio.pause();}
+    const on=!bgmAudio.paused;
+    b.textContent=on?'❚❚':'▶'; p.classList.toggle('is-playing',on);
+  }else{
+    const on=p.classList.toggle('is-playing');
+    b.textContent=on?'❚❚':'▶';
+  }
+});
+
+/* ── 등장 ── */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('revealed');}),{threshold:.06});
+document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+
+/* ── DB 로더 ── */
+const DAY_KR=['월','화','수','목','금','토','일'];
+function txt(v){
+  if(v===null||v===undefined)return '';
+  if(Array.isArray(v))return v.filter(Boolean).join(' · ');
+  if(typeof v==='object')return Object.values(v).filter(x=>typeof x!=='object').join(' · ');
+  return String(v);
+}
+function ddayFrom(mmdd){
+  const m=String(mmdd||'').match(/(\d{1,2})\s*[-./월]\s*(\d{1,2})/);
+  if(!m)return null;
+  const now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  let d=new Date(now.getFullYear(),+m[1]-1,+m[2]);
+  if(d<today)d=new Date(now.getFullYear()+1,+m[1]-1,+m[2]);
+  return Math.round((d-today)/864e5);
+}
+async function load(){
+  try{
+    if(typeof applyTheme==='function') await applyTheme();
+    const {data}=await db.from('profile').select('data').eq('id',1).single();
+    const p=(data&&data.data)||{};
+
+    /* data-hook 텍스트 */
+    document.querySelectorAll('[data-hook]').forEach(el=>{
+      const v=txt(p[el.dataset.hook]);
+      if(v) el.textContent=v;
+    });
+
+    /* 아바타 : 직접 URL > SOOP 아이디 */
+    const img=document.getElementById('avatarImg');
+    if(p['avatar']) img.src=p['avatar'];
+    else if(p['soop-id']){const id=p['soop-id'];img.src=`https://profile.img.sooplive.co.kr/LOGO/${id.slice(0,2)}/${id}/${id}.jpg`;}
+
+    /* 태그 */
+    if(p['info-tags']){
+      const arr=Array.isArray(p['info-tags'])?p['info-tags']:String(p['info-tags']).split(/[,\n]/);
+      const row=document.getElementById('tagRow'); row.innerHTML='';
+      arr.map(s=>s.trim()).filter(Boolean).forEach(t=>{
+        const sp=document.createElement('span'); sp.textContent=t.startsWith('#')?t:'#'+t; row.appendChild(sp);
+      });
+    }
+
+    /* 링크 */
+    const L={'link-soop':p['link-soop'],'link-soop2':p['link-soop'],'link-soop3':p['link-soop'],
+             'link-x':p['link-x'],'link-discord':p['link-discord']};
+    Object.entries(L).forEach(([id,url])=>{const e=document.getElementById(id);if(e&&url)e.href=url;});
+
+    /* 요일 (0=월 … 6=일) */
+    if(p['days']){
+      const on=String(txt(p['days'])).split(',').map(s=>s.trim()).filter(s=>s!=='');
+      for(let i=0;i<7;i++){
+        const cell=document.getElementById('day-'+i); if(!cell)continue;
+        const isOn=on.includes(String(i));
+        cell.classList.toggle('on',isOn);
+        cell.querySelector('b').textContent=isOn?'방송':'휴방';
+        cell.querySelector('small').textContent=DAY_KR[i];
+      }
+    }
+
+    /* BGM URL */
+    if(p['bgm-url']) document.getElementById('mp').dataset.url=p['bgm-url'];
+
+    /* 생일 D-Day */
+    const n=ddayFrom(p['info-birth']||'10/17');
+    if(n!==null) document.getElementById('dday').textContent=(n===0?'오늘 생일! 🎉':'D-'+n);
+
+    /* 추억창고 : diary 최신 4개 썸네일 */
+    try{
+      const rows=await fetchAll('diary',{order:'created_at',asc:false,limit:4});
+      const g=document.getElementById('galGrid');
+      const imgs=rows.filter(r=>r.image_url);
+      if(imgs.length){
+        g.innerHTML='';
+        imgs.forEach(r=>{
+          const a=document.createElement('a'); a.href='diary/';
+          const im=document.createElement('img'); im.src=r.image_url; im.referrerPolicy='no-referrer'; im.alt=r.title||'추억';
+          a.appendChild(im); g.appendChild(a);
+        });
+      }
+    }catch(e){}
+
+  }catch(e){ console.warn('load 실패(기본값 유지):',e); }
+  finally{
+    document.body.classList.add('ready');
+    document.querySelectorAll('[data-reveal]').forEach((el,i)=>{
+      const r=el.getBoundingClientRect(); if(r.top<window.innerHeight) el.classList.add('revealed');
+    });
+    if(typeof initIframeResize==='function') initIframeResize();
+  }
+}
+load();
+setTimeout(()=>document.body.classList.add('ready'),1600);
+</script>
+
+<script src="fx.js"></script>
+<script>
+/* 미리보기 폴백 — fx.js 뒤에, 가드 필수 (§9) */
+(function(){
+  if(typeof window.fxHearts==='function') return;
+  document.querySelectorAll('[data-sparkle]').forEach(function(t){
+    t.addEventListener('click',function(e){
+      var r=t.getBoundingClientRect();
+      for(var i=0;i<8;i++){
+        var s=document.createElement('i');s.className='click-star';s.textContent=i%3?'✦':'♡';
+        s.style.left=(e.clientX-r.left)+'px';s.style.top=(e.clientY-r.top)+'px';
+        s.style.setProperty('--x',((Math.random()-.5)*160)+'px');
+        s.style.setProperty('--y',(-40-Math.random()*110)+'px');
+        t.appendChild(s);setTimeout(function(){s.remove();},950);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
