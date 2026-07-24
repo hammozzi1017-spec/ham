@@ -1,398 +1,337 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>프로필 · 햄모찌</title>
-<meta property="og:title" content="프로필 · 햄모찌">
-<meta property="og:image" content="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="햄모찌 프로필 — 꿈 보관소 FILE NO.01">
+<title>햄모찌 · PROFILE</title>
 <link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&family=Playfair+Display:ital@1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
 <style>
-:root{
-  --main:#FFEE9C; --main-dark:#A8801F; --main-deep:#8A6A18; --main-light:#FFFBE0;
-  --bg:#FFF9E8; --card:#fff; --logo:#8B6FC4; --on-main:#6E5B24;
-  --main-2:#FFE07A; --glow:#FFFBD4;
-  --lav:#CBBCE9; --lav-soft:#EFE8FB; --pink:#F7B8CB; --pink-ink:#D4527D;
-  --ink:#5B5270; --sub:#6B6959; --line:#F0E4C0; --soft:#877B60;
-  --jua:'Jua','Noto Sans KR',sans-serif;
-  --page-width:1260px;
-}
-body.dark{
-  --main:#FFEE9C; --main-dark:#FFE07A; --main-deep:#FFEFA8; --main-light:#3A3550;
-  --bg:#232031; --card:#2E2A3E; --logo:#E7DEFB; --on-main:#3A3050;
-  --glow:rgba(255,238,156,.14); --line:#4A4560;
-  --ink:#F2EEE4; --sub:#C6BFD4; --soft:#ADA6BE; --lav-soft:#3A3550;
-}
-*{box-sizing:border-box}
-html,body{margin:0;overflow-x:hidden;max-width:100%}
-body{
-  font-family:"Noto Sans KR",sans-serif;color:var(--ink);overflow-x:hidden;
-  background-color:var(--bg);
-  background-image:
-    radial-gradient(circle at 50% 0%, var(--glow) 0, transparent 32%),
-    radial-gradient(circle at 88% 14%, rgba(255,224,122,.45), transparent 30%),
-    radial-gradient(circle at 6% 34%, rgba(203,188,233,.32), transparent 30%),
-    linear-gradient(180deg,#FFFCEB 0%,#FFFDF6 46%,#F7F2FD 100%);
-  background-attachment:fixed;background-repeat:no-repeat;min-height:100vh;
-  transition:background .2s,color .2s;
-}
-body.dark{
-  background-image:
-    radial-gradient(circle at 50% 0%, rgba(255,238,156,.10), transparent 34%),
-    radial-gradient(circle at 88% 14%, rgba(203,188,233,.12), transparent 30%),
-    linear-gradient(180deg,#272338 0%,#232031 100%);
-}
-.wrapall{opacity:0;transition:opacity .35s}
-body.ready .wrapall{opacity:1}
+  /* ── 프로필 히어로 (잡지 표지 구도) ── */
+  .pro-hero{
+    position:relative; overflow:hidden;
+    padding:clamp(24px,3.4vw,44px);
+    border:1px solid var(--line); border-radius:var(--r-lg);
+    box-shadow:var(--shadow);
+    background:
+      radial-gradient(620px 420px at 84% -10%, rgba(248,224,233,.95), transparent 64%),
+      radial-gradient(520px 380px at 4% 100%, rgba(255,238,205,.9), transparent 62%),
+      linear-gradient(180deg,#FFFDF8,#FFF7EA);
+    display:grid; grid-template-columns:minmax(230px,.9fr) 1.3fr minmax(250px,.95fr);
+    gap:clamp(20px,2.6vw,36px); align-items:center;
+  }
+  body.dark .pro-hero{
+    background:radial-gradient(620px 420px at 84% -10%, rgba(92,58,70,.75), transparent 64%), linear-gradient(180deg,#332B27,#2A231F);
+  }
+  .pro-hero .sparkle{ position:absolute; color:var(--main); opacity:.55; font-size:13px; pointer-events:none; }
+  .pro-hero .sparkle.s1{ top:12%; right:32%; } 
+  .pro-hero .sparkle.s2{ top:26%; right:24%; font-size:9px; }
+  .pro-hero .sparkle.s3{ top:8%; right:15%; font-size:11px; }
 
-/* nav (메인과 동일) */
-.nav{max-width:var(--page-width);margin:auto;padding:22px 30px;display:flex;align-items:center;gap:18px}
-.brand{display:flex;align-items:baseline;gap:10px;font-family:var(--jua);font-size:32px;color:var(--logo);text-decoration:none}
-.brand i{font-style:normal;font-size:22px;color:var(--main-deep)}
-body.dark .brand i{color:var(--main-dark)}
-.brand em{font-family:"Playfair Display";font-style:italic;font-size:13px;letter-spacing:.2em;color:var(--soft)}
-.menu{margin:0 auto;display:flex;gap:4px;padding:6px;background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:999px;box-shadow:0 8px 22px rgba(200,180,120,.12)}
-body.dark .menu{background:rgba(255,255,255,.06)}
-body.dark .menu a{color:#DED8EA}
-.menu a{padding:9px 17px;border-radius:999px;font-size:14.5px;font-weight:700;color:var(--sub);text-decoration:none;white-space:nowrap;transition:.18s}
-.menu a:hover{background:var(--main-light);color:var(--logo)}
-.menu a.on{background:linear-gradient(135deg,var(--main),var(--main-2));color:#6E5B24;box-shadow:0 4px 12px rgba(230,190,80,.28)}
-.navr{display:flex;align-items:center;gap:10px;flex:none}
-.dk{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none}
-.dk .sw{width:44px;height:24px;border-radius:999px;background:var(--line);position:relative;transition:.2s}
-.dk .sw i{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 2px 5px rgba(0,0,0,.18);font-style:normal;font-size:10px;display:grid;place-items:center}
-body.dark .dk .sw{background:var(--main-dark)}
-body.dark .dk .sw i{left:23px}
-.ask{border:0;padding:11px 18px;border-radius:999px;background:linear-gradient(135deg,var(--main),var(--main-2));color:#6E5B24;font-family:inherit;font-weight:900;font-size:13.5px;cursor:pointer;box-shadow:0 6px 16px rgba(199,154,46,.28)}
-.live{display:flex;align-items:center;gap:8px;padding:11px 17px;border-radius:999px;background:var(--card);border:1px solid #ECD9E2;color:var(--pink-ink);font-weight:900;font-size:13px;text-decoration:none}
-.live i{width:7px;height:7px;border-radius:50%;background:var(--pink-ink);animation:bl 1.6s infinite}
-@keyframes bl{50%{opacity:.25}}
+  .av-wrap{ position:relative; }
+  .av-side{
+    position:absolute; left:-14px; top:50%; transform:rotate(180deg) translateY(50%);
+    writing-mode:vertical-rl; font-family:var(--sans); font-weight:900;
+    font-size:9px; letter-spacing:.34em; color:var(--text-soft); white-space:nowrap;
+  }
+  #avatarWrap{ cursor:pointer; }
+  .av-heart{
+    position:absolute; right:8px; bottom:-16px;
+    display:flex; align-items:center; gap:7px;
+    padding:8px 15px; border-radius:999px;
+    background:var(--card); border:1px solid var(--line);
+    box-shadow:var(--shadow); font-size:11px; color:var(--main-deep);
+  }
 
-.wrap{max-width:var(--page-width);margin:auto;padding:22px 30px 0}
+  .hero-mid{ min-width:0; }
+  .hero-mid h1{
+    margin:12px 0 0; font-family:var(--serif); font-style:italic; font-weight:400;
+    font-size:clamp(52px,6.8vw,104px); line-height:.82; letter-spacing:-.06em; color:var(--text);
+  }
+  .hero-mid h1 em{ display:block; margin-left:.5em; color:var(--main-dark); font-style:italic; position:relative; }
+  .hero-mid h1 em::after{ content:'.'; color:var(--main); }
+  .hero-quote{
+    margin:26px 0 0; font-size:clamp(15px,1.35vw,19px); font-weight:500;
+    color:var(--text-mid); line-height:1.55; white-space:pre-line; word-break:keep-all;
+  }
+  .hero-quote b{ display:block; color:var(--main-dark); font-weight:700; }
+  .hero-meta{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+    margin-top:28px; padding-top:18px; border-top:1px dotted var(--line);
+  }
+  .hero-meta b{ display:block; margin-top:5px; font-size:14px; font-weight:800; color:var(--text); letter-spacing:.01em; }
 
-/* 히어로 */
-.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:44px;align-items:center;min-height:540px}
-.orbit{position:relative;display:grid;place-items:center;min-height:520px;cursor:pointer}
-.orbit::before{content:"";position:absolute;inset:14px 26px;border-radius:50%;border:2px dashed rgba(226,190,90,.55);animation:rot 26s linear infinite}
-.orbit::after{content:"";position:absolute;inset:52px 66px;border-radius:50%;border:1.5px dashed rgba(203,188,233,.6);animation:rot 34s linear infinite reverse}
-@keyframes rot{to{transform:rotate(360deg)}}
-.glowball{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,var(--main) 0,rgba(255,249,184,0) 68%)}
-#avatarWrap{position:relative;z-index:2;width:330px;height:400px;border-radius:170px 170px 26px 26px;overflow:hidden;background:var(--card);padding:13px;box-shadow:0 26px 54px rgba(214,180,90,.28),0 0 0 6px rgba(255,249,184,.55)}
-#avatarWrap .avatar{width:100%;height:100%;object-fit:cover;object-position:50% 22%;border-radius:158px 158px 16px 16px;display:block}
-.star{position:absolute;z-index:3;font-style:normal;font-size:26px;animation:fl 5s ease-in-out infinite;pointer-events:none}
-.s1{top:44px;left:20px;color:var(--main-dark)}
-.s2{top:96px;right:22px;color:var(--pink-ink);animation-delay:.8s}
-.s3{bottom:78px;left:4px;font-size:30px;animation-delay:1.4s}
-.s4{bottom:36px;right:34px;color:var(--lav);animation-delay:.4s}
-@keyframes fl{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-14px) rotate(6deg)}}
-.otag{position:absolute;z-index:3;padding:6px 13px;background:var(--card);border:1px solid var(--line);border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--main-deep)}
-.t1{top:154px;left:-4px;transform:rotate(-8deg)}
-.t2{bottom:124px;right:-8px;transform:rotate(7deg);color:var(--pink-ink)}
+  .hero-side{ display:flex; flex-direction:column; gap:14px; min-width:0; }
+  .idcard{ background:var(--card); border:1px solid var(--line); border-radius:var(--r-md); padding:20px 22px; box-shadow:var(--shadow); }
+  .idcard .id-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+  .idcard .id-name{ font-size:26px; font-weight:800; color:var(--main-dark); letter-spacing:-.02em; }
+  .idcard .id-en{ font-family:var(--sans); font-weight:900; font-size:10px; letter-spacing:.22em; color:var(--text-soft); margin-bottom:14px; }
+  .side-links{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .side-links a{
+    display:flex; align-items:center; justify-content:space-between; gap:6px;
+    padding:11px 15px; border-radius:999px; border:1px solid var(--line);
+    background:var(--card); font-family:var(--sans); font-weight:900;
+    font-size:10px; letter-spacing:.14em; color:var(--text-mid); transition:.2s;
+  }
+  .side-links a:hover{ border-color:var(--main); color:var(--main-deep); }
 
-.kick{font-family:"DM Mono";font-size:12px;letter-spacing:.22em;color:var(--main-deep);background:linear-gradient(135deg,var(--main),var(--main-light));display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line)}
-h1{font-family:var(--jua);font-size:62px;line-height:1;margin:16px 0 8px;color:var(--ink);font-weight:400}
-h1 small{font-family:"Playfair Display";font-style:italic;font-size:22px;color:var(--main-deep);margin-left:10px}
-.tagline{font-size:16px;color:var(--sub);margin:0 0 18px}
-.hashrow{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
-.hashrow span{font-size:12.5px;font-weight:700;color:var(--main-deep);background:var(--main-light);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
-.idgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:430px}
-.idgrid>div{padding:13px 16px;background:var(--card);border:1px solid var(--line);border-radius:16px}
-.idgrid small{display:block;font-family:"DM Mono";font-size:10px;letter-spacing:.16em;color:var(--soft);margin-bottom:3px}
-.idgrid b{font-size:16px;color:var(--ink)}
-.idgrid b em{font-style:normal;font-size:12px;color:var(--pink-ink);margin-left:6px;font-weight:900}
+  @media (max-width:1080px){
+    .pro-hero{ grid-template-columns:minmax(200px,.9fr) 1.2fr; }
+    .hero-side{ grid-column:1 / -1; }
+    .side-links{ grid-template-columns:repeat(4,1fr); }
+  }
+  @media (max-width:720px){
+    .pro-hero{ grid-template-columns:1fr; }
+    .av-side{ display:none; }
+    .hero-mid h1{ font-size:56px; }
+    .side-links{ grid-template-columns:1fr 1fr; }
+  }
 
-/* 섹션 */
-.sec{margin-top:36px}
-.sechd{display:flex;align-items:baseline;gap:12px;margin:0 0 14px}
-.sechd h2{font-family:var(--jua);font-size:24px;margin:0;color:var(--ink);font-weight:400}
-.sechd em{font-family:"DM Mono";font-style:normal;font-size:11px;letter-spacing:.18em;color:var(--soft)}
-.sechd .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
-.card{padding:24px;background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 12px 28px rgba(214,180,90,.12)}
-.card.yl{background:linear-gradient(150deg,var(--main) 0,var(--card) 62%)}
-.card h3{font-family:var(--jua);font-size:19px;margin:0 0 12px;color:var(--ink);font-weight:400}
-.card p{margin:0;font-size:14.5px;line-height:1.9;color:var(--sub);white-space:pre-line}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.three{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.kv{display:flex;justify-content:space-between;gap:14px;padding:11px 2px;border-bottom:1px dashed var(--line);font-size:14px}
-.kv:last-child{border:0}
-.kv span{color:var(--soft);font-family:"DM Mono";font-size:11px;letter-spacing:.12em;flex:none}
-.kv b{color:var(--ink);font-weight:700;text-align:right}
+  /* ── 능력치 ── */
+  .stat + .stat{ margin-top:13px; }
+  .stat-h{ display:flex; align-items:baseline; justify-content:space-between; font-size:13px; font-weight:700; color:var(--text-mid); margin-bottom:6px; }
+  .stat-h i{ font-style:normal; font-family:var(--sans); font-weight:900; font-size:11px; color:var(--main-deep); letter-spacing:.1em; }
+  .bar{ height:8px; border-radius:999px; background:var(--main-light); overflow:hidden; }
+  .bar i{ display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,var(--main),var(--main-dark)); }
 
-/* 어록 */
-.quote{padding:34px 30px;background:linear-gradient(135deg,var(--main-light),var(--card));border:1px solid var(--line);border-radius:26px;text-align:center}
-.quote p{font-family:var(--jua);font-size:26px;color:var(--ink);margin:0;line-height:1.6;font-weight:400}
-.quote small{display:block;margin-top:10px;font-family:"DM Mono";font-size:11px;letter-spacing:.2em;color:var(--soft)}
+  /* ── 좋아 / 싫어 ── */
+  .lk-t{ display:flex; align-items:center; gap:8px; font-size:13px; font-weight:800; color:var(--main-deep); margin-bottom:11px; }
+  .lk-t.no{ color:var(--text-soft); }
+  .tagset{ display:flex; flex-wrap:wrap; gap:7px; }
 
-/* 좋아/싫어 */
-.tastebox{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.tastebox>div{padding:18px;border-radius:18px;text-align:center}
-.tastebox .lk{background:var(--main-light);border:1px solid var(--line)}
-.tastebox .dk2{background:var(--lav-soft);border:1px solid var(--line)}
-.tastebox small{display:block;font-family:"DM Mono";font-size:10px;letter-spacing:.16em;color:var(--soft);margin-bottom:6px}
-.tastebox b{font-size:16px;color:var(--ink)}
+  /* ── 마일스톤 ── */
+  .ms{ display:flex; align-items:center; gap:12px; padding:12px 0; }
+  .ms + .ms{ border-top:1px dotted var(--line); }
+  .ms .dot{ width:9px; height:9px; border-radius:50%; background:var(--main-light); border:1.5px solid var(--main); flex:none; }
+  .ms.done .dot{ background:var(--main); }
+  .ms .txt{ flex:1; font-size:14px; color:var(--text); font-weight:500; }
+  .ms.done .txt{ color:var(--text-soft); text-decoration:line-through; }
+  .ms .st{ font-family:var(--sans); font-weight:900; font-size:9.5px; letter-spacing:.16em; color:var(--text-soft); }
 
-/* 능력치 */
-.stats{display:flex;flex-direction:column;gap:12px}
-.stat small{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:var(--sub);margin-bottom:5px}
-.bar{height:11px;border-radius:999px;background:var(--main-light);overflow:hidden}
-.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--main),var(--main-2))}
+  /* ── 요일 ── */
+  .days{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; }
+  .day{
+    text-align:center; padding:14px 4px 12px; border-radius:14px;
+    border:1px solid var(--line); background:var(--card);
+  }
+  .day .d{ font-family:var(--sans); font-weight:900; font-size:10px; letter-spacing:.12em; color:var(--text-soft); }
+  .day .s{ margin-top:8px; font-size:12px; font-weight:700; color:var(--text-soft); }
+  .day.on{ background:var(--main-light); border-color:var(--main); }
+  .day.on .d{ color:var(--main-deep); }
+  .day.on .s{ color:var(--main-deep); }
+  @media (max-width:560px){ .days{ gap:5px } .day{ padding:10px 2px 9px; border-radius:11px } .day .s{ font-size:10.5px } }
 
-/* 마일스톤 */
-.mile{display:flex;flex-direction:column;gap:10px}
-.mile div{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;background:var(--main-light);border:1px solid var(--line);font-size:14px;color:var(--ink)}
-.mile div.done{background:linear-gradient(120deg,var(--main),var(--main-light));text-decoration:line-through;text-decoration-color:rgba(110,91,36,.5);color:#6E5B24}
-.mile i{font-style:normal;flex:none}
-.mile .mstate{margin-left:auto;font-style:normal;font-size:11px;font-weight:800;color:var(--main-deep);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 9px;flex:none}
+  /* ── TMI ── */
+  .tmi{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .tmi > div{ padding:18px 18px; border-radius:var(--r-md); border:1px solid var(--line); background:linear-gradient(180deg,rgba(255,246,229,.8),transparent); }
+  .tmi b{ display:block; margin-top:9px; font-size:15px; font-weight:700; color:var(--text); word-break:keep-all; }
+  @media (max-width:720px){ .tmi{ grid-template-columns:1fr; } }
 
-/* 요일 */
-.days{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
-.day{padding:16px 6px;border-radius:18px;text-align:center;background:var(--card);border:1px solid var(--line)}
-.day small{display:block;font-family:"DM Mono";font-size:11px;color:var(--soft);margin-bottom:8px}
-.day b{font-size:13px;font-weight:800;color:var(--sub)}
-.day.on{background:linear-gradient(160deg,var(--main),var(--main-light));border-color:var(--main-2)}
-body.dark .day.on{background:linear-gradient(160deg,var(--main),#FFE7A8);border-color:#C9A94E}
-body.dark .day.on b,body.dark .day.on small{color:#3A3050}
-.day.on b{color:#6E5B24}
+  /* ── VOD ── */
+  .vod-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  @media (max-width:820px){ .vod-grid{ grid-template-columns:1fr; } }
+  .vod{ border-radius:var(--r-md); overflow:hidden; border:1px solid var(--line); background:var(--cocoa); }
+  .vod iframe{ display:block; width:100%; aspect-ratio:16/9; border:0; }
+  .vod .vt{ padding:12px 16px; font-size:13.5px; font-weight:700; color:#FFF3E4; }
+  .vod-ph{
+    display:grid; place-items:center; aspect-ratio:16/9;
+    background:linear-gradient(135deg,#FDEFD9,#F7DEE8); color:var(--main-deep);
+    font-family:var(--sans); font-weight:900; font-size:11px; letter-spacing:.2em;
+  }
 
-/* VOD */
-#ovod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-#ovod-grid .vod{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
-#ovod-grid iframe{width:100%;aspect-ratio:16/9;border:0;display:block}
-#ovod-grid .vt{padding:11px 14px;font-size:13.5px;font-weight:700;color:var(--ink)}
-.vph{aspect-ratio:16/9;border-radius:18px;background:linear-gradient(150deg,var(--main-light),var(--card));border:1px solid var(--line);display:grid;place-items:center;color:var(--soft);font-size:13px;font-weight:700}
-
-/* 링크 */
-.links{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.links a{display:flex;align-items:center;gap:12px;padding:18px 20px;background:var(--card);border:1px solid var(--line);border-radius:20px;text-decoration:none;color:var(--ink);font-weight:700;transition:.18s}
-.links a:hover{transform:translateY(-3px)}
-.links i{font-style:normal;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--main),var(--main-2));font-size:17px;flex:none}
-.links small{display:block;font-family:"DM Mono";font-size:10px;letter-spacing:.14em;color:var(--soft);font-weight:400}
-
-footer{text-align:center;color:var(--soft);font-size:12px;line-height:1.8;margin-top:44px;padding-bottom:40px}
-
-.mask{position:fixed;inset:0;background:rgba(60,50,40,.45);display:none;place-items:center;z-index:200;padding:20px}
-.mask.on{display:grid}
-.modal{background:var(--card);border-radius:26px;padding:26px;max-width:420px;width:100%}
-.modal h3{font-family:var(--jua);font-size:20px;margin:0 0 4px;color:var(--main-deep);font-weight:400}
-.modal p{margin:0 0 14px;font-size:13px;color:var(--soft)}
-.modal textarea{width:100%;box-sizing:border-box;min-height:130px;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;font-family:inherit;font-size:14px;resize:vertical;background:var(--bg);color:var(--ink)}
-.modal .row{display:flex;gap:8px;margin-top:12px}
-.modal button{flex:1;padding:12px;border:0;border-radius:999px;font-family:inherit;font-weight:900;font-size:14px;cursor:pointer}
-.modal .send{background:linear-gradient(135deg,var(--main),var(--main-2));color:#6E5B24}
-.modal .cancel{background:var(--main-light);color:var(--sub)}
-
-.click-star{position:absolute;pointer-events:none;font-style:normal;font-size:18px;color:var(--main-dark);animation:cs .9s ease-out forwards}
-@keyframes cs{to{transform:translate(var(--x),var(--y)) scale(.3);opacity:0}}
-[data-reveal]{opacity:0;transform:translateY(18px);transition:.6s}
-body.ready [data-reveal].revealed{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none}}
-
-@media(min-width:981px){
-  .nav{position:relative}
-  .menu{position:absolute;left:50%;transform:translateX(-50%);margin:0}
-  .brand{margin-right:auto}
-}
-@media(min-width:981px) and (max-width:1180px){
-  .brand em{display:none}
-  .menu a{padding:9px 12px;font-size:13.5px}
-  .ask{padding:10px 14px;font-size:13px}
-  .live{padding:10px 13px;font-size:12px}
-}
-@media(max-width:980px){
-  .nav{flex-wrap:wrap;padding:16px 18px;gap:12px}
-  .menu{order:3;width:100%;margin:0;overflow-x:auto;justify-content:flex-start}
-  .navr{margin-left:auto}
-  .wrap{padding:16px 18px 0}
-  .hero{grid-template-columns:1fr;gap:16px;min-height:0}
-  .orbit{min-height:440px}
-  #avatarWrap{width:270px;height:330px}
-  .glowball{width:300px;height:300px}
-  h1{font-size:46px}
-  .two,.three,.links,#ovod-grid{grid-template-columns:1fr}
-  .days{grid-template-columns:repeat(7,1fr);gap:5px}
-  .day{padding:11px 2px}.day small{font-size:9px}.day b{font-size:10px}
-}
+  /* ── About ── */
+  .about{ font-size:15px; line-height:1.95; color:var(--text-mid); white-space:pre-line; word-break:keep-all; }
+  .now-box{
+    margin-top:16px; padding:16px 18px; border-radius:var(--r-md);
+    background:var(--main-light); color:var(--main-deep);
+    font-size:14px; font-weight:600; line-height:1.7; white-space:pre-line;
+  }
 </style>
 </head>
-<body>
+<body class="sub">
 <script>if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');</script>
 
-<div class="wrapall">
-<header class="nav">
-  <a class="brand" href="../"><i>☾</i><span data-hook="info-name">햄모찌</span><em>DREAM MUSIC BOX</em></a>
-  <nav class="menu">
-    <a href="../">홈</a>
-    <a class="on" href="./">프로필</a><a href="../schedule/">일정</a><a href="../song/">노래책</a>
-    <a href="../notice/">공지</a><a href="../work/">업보</a><a href="../dress/">옷장</a><a href="../diary/">추억창고</a>
+<header class="head-cream">
+  <a class="brand" href="../" aria-label="햄모찌 홈">
+    <span class="brand-bell">●</span><span>HAMMOZZI</span><small>햄모찌</small>
+  </a>
+  <nav class="main-nav nav-ink" aria-label="메인 메뉴">
+    <a href="../profile/" class="on">PROFILE</a>
+    <a href="../schedule/">SCHEDULE</a>
+    <a href="../song/">SONG BOOK</a>
+    <a href="../notice/">NOTICE</a>
+    <a href="../memory/">MEMORY</a>
+    <a href="../closet/">CLOSET</a>
   </nav>
-  <div class="navr">
-    <label class="dk" onclick="toggleDark()"><span class="sw"><i id="dkKnob">☀</i></span></label>
-    <button class="ask" onclick="openAsk()">문의</button>
-    <a class="live" id="link-soop" href="https://www.sooplive.com/station/hammojji" target="_blank"><i></i>LIVE</a>
+  <div class="hd-act">
+    <button class="hd-btn" id="dkbox" type="button" aria-label="다크 모드">🌙</button>
+    <button class="hd-ask" type="button" onclick="openAsk()">ASK ✉</button>
   </div>
 </header>
 
-<div class="wrap">
+<main class="sheet wrap">
+  <div class="stagger">
 
-  <section class="hero">
-    <div class="orbit" data-sparkle>
-      <span class="glowball"></span>
-      <span class="star s1">✦</span><span class="star s2">♡</span><span class="star s3">🔔</span><span class="star s4">🎀</span>
-      <span class="otag t1">HAMSTER</span><span class="otag t2">RIBBON</span>
-      <div id="avatarWrap">
-        <img class="avatar" id="avatarImg" referrerpolicy="no-referrer"
-             src="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg" alt="햄모찌">
-      </div>
-    </div>
-    <div>
-      <span class="kick">PROFILE · TRACK 01</span>
-      <h1><span data-hook="info-name">햄모찌</span> <small data-hook="info-name-en">HAMMOZZI</small></h1>
-      <p class="tagline" data-hook="info-catchphrase">귀차니즘 때문에 가출한 햄스터 영물</p>
-      <div class="hashrow" id="tagRow"><span>#햄스터영물</span><span>#소통</span><span>#종겜</span><span>#꾹꾹이</span><span>#개인세</span></div>
-      <div class="idgrid">
-        <div><small>BIRTH</small><b><span data-hook="info-birth">10월 17일</span><em id="dday"></em></b></div>
-        <div><small>DEBUT</small><b data-hook="info-debut">2026.01.06</b></div>
-        <div><small>FANDOM</small><b data-hook="info-fandom">꾹꾹이</b></div>
-        <div><small>TYPE</small><b><span data-hook="info-gender">여</span> · <span data-hook="info-agency">개인세</span></b></div>
-        <div><small>READING</small><b data-hook="info-reading">햄모찌 / hammozzi</b></div>
-        <div><small>SPECIES</small><b data-hook="info-species">햄스터 영물</b></div>
-      </div>
-    </div>
-  </section>
+    <!-- ══ HERO ══ -->
+    <section class="pro-hero">
+      <span class="sparkle s1">✦</span><span class="sparkle s2">·</span><span class="sparkle s3">✧</span>
 
-  <section class="sec quote" data-reveal>
-    <p data-hook="quote">오늘도 느긋하게, 꾹꾹이와 함께.</p>
-    <small>MOZZI'S WORDS</small>
-  </section>
-
-  <section class="sec" data-reveal>
-    <div class="sechd"><h2>모찌는 누구?</h2><em>ABOUT</em><span class="ln"></span></div>
-    <div class="two">
-      <div class="card yl">
-        <h3>🐹 소개</h3>
-        <p data-hook="msg">귀찮은 때문에 가출했지만 살기 위해 방송을 시작한 햄스터 영물
-게임은 좋아하지만 그닥 실력이 좋지 않아요.
-가끔 노래도 불러요. 실력이 좋지 않아도 함께해주세요.</p>
-      </div>
-      <div class="card">
-        <h3>🔔 기본 정보</h3>
-        <div class="kv"><span>NAME</span><b data-hook="info-reading">햄모찌 / hammozzi</b></div>
-        <div class="kv"><span>BIRTH</span><b data-hook="info-birth">10월 17일</b></div>
-        <div class="kv"><span>DEBUT</span><b data-hook="info-debut">2026.01.06</b></div>
-        <div class="kv"><span>FANDOM</span><b data-hook="info-fandom">꾹꾹이</b></div>
-        <div class="kv"><span>CONTENT</span><b data-hook="info-content">소통 · 종합게임</b></div>
-        <div class="kv"><span>GAME</span><b data-hook="info-game">마크 · 배그 · 롤</b></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec" data-reveal>
-    <div class="sechd"><h2>모찌의 취향</h2><em>TASTE</em><span class="ln"></span></div>
-    <div class="two">
-      <div class="card">
-        <div class="tastebox">
-          <div class="lk"><small>LIKE</small><b data-hook="like-list">디저트 · 고양이</b></div>
-          <div class="dk2"><small>DISLIKE</small><b data-hook="dislike-list">벌레 · 채소</b></div>
+      <div class="av-wrap">
+        <span class="av-side">HAMMOZZI · DREAM ARCHIVE · 2026</span>
+        <div class="arch" id="avatarWrap">
+          <img class="avatar" id="av" src="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg" alt="햄모찌 프로필 이미지" referrerpolicy="no-referrer">
+          <span class="arch-in"></span>
         </div>
-        <div style="margin-top:14px">
-          <div class="kv"><span>GENRE</span><b data-hook="info-genre">J-POP · K-POP</b></div>
-          <div class="kv"><span>AVOID</span><b data-hook="info-avoid">고음 곡</b></div>
-          <div class="kv"><span>SIGNATURE</span><b data-hook="info-signature">음율 - 절망 속에서 춤을 추어라</b></div>
+        <div class="av-heart">· ♡ · <span id="dday">D-…</span></div>
+      </div>
+
+      <div class="hero-mid">
+        <p class="micro" style="margin:0">WELCOME TO MY TINY DREAM</p>
+        <h1>Ham<em>mozzi</em></h1>
+        <p class="hero-quote" data-hook="info-catchphrase">귀차니즘 때문에 가출한
+<b>햄스터 영물</b></p>
+        <div class="hero-meta">
+          <div><span class="micro">DEBUT</span><b data-hook="info-debut">2026. 01. 06</b></div>
+          <div><span class="micro">BIRTHDAY</span><b data-hook="info-birth">10.17</b></div>
+          <div><span class="micro">FANDOM</span><b data-hook="info-fandom">꾹꾹이</b></div>
         </div>
       </div>
-      <div class="card">
-        <h3>✦ TMI</h3>
-        <div class="kv"><span>FOOD</span><b data-hook="tmi-food">디저트라면 뭐든지</b></div>
-        <div class="kv"><span>SONG</span><b data-hook="tmi-song">백아 - 첫사랑</b></div>
-        <div class="kv"><span>BOOK</span><b data-hook="tmi-book">아직 고르는 중</b></div>
-      </div>
-    </div>
-  </section>
 
-  <section class="sec" data-reveal>
-    <div class="sechd"><h2>모찌 능력치</h2><em>STATUS</em><span class="ln"></span></div>
-    <div class="two">
-      <div class="card">
-        <div class="stats" id="statsBox">
-          <div class="stat"><small><span>소통력</span><span>95</span></small><div class="bar"><i style="width:95%"></i></div></div>
-          <div class="stat"><small><span>게임 실력</span><span>45</span></small><div class="bar"><i style="width:45%"></i></div></div>
-          <div class="stat"><small><span>노래</span><span>65</span></small><div class="bar"><i style="width:65%"></i></div></div>
-          <div class="stat"><small><span>귀차니즘</span><span>99</span></small><div class="bar"><i style="width:99%"></i></div></div>
-          <div class="stat"><small><span>귀여움</span><span>100</span></small><div class="bar"><i style="width:100%"></i></div></div>
+      <div class="hero-side">
+        <div class="ticket">
+          <span class="t-tag">ON AIR</span>
+          <div class="t-big" data-hook="live-weekday">평일 오후 3시</div>
+          <div class="t-sub" data-hook="live-weekend">주말 오후 6시</div>
+          <div class="t-line"></div>
+          <div class="t-foot" data-hook="info-content">CHAT · GAME · SONG</div>
+        </div>
+        <div class="idcard">
+          <div class="id-top">
+            <span class="micro">SPIRIT ID</span>
+            <span class="micro">NO. 0106</span>
+          </div>
+          <div class="id-name" data-hook="info-name">햄모찌</div>
+          <div class="id-en">HAMMOZZI</div>
+          <div class="dotrow"><span class="k">MBTI</span><span class="v" data-hook="info-mbti">INFP</span></div>
+          <div class="dotrow"><span class="k">GAME</span><span class="v" data-hook="info-game">공포게임 · 리듬게임</span></div>
+          <div class="dotrow"><span class="k">SONG</span><span class="v" data-hook="info-song">잔잔한 발라드</span></div>
+        </div>
+        <div class="side-links">
+          <a id="lk-soop" href="https://www.sooplive.com/station/hammojji" target="_blank" rel="noreferrer">SOOP <span>↗</span></a>
+          <a id="lk-x" href="https://x.com/mojji81290" target="_blank" rel="noreferrer">X <span>↗</span></a>
+          <a id="lk-youtube" href="https://www.youtube.com" target="_blank" rel="noreferrer">YOUTUBE <span>↗</span></a>
+          <a id="lk-cafe" href="https://discord.gg/pH8bUYjHqb" target="_blank" rel="noreferrer">DISCORD <span>↗</span></a>
         </div>
       </div>
-      <div class="card">
-        <h3>🎯 목표</h3>
-        <div class="mile" id="mileBox">
-          <div class="done"><i>✅</i>데뷔 방송 완료</div>
-          <div><i>⬜</i>첫 노래 커버 업로드</div>
-          <div><i>⬜</i>꾹꾹이 1000명</div>
-          <div><i>⬜</i>베스 달성</div>
-        </div>
+    </section>
+
+    <!-- ══ ABOUT ══ -->
+    <section class="panel mt14">
+      <div class="kick"><span class="no">FILE 01</span> ABOUT MOZZI</div>
+      <div class="sec-t mt14"><h2>Tiny hamster,</h2><span>햄모찌를 소개할게요</span></div>
+      <p class="about" data-hook="msg">안녕하세요, 햄스터 영물 햄모찌예요!
+귀차니즘 때문에 굴에서 가출해서, 지금은 꾹꾹이들 곁에서 지내고 있어요.
+게임하고 수다 떨고 가끔 노래하는 아주 느긋한 하루를 보내요.</p>
+      <div class="tagset mt14" id="tagset">
+        <span class="chip">느긋함</span><span class="chip">햄스터</span><span class="chip">수다쟁이</span>
       </div>
-    </div>
-  </section>
+      <div class="now-box" id="now-box" style="display:none"></div>
+    </section>
 
-  <section class="sec" data-reveal>
-    <div class="sechd"><h2>방송 요일</h2><em>WEEKLY</em><span class="ln"></span></div>
-    <div class="days">
-      <div class="day" id="day-0"><small>월</small><b>휴방</b></div>
-      <div class="day" id="day-1"><small>화</small><b>휴방</b></div>
-      <div class="day" id="day-2"><small>수</small><b>휴방</b></div>
-      <div class="day" id="day-3"><small>목</small><b>휴방</b></div>
-      <div class="day" id="day-4"><small>금</small><b>휴방</b></div>
-      <div class="day" id="day-5"><small>토</small><b>휴방</b></div>
-      <div class="day" id="day-6"><small>일</small><b>휴방</b></div>
-    </div>
-    <div class="card" style="margin-top:14px;display:flex;gap:26px;flex-wrap:wrap;align-items:center">
-      <div><small style="font-family:'DM Mono';font-size:10px;letter-spacing:.16em;color:var(--soft);display:block">WEEKDAY</small><b style="font-family:var(--jua);font-size:19px;font-weight:400" data-hook="sched-weekday">평일 오후 3시</b></div>
-      <span style="color:var(--main-2);font-size:22px">☾</span>
-      <div><small style="font-family:'DM Mono';font-size:10px;letter-spacing:.16em;color:var(--soft);display:block">WEEKEND</small><b style="font-family:var(--jua);font-size:19px;font-weight:400" data-hook="sched-weekend">주말 오후 6시</b></div>
-    </div>
-  </section>
+    <!-- ══ 능력치 + 좋아/싫어 ══ -->
+    <div class="g2 mt14">
+      <section class="panel">
+        <div class="kick"><span class="no">FILE 02</span> SPIRIT STATUS</div>
+        <div class="sec-t mt14"><h2>Status</h2><span>능력치</span></div>
+        <div id="stats">
+          <div class="stat"><div class="stat-h">텐션 <i>92</i></div><div class="bar"><i style="width:92%"></i></div></div>
+          <div class="stat"><div class="stat-h">게으름 <i>99</i></div><div class="bar"><i style="width:99%"></i></div></div>
+          <div class="stat"><div class="stat-h">애교 <i>88</i></div><div class="bar"><i style="width:88%"></i></div></div>
+          <div class="stat"><div class="stat-h">먹성 <i>95</i></div><div class="bar"><i style="width:95%"></i></div></div>
+          <div class="stat"><div class="stat-h">담력 <i>30</i></div><div class="bar"><i style="width:30%"></i></div></div>
+        </div>
+      </section>
 
-  <section class="sec" id="songs-card" data-reveal>
-    <div class="sechd"><h2>다시보기</h2><em>VOD</em><span class="ln"></span></div>
-    <div id="ovod-grid">
-      <div class="vph">▶ 곧 업로드 예정</div>
-      <div class="vph">▶ 곧 업로드 예정</div>
-      <div class="vph">▶ 곧 업로드 예정</div>
+      <section class="panel">
+        <div class="kick"><span class="no">FILE 03</span> LIKE &amp; DISLIKE</div>
+        <div class="sec-t mt14"><h2>Sweet &amp; sour</h2><span>좋아함 · 싫어함</span></div>
+        <div class="lk-t">♡ 좋아해요</div>
+        <div class="tagset" id="likes">
+          <span class="chip">디저트</span><span class="chip">고양이</span><span class="chip">낮잠</span><span class="chip">꾹꾹이</span>
+        </div>
+        <div class="lk-t no mt22">✕ 싫어해요</div>
+        <div class="tagset" id="dislikes">
+          <span class="chip line">부지런한 아침</span><span class="chip line">무서운 소리</span>
+        </div>
+      </section>
     </div>
-  </section>
 
-  <section class="sec" data-reveal>
-    <div class="sechd"><h2>모찌 사용설명서</h2><em>RULES</em><span class="ln"></span></div>
-    <div class="card">
-      <p data-hook="rules">· 서로 예의를 지켜주세요. 과한 드립·비방은 자제 부탁드려요.
-· 다른 방송인 이야기는 조심스럽게 부탁드립니다.
-· 정치 · 종교 등 민감한 주제는 피해주세요.
-· 채팅은 편하게! 눈팅도 언제나 환영이에요 🐹</p>
+    <!-- ══ 방송 요일 ══ -->
+    <section class="panel mt14">
+      <div class="kick"><span class="no">FILE 04</span> WEEKLY ON AIR</div>
+      <div class="sec-t mt14"><h2>This week</h2><span>이번 주 방송 요일</span></div>
+      <div class="days" id="days">
+        <div class="day" id="day-0"><div class="d">MON</div><div class="s">휴방</div></div>
+        <div class="day" id="day-1"><div class="d">TUE</div><div class="s">휴방</div></div>
+        <div class="day" id="day-2"><div class="d">WED</div><div class="s">휴방</div></div>
+        <div class="day" id="day-3"><div class="d">THU</div><div class="s">휴방</div></div>
+        <div class="day" id="day-4"><div class="d">FRI</div><div class="s">휴방</div></div>
+        <div class="day" id="day-5"><div class="d">SAT</div><div class="s">휴방</div></div>
+        <div class="day" id="day-6"><div class="d">SUN</div><div class="s">휴방</div></div>
+      </div>
+    </section>
+
+    <!-- ══ TMI + 목표 ══ -->
+    <div class="g2 mt14">
+      <section class="panel">
+        <div class="kick"><span class="no">FILE 05</span> TMI</div>
+        <div class="sec-t mt14"><h2>Small things</h2><span>사소한 이야기</span></div>
+        <div class="tmi">
+          <div><span class="micro">FOOD</span><b data-hook="tmi-food">해바라기씨 쿠키</b></div>
+          <div><span class="micro">SONG</span><b data-hook="tmi-song">요즘 듣는 노래</b></div>
+          <div><span class="micro">BOOK</span><b data-hook="tmi-book">최근 읽은 책</b></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="kick"><span class="no">FILE 06</span> DREAM LIST</div>
+        <div class="sec-t mt14"><h2>Dream list</h2><span>이루고 싶은 것</span></div>
+        <div id="milestones">
+          <div class="ms done"><span class="dot"></span><span class="txt">첫 방송 켜기</span><span class="st">DONE</span></div>
+          <div class="ms"><span class="dot"></span><span class="txt">꾹꾹이 1000명</span><span class="st">NOW</span></div>
+          <div class="ms"><span class="dot"></span><span class="txt">첫 노래 커버 업로드</span><span class="st">SOON</span></div>
+        </div>
+      </section>
     </div>
-  </section>
 
-  <section class="sec" data-reveal>
-    <div class="sechd"><h2>모찌에게 가는 길</h2><em>LINKS</em><span class="ln"></span></div>
-    <div class="links">
-      <a id="link-soop3" href="https://www.sooplive.com/station/hammojji" target="_blank"><i>🔔</i><span><small>SOOP</small>방송국</span></a>
-      <a id="link-x" href="https://x.com/mojji81290" target="_blank"><i>✦</i><span><small>X (TWITTER)</small>@mojji81290</span></a>
-      <a id="link-discord" href="https://discord.gg/pH8bUYjHqb" target="_blank"><i>♡</i><span><small>DISCORD</small>꾹꾹이 서버</span></a>
-    </div>
-  </section>
+    <!-- ══ VOD ══ -->
+    <section class="panel mt14" id="songs-card">
+      <div class="kick"><span class="no">FILE 07</span> MOZZI'S BGM</div>
+      <div class="sec-t mt14"><h2>Replay</h2><span>다시보기 · 오리지널 곡</span></div>
+      <div class="vod-grid" id="ovod-grid">
+        <div class="vod"><div class="vod-ph">VOD UPLOAD SOON</div><div class="vt">첫 노래를 준비하고 있어요</div></div>
+        <div class="vod"><div class="vod-ph">VOD UPLOAD SOON</div><div class="vt">조금만 기다려 주세요</div></div>
+      </div>
+    </section>
 
-  <footer>© 2026 HAMMOZZI · DREAM MUSIC BOX<br>비즈니스 문의 — 문의 버튼을 이용해 주세요</footer>
-</div>
-</div>
+  </div>
+</main>
 
-<div class="mask" id="askMask">
-  <div class="modal">
-    <h3>모찌에게 문의하기</h3>
-    <p>남겨주시면 모찌가 확인할게요. (익명)</p>
-    <textarea id="askText" placeholder="문의 내용을 적어주세요"></textarea>
-    <div class="row">
-      <button class="cancel" onclick="closeAsk()">취소</button>
-      <button class="send" onclick="sendAsk()">보내기</button>
+<footer>
+  <b>HAMMOZZI · DREAM ARCHIVE</b><br>
+  © 2026 HAMMOZZI Official. · 비즈니스 문의 — {{이메일}}
+</footer>
+
+<div class="askmask" id="askmask">
+  <div class="askmodal">
+    <p class="micro">MESSAGE TO MOZZI</p>
+    <h3>꾹꾹이의 쪽지</h3>
+    <p>햄모찌에게 하고 싶은 말을 남겨주세요! (익명)</p>
+    <textarea id="askmsg" placeholder="문의 내용을 입력해주세요..."></textarea>
+    <div class="askbtns">
+      <button class="no" type="button" onclick="closeAsk()">취소</button>
+      <button class="yes" type="button" onclick="sendAsk()">보내기</button>
     </div>
   </div>
 </div>
@@ -400,169 +339,158 @@ body.ready [data-reveal].revealed{opacity:1;transform:none}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../supabase.js"></script>
 <script>
-function toggleDark(){
-  const on=document.body.classList.toggle('dark');
-  localStorage.setItem('theme',on?'dark':'light');
-  document.getElementById('dkKnob').textContent=on?'🌙':'☀';
-}
-if(localStorage.getItem('theme')==='dark')document.getElementById('dkKnob').textContent='🌙';
-
-function openAsk(){document.getElementById('askMask').classList.add('on');}
-function closeAsk(){document.getElementById('askMask').classList.remove('on');}
-async function sendAsk(){
-  const t=document.getElementById('askText').value.trim();
-  if(!t){alert('내용을 적어주세요!');return;}
-  try{
-    const ok=await insertRow('inquiries',{message:t});
-    alert(ok?'문의가 전달됐어요! 감사합니다 🐹':'전송에 실패했어요.');
-    if(ok){document.getElementById('askText').value='';closeAsk();}
-  }catch(e){alert('전송에 실패했어요.');}
-}
-document.getElementById('askMask').addEventListener('click',e=>{if(e.target.id==='askMask')closeAsk();});
-
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('revealed');}),{threshold:.06});
-document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
-
-const DAY_KR=['월','화','수','목','금','토','일'];
-function txt(v){
-  if(v===null||v===undefined)return '';
-  if(Array.isArray(v))return v.filter(Boolean).join(' · ');
-  if(typeof v==='object')return Object.values(v).filter(x=>typeof x!=='object').join(' · ');
+/* ══ 공통 유틸 (타입 방어 — DB 값이 배열·객체여도 [object Object] 안 뜨게) ══ */
+function asText(v){
+  if(v===null||v===undefined) return '';
+  if(Array.isArray(v)) return v.map(asText).filter(Boolean).join(', ');
+  if(typeof v==='object') return Object.keys(v).map(function(k){ return asText(v[k]); }).filter(Boolean).join(' ');
   return String(v);
 }
-function ddayFrom(mmdd){
-  const m=String(mmdd||'').match(/(\d{1,2})\s*[-./월]\s*(\d{1,2})/);
-  if(!m)return null;
-  const now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-  let d=new Date(now.getFullYear(),+m[1]-1,+m[2]);
-  if(d<today)d=new Date(now.getFullYear()+1,+m[1]-1,+m[2]);
-  return Math.round((d-today)/864e5);
+function asLines(v){
+  if(Array.isArray(v)) return v.map(asText).filter(Boolean);
+  return asText(v).split(/\r?\n/).map(function(s){ return s.trim(); }).filter(Boolean);
 }
-/* "이름:숫자" 줄바꿈 / 배열 / 객체 전부 허용 */
-function parsePairs(v){
-  if(!v)return [];
-  if(Array.isArray(v))return v.map(x=>typeof x==='object'?[x.name||x.label||'',x.value||x.score||'']:String(x).split(':')).map(a=>[String(a[0]||'').trim(),String(a[1]||'').trim()]);
-  if(typeof v==='object')return Object.entries(v).map(([k,x])=>[k,String(x)]);
-  return String(v).split(/\n/).map(l=>l.split(':')).map(a=>[String(a[0]||'').trim(),String(a[1]||'').trim()]).filter(a=>a[0]);
+function asList(v){
+  if(Array.isArray(v)) return v.map(asText).filter(Boolean);
+  return asText(v).split(/[,、·]/).map(function(s){ return s.trim(); }).filter(Boolean);
 }
-async function load(){
+function esc(s){ return asText(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function soopAvatar(id){
+  id=(id||'').trim().toLowerCase();
+  if(id.length<2) return '';
+  return 'https://profile.img.sooplive.co.kr/LOGO/'+id.slice(0,2)+'/'+id+'/'+id+'.jpg';
+}
+
+/* ══ DB 로더 (§2-B.2) ══ */
+async function loadProfile(){
+  var p = {};
   try{
-    if(typeof applyTheme==='function') await applyTheme();
-    const {data}=await db.from('profile').select('data').eq('id',1).single();
-    const p=(data&&data.data)||{};
+    var res = await db.from('profile').select('data').eq('id',1).single();
+    p = (res && res.data && res.data.data) || {};
+  }catch(e){ p = {}; }
 
-    document.querySelectorAll('[data-hook]').forEach(el=>{
-      const v=txt(p[el.dataset.hook]); if(v) el.textContent=v;
-    });
+  /* 1. data-hook 텍스트 */
+  document.querySelectorAll('[data-hook]').forEach(function(el){
+    var v = asText(p[el.getAttribute('data-hook')]);
+    if(!v) return;
+    if(el.getAttribute('data-hook')==='info-catchphrase'){
+      var ln = v.split(/\r?\n/);
+      el.innerHTML = esc(ln[0]) + (ln[1]?'<b>'+esc(ln.slice(1).join(' '))+'</b>':'');
+    } else el.textContent = v;
+  });
 
-    const img=document.getElementById('avatarImg');
-    if(p['avatar']) img.src=p['avatar'];
-    else if(p['soop-id']){const id=p['soop-id'];img.src=`https://profile.img.sooplive.co.kr/LOGO/${id.slice(0,2)}/${id}/${id}.jpg`;}
+  /* 2. 프사 (직접 URL 우선 → SOOP 아이디) */
+  var av = asText(p['avatar']) || soopAvatar(asText(p['soop-id'])) ;
+  if(av) document.getElementById('av').src = av;
 
-    if(p['info-tags']){
-      const arr=Array.isArray(p['info-tags'])?p['info-tags']:String(p['info-tags']).split(/[,\n]/);
-      const row=document.getElementById('tagRow'); row.innerHTML='';
-      arr.map(s=>s.trim()).filter(Boolean).forEach(t=>{
-        const sp=document.createElement('span'); sp.textContent=t.startsWith('#')?t:'#'+t; row.appendChild(sp);
-      });
+  /* 3. 링크 */
+  [['lk-soop','link-soop'],['lk-youtube','link-youtube'],['lk-x','link-x'],['lk-cafe','link-cafe']].forEach(function(pair){
+    var u = asText(p[pair[1]]); if(u) document.getElementById(pair[0]).href = u;
+  });
+
+  /* 4. 특징 태그 */
+  var tags = asList(p['info-tags']);
+  if(tags.length) document.getElementById('tagset').innerHTML = tags.map(function(t){ return '<span class="chip">'+esc(t)+'</span>'; }).join('');
+
+  /* 5. 좋아함 / 싫어함 */
+  var lk = asList(p['like-list']);
+  if(lk.length) document.getElementById('likes').innerHTML = lk.map(function(t){ return '<span class="chip">'+esc(t)+'</span>'; }).join('');
+  var dl = asList(p['dislike-list']);
+  if(dl.length) document.getElementById('dislikes').innerHTML = dl.map(function(t){ return '<span class="chip line">'+esc(t)+'</span>'; }).join('');
+
+  /* 6. 능력치 — "이름:숫자" 한 줄에 하나 */
+  var st = asLines(p['stats']);
+  if(st.length){
+    document.getElementById('stats').innerHTML = st.map(function(line){
+      var m = line.split(':');
+      var name = (m[0]||'').trim();
+      var num = Math.max(0, Math.min(100, parseInt(m[1],10)||0));
+      return '<div class="stat"><div class="stat-h">'+esc(name)+' <i>'+num+'</i></div><div class="bar"><i style="width:'+num+'%"></i></div></div>';
+    }).join('');
+  }
+
+  /* 7. 목표 — "상태|내용" 한 줄에 하나 */
+  var ms = asLines(p['milestones']);
+  if(ms.length){
+    document.getElementById('milestones').innerHTML = ms.map(function(line){
+      var parts = line.split('|');
+      var state = (parts.length>1 ? parts[0] : '').trim();
+      var body  = (parts.length>1 ? parts.slice(1).join('|') : parts[0]).trim();
+      var done = state === '달성';
+      return '<div class="ms'+(done?' done':'')+'"><span class="dot"></span><span class="txt">'+esc(body)+'</span><span class="st">'+esc(state||'')+'</span></div>';
+    }).join('');
+  }
+
+  /* 8. 방송 요일 (0=월 … 6=일) */
+  var days = asText(p['days']).split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+  if(days.length){
+    for(var i=0;i<7;i++){
+      var cell = document.getElementById('day-'+i); if(!cell) continue;
+      var on = days.indexOf(String(i))>=0;
+      cell.classList.toggle('on', on);
+      cell.querySelector('.s').textContent = on ? '방송' : '휴방';
     }
+  }
 
-    const L={'link-soop':p['link-soop'],'link-soop3':p['link-soop'],'link-x':p['link-x'],'link-discord':p['link-discord']};
-    Object.entries(L).forEach(([id,url])=>{const e=document.getElementById(id);if(e&&url)e.href=url;});
+  /* 9. 지금 진행 중 (NOW) */
+  var now = asText(p['now']);
+  if(now){ var nb=document.getElementById('now-box'); nb.textContent = now; nb.style.display='block'; }
 
-    if(p['days']){
-      const on=String(txt(p['days'])).split(',').map(s=>s.trim()).filter(s=>s!=='');
-      for(let i=0;i<7;i++){
-        const c=document.getElementById('day-'+i); if(!c)continue;
-        const isOn=on.includes(String(i));
-        c.classList.toggle('on',isOn);
-        c.querySelector('b').textContent=isOn?'방송':'휴방';
-        c.querySelector('small').textContent=DAY_KR[i];
-      }
-    }
-
-    /* 능력치 */
-    const st=parsePairs(p['stats']);
-    if(st.length){
-      const box=document.getElementById('statsBox'); box.innerHTML='';
-      st.forEach(([n,v])=>{
-        const num=Math.max(0,Math.min(100,parseInt(v,10)||0));
-        const d=document.createElement('div'); d.className='stat';
-        d.innerHTML=`<small><span></span><span>${num}</span></small><div class="bar"><i style="width:${num}%"></i></div>`;
-        d.querySelector('span').textContent=n;
-        box.appendChild(d);
-      });
-    }
-    /* 마일스톤 : "완료|내용" 또는 "내용" */
-    const ml=p['milestones'];
-    if(ml){
-      const lines=Array.isArray(ml)?ml.map(x=>typeof x==='object'?((x.done?'완료|':'')+(x.text||'')):String(x)):String(ml).split(/\n/);
-      const box=document.getElementById('mileBox'); box.innerHTML='';
-      lines.map(s=>String(s).trim()).filter(Boolean).forEach(line=>{
-        const parts=line.split('|');
-        const done=parts.length>1 && /달성|완료|done|✅/i.test(parts[0]);
-        const text=parts.length>1?parts.slice(1).join('|'):parts[0];
-        const d=document.createElement('div'); if(done)d.className='done';
-        const i=document.createElement('i'); i.textContent=done?'✅':'⬜';
-        d.appendChild(i); d.appendChild(document.createTextNode(text.trim()));
-        if(!done && parts.length>1 && parts[0].trim()){
-          const st=document.createElement('em'); st.className='mstate'; st.textContent=parts[0].trim(); d.appendChild(st);
-        }
-        box.appendChild(d);
-      });
-    }
-
-    const n=ddayFrom(p['info-birth']||'10/17');
-    if(n!==null) document.getElementById('dday').textContent=(n===0?'오늘 생일! 🎉':'D-'+n);
-
-    /* VOD */
-    try{
-      const rows=await fetchAll('original_songs',{order:'created_at',asc:false,limit:6});
-      const g=document.getElementById('ovod-grid');
-      const ok=rows.filter(r=>r.vod_id);
-      if(ok.length){
-        g.innerHTML='';
-        ok.forEach(r=>{
-          const d=document.createElement('div'); d.className='vod';
-          const f=document.createElement('iframe');
-          f.src=`https://vod.sooplive.co.kr/player/${r.vod_id}/embed`;
-          f.allowFullscreen=true; f.loading='lazy';
-          const t=document.createElement('div'); t.className='vt'; t.textContent=r.title||'다시보기';
-          d.appendChild(f); d.appendChild(t); g.appendChild(d);
-        });
-      }
-    }catch(e){}
-
-  }catch(e){ console.warn('load 실패(기본값 유지):',e); }
-  finally{
-    document.body.classList.add('ready');
-    document.querySelectorAll('[data-reveal]').forEach(el=>{
-      if(el.getBoundingClientRect().top<window.innerHeight) el.classList.add('revealed');
-    });
-    if(typeof initIframeResize==='function') initIframeResize();
+  /* 10. 생일 D-Day */
+  var b = asText(p['info-birth']).replace(/[.\s]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  var parts = b.split('-');
+  if(parts.length>=2 && typeof fxDday === 'function'){
+    var mmdd = String(parts[parts.length-2]).padStart(2,'0')+'-'+String(parts[parts.length-1]).padStart(2,'0');
+    var n = fxDday(mmdd);
+    if(n!==null) document.getElementById('dday').textContent = (n===0 ? '오늘 생일! 🎉' : 'BIRTHDAY D-'+n);
   }
 }
-load();
-setTimeout(()=>document.body.classList.add('ready'),1200);
+
+/* ══ 오리지널 곡 (VOD) ══ */
+async function loadOriginalSongs(){
+  try{
+    var rows = await fetchAll('original_songs', { order:'id', asc:false });
+    if(!rows || !rows.length) return;
+    document.getElementById('ovod-grid').innerHTML = rows.map(function(s){
+      return '<div class="vod"><iframe src="https://vod.sooplive.co.kr/player/'+encodeURIComponent(asText(s.vod_id))+'/embed" allowfullscreen loading="lazy" title="'+esc(s.title)+'"></iframe><div class="vt">'+esc(s.title)+'</div></div>';
+    }).join('');
+  }catch(e){}
+}
+
+/* ══ 부팅 ══ */
+(async function(){
+  try{ await loadProfile(); }catch(e){}
+  try{ await loadOriginalSongs(); }catch(e){}
+  try{ if(typeof enableIframeAutoHeight==='function') enableIframeAutoHeight(); }catch(e){}
+  document.body.classList.add('ready');
+})();
+setTimeout(function(){ document.body.classList.add('ready'); }, 1600);
 </script>
 
-<script src="../fx.js"></script>
 <script>
+/* 다크 모드 · 문의 모달 */
 (function(){
-  if(typeof window.fxHearts==='function') return;
-  document.querySelectorAll('[data-sparkle]').forEach(function(t){
-    t.addEventListener('click',function(e){
-      var r=t.getBoundingClientRect();
-      for(var i=0;i<8;i++){
-        var s=document.createElement('i');s.className='click-star';s.textContent=i%3?'✦':'♡';
-        s.style.left=(e.clientX-r.left)+'px';s.style.top=(e.clientY-r.top)+'px';
-        s.style.setProperty('--x',((Math.random()-.5)*160)+'px');
-        s.style.setProperty('--y',(-40-Math.random()*110)+'px');
-        t.appendChild(s);setTimeout(function(){s.remove();},950);
-      }
-    });
+  var b = document.getElementById('dkbox');
+  function paint(){ if(b) b.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+  if(b) b.addEventListener('click', function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    paint();
   });
+  paint();
 })();
+function openAsk(){ document.getElementById('askmask').classList.add('on'); }
+function closeAsk(){ document.getElementById('askmask').classList.remove('on'); }
+async function sendAsk(){
+  var t = document.getElementById('askmsg');
+  var v = (t.value||'').trim();
+  if(!v){ alert('내용을 입력해주세요!'); return; }
+  try{ await insertRow('inquiries', { message: v }); alert('쪽지가 도착했어요! 고마워요 꾹꾹이 🩷'); }
+  catch(e){ alert('전송에 실패했어요. 잠시 후 다시 시도해 주세요.'); }
+  t.value=''; closeAsk();
+}
+document.getElementById('askmask').addEventListener('click', function(e){ if(e.target.id==='askmask') closeAsk(); });
 </script>
+<script src="../fx.js"></script>
 </body>
 </html>

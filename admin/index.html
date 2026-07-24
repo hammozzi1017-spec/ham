@@ -1,104 +1,135 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🔐 햄모찌 Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
-  <style>
-    .login-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 999; }
-    .login-box { background: var(--card); border-radius: 24px; border: 1.5px solid var(--main-light); box-shadow: var(--shadow-hover); padding: 40px 36px; text-align: center; width: 320px; }
-    .login-title { font-family: 'Pretendard','Noto Sans KR',sans-serif; font-size: 32px; color: var(--main-dark); margin-bottom: 6px; }
-    .login-sub { font-size: 13px; color: var(--text-soft); margin-bottom: 24px; }
-    .login-err { color: #e05; font-size: 13px; margin-top: 10px; min-height: 20px; }
-    .tabs { display: flex; gap: 3px; background: var(--main-light); border-radius: 14px; padding: 4px; flex-wrap: wrap; }
-    .tab-btn { flex: 1; padding: 10px 6px; border: none; background: transparent; border-radius: 10px; font-size: 12px; font-weight: 600; color: var(--text-soft); cursor: pointer; transition: all 0.2s; min-width: 60px; white-space: nowrap; }
-    .tab-btn.active { background: #fff; color: var(--main-dark); box-shadow: var(--shadow); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🔐 HAMMOZZI Admin</title>
+<link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
+<link rel="stylesheet" href="../style.css">
+<style>
+  .login-overlay{ position:fixed; inset:0; z-index:999; display:grid; place-items:center; padding:20px;
+    background:var(--bg);
+    background-image:radial-gradient(700px 460px at 20% 0%, rgba(255,239,205,.9), transparent 62%),
+                     radial-gradient(760px 500px at 100% 10%, rgba(243,205,216,.8), transparent 60%); }
+  .login-box{ width:340px; max-width:100%; padding:38px 32px; text-align:center;
+    background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow-hover); }
+  .login-title{ font-family:var(--serif); font-style:italic; font-size:34px; color:var(--text); margin-bottom:4px; }
+  .login-sub{ font-size:12.5px; color:var(--text-soft); margin-bottom:22px; }
+  .login-err{ min-height:20px; margin-top:10px; font-size:12.5px; color:#C4566A; }
 
-    /* ── 필수 CSS (가이드 §8.7 · §14) ── */
-    .input{ width:100%; box-sizing:border-box; }
-    .form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .form-grid .full{ grid-column:1 / -1; }
-    .table-wrap{ overflow-x:auto; }
-    .table-wrap table{ width:100%; border-collapse:collapse; }
-    .table-wrap th{ background:var(--main-light); font-size:12px; padding:10px 12px; text-align:left; white-space:nowrap; }
-    .table-wrap td{ padding:10px 12px; font-size:13.5px; border-top:1px solid var(--main-light); }
-    .table-wrap th:last-child,.table-wrap td:last-child{ width:56px; text-align:center; }
-    .palette .pal-row{ display:grid; grid-template-columns:44px 92px minmax(120px,1fr) minmax(90px,1.1fr); align-items:center; gap:10px; margin-bottom:10px; }
-    .palette .pal-row label{ font-size:13px; font-weight:700; white-space:nowrap; }
-    .palette .pal-row input[type=color]{ width:44px; height:34px; padding:0; border:1px solid var(--main-light); border-radius:8px; background:none; cursor:pointer; }
-    .palette .pal-desc{ font-size:11px; color:var(--text-soft); }
-    @media(max-width:720px){
-      .form-grid{ grid-template-columns:1fr; }
-      .palette .pal-row{ grid-template-columns:44px 1fr; grid-auto-rows:auto; }
-      .palette .pal-desc{ grid-column:1 / -1; }
-      .palette .pal-row .input{ grid-column:1 / -1; }
-    }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .form-grid .input, .form-grid textarea.input { width:100%; box-sizing:border-box; }
-    .form-grid .form-field.full { grid-column: 1 / -1; }
-    .form-grid .full { grid-column: 1 / -1; }
-    .avatar-preview { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--main-light); display: none; }
-    .ord-btn { width: 22px; height: 18px; line-height: 1; padding: 0; border: 1px solid var(--main-light); background: var(--card); color: var(--main-dark); border-radius: 5px; font-size: 9px; cursor: pointer; transition: background .2s; }
-    .ord-btn:hover:not(:disabled) { background: var(--main-light); }
-    .ord-btn:disabled { opacity: .3; cursor: default; }
-  
-  .hint{ font-size:11.5px; color:var(--text-soft); margin-top:6px; line-height:1.7; }
-  .hint code{ background:var(--main-light); color:var(--main-dark); padding:2px 6px; border-radius:5px; font-size:11px; white-space:nowrap; }
-  .hint b{ color:var(--main-dark); }
+  .adm-head{ display:flex; align-items:center; justify-content:space-between; gap:14px;
+    max-width:var(--sheet-w); margin:0 auto; padding:22px clamp(16px,4vw,40px) 0; }
+  .adm-head .brand{ color:var(--logo); font-family:var(--sans); }
+  .adm-head .brand-bell{ background:var(--main); color:#fff; }
+  .adm-head .brand small{ font-family:var(--kr); font-weight:500; opacity:.6; }
+
+  .container{ max-width:var(--sheet-w); margin:0 auto; padding:18px clamp(16px,4vw,40px) 60px; display:flex; flex-direction:column; gap:16px; }
+  .page-title{ font-family:var(--serif); font-style:italic; font-size:clamp(34px,4.6vw,60px); line-height:.9; letter-spacing:-.05em; color:var(--text); }
+  .page-subtitle{ font-size:13px; color:var(--text-soft); margin-top:-4px; }
+
+  .tabs{ display:flex; gap:4px; flex-wrap:wrap; padding:5px; border-radius:999px; background:var(--main-light); }
+  .tab-btn{ flex:1; min-width:78px; padding:10px 8px; border:0; border-radius:999px; background:transparent;
+    font-family:var(--kr); font-size:12.5px; font-weight:700; color:var(--main-deep); cursor:pointer; transition:.2s; white-space:nowrap; }
+  .tab-btn.active{ background:var(--card); color:var(--main-deep); box-shadow:0 4px 12px rgba(150,110,80,.16); }
+  .tab-panel{ display:none; } .tab-panel.active{ display:block; }
+
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:24px 26px; margin-bottom:16px; }
+  .card-title{ display:flex; align-items:center; gap:9px; margin-bottom:16px;
+    font-family:var(--kr); font-size:15px; font-weight:800; color:var(--text); }
+  .card-title::after{ content:''; flex:1; border-top:1px dotted var(--line); }
+
+  .form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .form-grid .form-field.full, .form-grid .full{ grid-column:1 / -1; }
+  @media (max-width:640px){ .form-grid{ grid-template-columns:1fr; } }
+
+  .hint{ margin-top:6px; font-size:11.5px; line-height:1.75; color:var(--text-soft); }
+  .hint b{ color:var(--main-deep); }
+  .hint code{ padding:2px 6px; border-radius:5px; background:var(--main-light); color:var(--main-deep); font-size:11px; white-space:nowrap; }
+
   .palette{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  .pal-row{ display:grid; grid-template-columns:42px 1fr; grid-template-rows:auto auto; gap:4px 10px; align-items:center; padding:10px 12px; border:1.5px solid var(--main-light); border-radius:12px; }
-  .pal-row input[type=color]{ grid-row:1 / span 2; width:42px; height:42px; border:1.5px solid var(--main-light); border-radius:9px; background:none; cursor:pointer; padding:2px; align-self:center; }
+  .pal-row{ display:grid; grid-template-columns:44px 1fr; grid-template-rows:auto auto; gap:5px 12px; align-items:center;
+    padding:12px 14px; border:1px solid var(--line); border-radius:var(--r-md); }
+  .pal-row input[type=color]{ grid-row:1 / span 2; width:44px; height:44px; padding:2px; border:1px solid var(--line); border-radius:11px; background:none; cursor:pointer; align-self:center; }
   .pal-row label{ font-size:13px; font-weight:800; color:var(--text); }
-  .pal-row .input{ margin:0; height:32px; font-size:12px; padding:4px 8px; }
-  .pal-row .pal-desc{ grid-column:1 / -1; font-size:11px; color:var(--text-soft); margin-top:2px; }
-  @media(max-width:720px){ .palette{ grid-template-columns:1fr; } }
+  .pal-row .input{ height:34px; padding:5px 10px; font-size:12px; margin:0; }
+  .pal-row .pal-desc{ grid-column:1 / -1; font-size:11px; color:var(--text-soft); }
+  @media (max-width:720px){ .palette{ grid-template-columns:1fr; } }
 
   .table-wrap{ overflow-x:auto; }
   .table-wrap table{ width:100%; border-collapse:collapse; }
-  .table-wrap th{ text-align:left; font-size:12px; font-weight:800; color:var(--main-dark); background:var(--main-light); padding:11px 14px; white-space:nowrap; }
-  .table-wrap th:first-child{ border-radius:9px 0 0 9px; }
-  .table-wrap th:last-child{ border-radius:0 9px 9px 0; text-align:center; width:56px; }
-  .table-wrap td{ font-size:13px; padding:12px 14px; border-bottom:1px solid var(--main-light); vertical-align:middle; }
-  .table-wrap td:last-child{ text-align:center; }
+  .table-wrap th{ padding:12px 14px; text-align:left; white-space:nowrap; background:var(--main-light);
+    font-family:var(--sans); font-weight:900; font-size:10px; letter-spacing:.16em; color:var(--main-deep); }
+  .table-wrap th:first-child{ border-radius:10px 0 0 10px; }
+  .table-wrap th:last-child{ border-radius:0 10px 10px 0; width:62px; text-align:center; }
+  .table-wrap td{ padding:13px 14px; border-bottom:1px dotted var(--line); font-size:13.5px; color:var(--text); vertical-align:middle; }
+  .table-wrap td:last-child{ text-align:center; width:62px; }
   .table-wrap tr:last-child td{ border-bottom:0; }
-  .delete-btn{ background:none; border:none; cursor:pointer; color:var(--text-soft); font-size:16px; padding:4px 8px; border-radius:6px; transition:color .2s; }
-  .delete-btn:hover{ color:#e05; }
+  .delete-btn{ border:0; background:none; cursor:pointer; color:var(--text-soft); font-size:15px; padding:5px 8px; border-radius:8px; transition:.2s; }
+  .delete-btn:hover{ color:#C4566A; background:var(--main-light); }
+  .ord-btn{ width:24px; height:19px; padding:0; line-height:1; border:1px solid var(--line); border-radius:6px;
+    background:var(--card); color:var(--main-deep); font-size:9px; cursor:pointer; }
+  .ord-btn:hover:not(:disabled){ background:var(--main-light); }
+  .ord-btn:disabled{ opacity:.3; cursor:default; }
+
+  .badge{ display:inline-block; padding:3px 11px; border-radius:999px; font-size:11.5px; font-weight:700; }
+  .badge-pink{ background:var(--main-light); color:var(--main-deep); }
+
+  .color-pick{ display:flex; gap:9px; flex-wrap:wrap; }
+  .color-pick label{ cursor:pointer; }
+  .color-pick input{ display:none; }
+  .color-pick span{ width:30px; height:30px; border-radius:50%; display:inline-block; }
+  .color-pick input:checked + span{ box-shadow:0 0 0 2px var(--card), 0 0 0 4px var(--main-dark); }
+  .cdot-green{background:#5FB68C}.cdot-pink{background:#EE9FB8}.cdot-yellow{background:#EFC963}
+  .cdot-orange{background:#EDA469}.cdot-blue{background:#77A9DC}.cdot-purple{background:#A78BD1}
+  .cdot-red{background:#DE7878}.cdot-gray{background:#B4A99D}
+
+  .row-line{ display:flex; align-items:center; gap:9px; padding:10px 12px; margin-bottom:8px;
+    background:var(--card); border:1px solid var(--line); border-radius:var(--r-sm); }
+  .check-line{ display:flex; align-items:center; gap:6px; font-size:14px; color:var(--text); }
 </style>
 </head>
-<body>
+<body class="sub">
+<script>if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');</script>
 
 <div class="login-overlay" id="loginOverlay">
   <div class="login-box">
-    <div class="login-title">🔐 Admin</div>
+    <p class="micro" style="margin:0">HAMMOZZI · DREAM ARCHIVE</p>
+    <div class="login-title">Admin</div>
     <div class="login-sub">관리자 비밀번호를 입력하세요</div>
     <input class="input" type="password" id="pwInput" placeholder="비밀번호" onkeydown="if(event.key==='Enter') tryLogin()" style="margin-bottom:10px;text-align:center">
-    <button class="btn btn-primary" style="width:100%" onclick="tryLogin()">입장 ♥</button>
+    <button class="btn btn-primary" style="width:100%" type="button" onclick="tryLogin()">입장 ♡</button>
     <div class="login-err" id="loginErr"></div>
   </div>
 </div>
 
 
 
-<div class="container" id="adminBody" style="display:none">
-  <div class="page-title">관리자 페이지</div>
-  <div class="page-subtitle">수정 후 저장하면 바로 반영돼요 ♡</div>
+<div id="adminBody" style="display:none">
+<div class="adm-head">
+  <a class="brand" href="../" aria-label="햄모찌 홈"><span class="brand-bell">●</span><span>HAMMOZZI</span><small>햄모찌</small></a>
+  <div class="hd-act">
+    <button class="hd-btn" id="dkbox" type="button" aria-label="다크 모드">🌙</button>
+    <a class="hd-ask" href="../" style="display:inline-flex;align-items:center;text-decoration:none">사이트 보기 ↗</a>
+  </div>
+</div>
+<div class="container">
+  <div>
+    <p class="micro" style="margin:0 0 6px">CONTROL ROOM</p>
+    <div class="page-title">Admin</div>
+    <div class="page-subtitle">수정 후 저장하면 사이트에 바로 반영돼요 ♡</div>
+  </div>
 
-  <div class="card" style="padding:6px">
+  <div class="card" style="padding:6px;margin-bottom:0">
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('main',this)">🏠 메인</button>
-      <button class="tab-btn" onclick="switchTab('profile',this)">🎀 프로필</button>
-      <button class="tab-btn" onclick="switchTab('notice',this)">📢 공지</button>
-      <button class="tab-btn" onclick="switchTab('schedule',this)">📅 일정</button>
-      <button class="tab-btn" onclick="switchTab('work',this)">⚡ 업보</button>
-      <button class="tab-btn" onclick="switchTab('song',this)">🎵 노래책</button>
-      <button class="tab-btn" onclick="switchTab('diary',this)">🖼 추억창고</button>
-      <button class="tab-btn" onclick="switchTab('dress',this)">👗 옷장</button>
-      <button class="tab-btn" onclick="switchTab('inquiry',this)">✉️ 문의</button>
-      <button class="tab-btn" onclick="switchTab('theme',this)">🎨 테마</button>
+      <button class="tab-btn active" type="button" onclick="switchTab('main',this)">🏠 메인</button>
+      <button class="tab-btn" type="button" onclick="switchTab('profile',this)">🎀 프로필</button>
+      <button class="tab-btn" type="button" onclick="switchTab('notice',this)">📢 공지</button>
+      <button class="tab-btn" type="button" onclick="switchTab('schedule',this)">📅 일정</button>
+      <button class="tab-btn" type="button" onclick="switchTab('song',this)">🎵 노래책</button>
+      <button class="tab-btn" type="button" onclick="switchTab('diary',this)">📔 메모리</button>
+      <button class="tab-btn" type="button" onclick="switchTab('dress',this)">👗 옷장</button>
+      <button class="tab-btn" type="button" onclick="switchTab('inquiry',this)">✉️ 문의</button>
+      <button class="tab-btn" type="button" onclick="switchTab('theme',this)">🎨 테마</button>
     </div>
   </div>
 
@@ -122,38 +153,28 @@
           <span id="av-ph">🙂</span>
         </div>
         <span style="font-size:12px;color:var(--text-soft)">← 실제로 표시될 프사 미리보기</span>
-        <button class="btn btn-primary" style="margin-left:auto" onclick="saveLocalProfile()">저장 ♥</button>
+        <button class="btn btn-primary" style="margin-left:auto" onclick="saveLocalProfile()">저장 ♡</button>
       </div>
     </div>
     <div class="card">
       <div class="card-title">📋 프로필 정보</div>
       <div class="form-field"><label class="input-label">이름</label><input class="input" id="f-info-name" type="text" placeholder="햄모찌"></div>
       <div class="form-field"><label class="input-label">한마디로 (부제)</label><input class="input" id="f-info-catchphrase" type="text" placeholder="예: 한 줄 소개"></div>
-      <div class="form-field"><label class="input-label">데뷔일</label><input class="input" id="f-info-debut" type="text" placeholder="예: 2024.06.14"></div>
-      <div class="form-field"><label class="input-label">생일 (MM.DD — D-Day 자동계산)</label><input class="input" id="f-info-birth" type="text" placeholder="예: 06.08"></div>
+      <div class="form-field"><label class="input-label">데뷔일</label><input class="input" id="f-info-debut" type="text" placeholder="예: 2026. 01. 06"><div class="hint">프로필 히어로의 <b>DEBUT</b> 칸에 그대로 표시돼요.</div></div>
+      <div class="form-field"><label class="input-label">생일 (MM.DD — D-Day 자동계산)</label><input class="input" id="f-info-birth" type="text" placeholder="예: 10.17"><div class="hint"><code>MM.DD</code> 형식으로 넣어야 프사 옆 <b>D-Day</b>가 자동 계산돼요.</div></div>
       <div class="form-field"><label class="input-label">팬 애칭</label><input class="input" id="f-info-fandom" type="text" placeholder="예: 팬 애칭"></div>
-      <div class="form-field"><label class="input-label">소속</label><input class="input" id="f-info-agency" type="text" placeholder="예: 소속"></div>
-      <div class="form-field"><label class="input-label">영문 이름 (히어로 옆 필기체)</label><input class="input" id="f-info-name-en" type="text" placeholder="예: HAMMOZZI"></div>
-      <div class="form-field"><label class="input-label">읽는 법 / 표기</label><input class="input" id="f-info-reading" type="text" placeholder="예: 햄모찌 / hammozzi"></div>
-      <div class="form-field"><label class="input-label">성별</label><input class="input" id="f-info-gender" type="text" placeholder="예: 여"></div>
-      <div class="form-field"><label class="input-label">종족</label><input class="input" id="f-info-species" type="text" placeholder="예: 햄스터 영물"></div>
+      <div class="form-field"><label class="input-label">MBTI</label><input class="input" id="f-info-mbti" type="text" placeholder="예: MBTI"></div>
       <div class="form-field"><label class="input-label">특징 태그 (쉼표 구분)</label><input class="input" id="f-info-tags" type="text" placeholder="예: 밝음, 착함, 열정 (쉼표 구분)"></div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button></div>
     </div>
 
     <div class="card">
       <div class="card-title">🎮 추가 정보</div>
       <div class="form-field"><label class="input-label">주력 게임</label><input class="input" id="f-info-game" type="text" placeholder="예: 주력 게임"></div>
-      <div class="form-field"><label class="input-label">선호 장르</label><input class="input" id="f-info-genre" type="text" placeholder="예: J-POP · K-POP"></div>
-      <div class="form-field"><label class="input-label">피하는 곡</label><input class="input" id="f-info-avoid" type="text" placeholder="예: 고음 곡"></div>
-      <div class="form-field"><label class="input-label">시그니처 곡</label><input class="input" id="f-info-signature" type="text" placeholder="예: 음율 - 절망 속에서 춤을 추어라"></div>
       <div class="form-field"><label class="input-label">애창곡</label><input class="input" id="f-info-song" type="text" placeholder="예: 애창곡"></div>
-      <div class="form-field"><label class="input-label">컨텐츠</label><input class="input" id="f-info-content" type="text" placeholder="예: 게임 · 소통"></div>
-      <div class="form-field"><label class="input-label">평일 방송 시간</label><input class="input" id="f-sched-weekday" type="text" placeholder="예: 평일 오후 3시"></div>
-      <div class="form-field"><label class="input-label">주말 방송 시간</label><input class="input" id="f-sched-weekend" type="text" placeholder="예: 주말 오후 6시"></div>
-      <div class="form-field"><label class="input-label">프로필 BGM 제목</label><input class="input" id="f-bgm-title" type="text" placeholder="예: 말랑한 꿈의 행진곡"><div class="hint">메인 히어로의 재생 카드에 뜨는 곡 이름이에요.</div></div>
-      <div class="form-field"><label class="input-label">프로필 BGM 파일 주소 (mp3 URL · 선택)</label><input class="input" id="f-bgm-url" type="url" placeholder="https://.../bgm.mp3"><div class="hint">비워두면 재생버튼은 애니메이션만 돌아요. mp3 직링크를 넣으면 실제로 재생돼요.</div></div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+      <div class="form-field"><label class="input-label">컨텐츠</label><input class="input" id="f-info-content" type="text" placeholder="예: CHAT · GAME · SONG"><div class="hint">프로필 <b>ON AIR 티켓</b> 아래 줄에 표시돼요.</div></div>
+      <div class="form-field"><label class="input-label">지금 진행 중 (NOW · 줄바꿈=엔터)</label><textarea class="input" id="f-now" rows="3" placeholder="예: 지금 진행 중인 이벤트"></textarea></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button></div>
     </div>
 
     <div class="card">
@@ -168,30 +189,40 @@
         <input class="input" id="f-dislike-list" type="text" placeholder="당근, 간지럼">
         <div class="hint">쉼표(,)로 구분. 메인·프로필 양쪽에 같이 반영돼요.</div>
       </div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🕒 방송 시간 · 메인 화면</div>
+      <div class="form-field"><label class="input-label">평일 방송 시간</label><input class="input" id="f-live-weekday" type="text" placeholder="예: 평일 오후 3시"><div class="hint">프로필 <b>ON AIR 티켓</b> 큰 글씨 + 메인 하단 <b>NEXT LIVE</b>에 표시돼요.</div></div>
+      <div class="form-field"><label class="input-label">주말 방송 시간</label><input class="input" id="f-live-weekend" type="text" placeholder="예: 주말 오후 6시"></div>
+      <div class="form-field"><label class="input-label">메인 카드 짧은 표기</label><input class="input" id="f-live-short" type="text" placeholder="예: 평일 3PM"><div class="hint">메인 히어로 카드의 <b>LIVE</b> 칸(짧게 들어가는 자리)이에요.</div></div>
+      <div class="form-field"><label class="input-label">메인 배경 일러스트 URL (선택)</label><input class="input" id="f-main-art" type="url" placeholder="https://... .jpg / .png / .webp"><div class="hint">비우면 레포에 들어있는 기본 이미지(<code>assets/hammozzi-memory.webp</code>)를 써요. 가로가 긴 이미지(16:9 이상)를 권장해요.</div></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" type="button" onclick="saveLocalProfile()">저장 ♡</button></div>
     </div>
 
     <div class="card">
       <div class="card-title">📅 방송 요일</div>
       <div class="hint" style="margin-bottom:10px">체크한 요일만 <b>방송</b>으로 표시되고, 체크 안 한 요일은 자동으로 <b>휴방</b>이 돼요.</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px" id="day-checks">
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="0">월</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="1">화</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="2">수</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="3">목</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="4">금</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="5">토</label>
-        <label style="display:flex;align-items:center;gap:4px;font-size:14px"><input type="checkbox" class="day-chk" value="6">일</label>
+        <label class="check-line"><input type="checkbox" class="day-chk" value="0">월</label>
+        <label class="check-line"><input type="checkbox" class="day-chk" value="1">화</label>
+        <label class="check-line"><input type="checkbox" class="day-chk" value="2">수</label>
+        <label class="check-line"><input type="checkbox" class="day-chk" value="3">목</label>
+        <label class="check-line"><input type="checkbox" class="day-chk" value="4">금</label>
+        <label class="check-line"><input type="checkbox" class="day-chk" value="5">토</label>
+        <label class="check-line"><input type="checkbox" class="day-chk" value="6">일</label>
       </div>
       <input type="hidden" id="f-days">
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveDays()">저장 ♥</button></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveDays()">저장 ♡</button></div>
     </div>
     <div class="card">
       <div class="card-title">🔗 관련 링크</div>
-      <div class="form-field"><label class="input-label">SOOP 방송국</label><div class="hint">방송국 주소를 그대로 붙여넣으세요. (예: https://www.sooplive.com/station/hammojji)</div><input class="input" id="f-link-soop" type="url" placeholder="https://"></div>
-      <div class="form-field"><label class="input-label">디스코드</label><input class="input" id="f-link-discord" type="url" placeholder="https://discord.gg/..."></div>
+      <div class="form-field"><label class="input-label">SOOP 방송국</label><input class="input" id="f-link-soop" type="url" placeholder="https://www.sooplive.com/station/hammojji"><div class="hint">메인 헤더 <b>SOOP</b> 버튼 · 프로필 링크에 함께 반영돼요.</div></div>
+      <div class="form-field"><label class="input-label">유튜브</label><input class="input" id="f-link-youtube" type="url" placeholder="https://"></div>
+      <div class="form-field"><label class="input-label">디스코드 (팬 커뮤니티)</label><input class="input" id="f-link-cafe" type="url" placeholder="https://discord.gg/..."><div class="hint">메인·프로필의 <b>DISCORD</b> 버튼 주소예요.</div></div>
       <div class="form-field"><label class="input-label">X (트위터)</label><input class="input" id="f-link-x" type="url" placeholder="https://"></div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button></div>
     </div>
   </div>
 
@@ -200,7 +231,7 @@
       <div class="card-title">⭐ 한마디 & 하고픈 말</div>
       <div class="form-field"><label class="input-label">오늘의 한마디 (줄바꿈=엔터)</label><textarea class="input" id="f-quote" placeholder="예: 오늘도 와줘서 고마워요!" rows="3"></textarea><div class="hint">프로필 페이지 상단 큰 따옴표 문구예요.</div></div>
       <div class="form-field"><label class="input-label">하고픈 말</label><textarea class="input" id="f-msg" rows="3" placeholder="예: 안녕하세요! 햄모찌입니다!"></textarea><div class="hint">메인·프로필의 <b>About</b> 칸에 표시돼요. 줄바꿈=엔터.</div></div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button></div>
     </div>
     <div class="card">
       <div class="card-title">📊 능력치 (프로필 페이지)</div>
@@ -209,7 +240,7 @@
         <textarea class="input" id="f-stats" rows="6" placeholder="텐션:95&#10;성실함:90&#10;친화력:85&#10;열정:100&#10;허당력:40"></textarea>
         <div class="hint"><b>규격</b> — 한 줄에 하나씩 <code>이름:숫자</code> 형식. 숫자는 0~100. 예) <code>텐션:95</code><br>비워두면 기본값(5개)이 그대로 표시돼요.</div>
       </div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button></div>
     </div>
 
     <div class="card">
@@ -219,7 +250,7 @@
         <textarea class="input" id="f-milestones" rows="6" placeholder="달성|팔로워 100명&#10;달성|첫 방송&#10;진행 중|팔로워 500명&#10;준비 중|오프 팬미팅"></textarea>
         <div class="hint"><b>규격</b> — 한 줄에 하나씩 <code>상태|내용</code> 형식. 상태를 <code>달성</code>으로 쓰면 취소선이 그어져요.<br>그 외 아무 글자(진행 중, 준비 중 …)는 그대로 표시됩니다.</div>
       </div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button></div>
     </div>
 
     <div class="card">
@@ -227,16 +258,7 @@
       <div class="form-field"><label class="input-label">좋아하는 음식</label><input class="input" id="f-tmi-food" type="text" placeholder="예: 좋아하는 음식"></div>
       <div class="form-field"><label class="input-label">요즘 듣는 노래</label><input class="input" id="f-tmi-song" type="text" placeholder="예: 애창곡"></div>
       <div class="form-field"><label class="input-label">최근 읽은 책</label><input class="input" id="f-tmi-book" type="text" placeholder="인디"></div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
-    </div>
-    <div class="card">
-      <div class="card-title">📜 모찌 사용설명서 (채팅 규칙)</div>
-      <div class="form-field">
-        <label class="input-label">규칙 내용</label>
-        <textarea class="input" id="f-rules" rows="6" placeholder="· 서로 예의를 지켜주세요.&#10;· 정치 · 종교 등 민감한 주제는 피해주세요."></textarea>
-        <div class="hint">한 줄에 하나씩. 줄바꿈=엔터. 프로필 페이지 <b>모찌 사용설명서</b> 칸에 그대로 표시돼요.</div>
-      </div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button></div>
     </div>
     <div class="card">
       <div class="card-title">🎵 햄모찌 오리지널 곡</div>
@@ -255,6 +277,7 @@
         <b>· 프사</b> — SOOP 아이디만 넣으면 자동 연동. 직접 이미지 URL을 넣으면 그게 우선.<br>
         <b>· 생일</b> — <code>MM.DD</code> (예: 06.08). D-Day가 자동 계산돼요.<br>
         <b>· 방송 요일</b> — 체크한 요일만 방송으로 표시, 나머지는 자동 "휴방".<br>
+        <b>· 방송 시간</b> — 🏠 메인 탭의 <code>방송 시간 · 메인 화면</code> 카드에서 수정해요.<br>
         <b>· 옷장 사진</b> — 세로 <b>3:4 (900×1200 권장)</b>. SOOP 비공개 게시판에 올린 뒤 사진 우클릭 → "이미지 주소 복사"로 얻은 <code>https://stimg.sooplive.com/…</code> 주소를 넣으세요. (게시글 주소 ✗)<br>
         <b>· 공지/일기 이미지</b> — 위와 같은 방법. 원본 글을 지우면 이미지도 깨집니다.<br>
         <b>· VOD</b> — SOOP 다시보기 주소의 <b>숫자 ID만</b> 입력 (예: <code>vod.sooplive.co.kr/player/<b>123456789</b></code>).<br>
@@ -327,93 +350,57 @@
     </div>
   </div>
 
-  <!-- 업보 탭 -->
-  <div class="tab-panel" id="tab-work">
-    <style>
-      .subtabs { display:flex; gap:6px; margin-bottom:14px; }
-      .subtab { padding:9px 16px; border-radius:999px; border:1.5px solid var(--main-light); background:#fff; color:var(--text-soft); font-size:13px; font-weight:600; cursor:pointer; }
-      .subtab.active { background:var(--main); color:var(--on-main); border-color:var(--main); }
-      .subpanel { display:none; } .subpanel.active { display:block; }
-      .vbtn { background:var(--main-light); color:var(--main-dark); border:none; padding:5px 12px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; }
-      .vbtn:hover { background:var(--main); color:var(--on-main); }
-      .vbtn.del { background:#eceef1; color:#cf5b5b; } .vbtn.del:hover { background:#cf5b5b; color:#fff; }
-      .vrow { display:flex; align-items:center; gap:8px; padding:11px 14px; background:#fff; border:1px solid var(--main-light); border-radius:12px; margin-bottom:8px; }
-      .vrow .vn { flex:1; font-size:14px; font-weight:600; color:var(--text); }
-      .vrow .vid { font-size:12px; color:var(--text-soft); }
-      .pick { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; }
-      .pick-item { padding:10px 12px; border:1.5px solid var(--main-light); border-radius:12px; background:#fff; cursor:pointer; }
-      .pick-item.sel { border-color:var(--main); background:var(--main-light); }
-      .pick-item .pn { font-size:14px; font-weight:700; color:var(--text); }
-      .pick-item .pi { font-size:11px; color:var(--text-soft); }
-      .counter-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px; }
-      .counter { display:flex; align-items:center; gap:6px; padding:10px 12px; background:#fff; border:1px solid var(--main-light); border-radius:12px; }
-      .counter .cn { flex:1; font-size:13px; color:var(--text); }
-      .counter .cn .evt { font-size:9px; color:#b07d18; background:#fff0d6; padding:1px 6px; border-radius:999px; margin-left:4px; }
-      .cbtn { width:26px; height:26px; border-radius:50%; border:1.5px solid var(--main-light); background:#fff; color:var(--main-dark); font-weight:700; cursor:pointer; font-size:14px; line-height:1; }
-      .cbtn:hover { background:var(--main); color:var(--on-main); }
-      .cval { min-width:26px; text-align:center; font-weight:800; color:var(--main-dark); }
-      .type-row { display:flex; align-items:center; gap:8px; padding:10px 14px; background:#fff; border:1px solid var(--main-light); border-radius:10px; margin-bottom:7px; }
-      .type-cat { font-size:10px; font-weight:700; padding:2px 9px; border-radius:999px; }
-      .type-cat.일반 { background:var(--main-light); color:var(--main-dark); }
-      .type-cat.이벤트 { background:#fff0d6; color:#b07d18; }
-      .type-name { flex:1; font-size:14px; color:var(--text); }
-    </style>
-
-    <div class="subtabs">
-      <button class="subtab active" onclick="switchSub('assign',this)">📋 업보 부여</button>
-      <button class="subtab" onclick="switchSub('viewers',this)">👥 시청자 관리</button>
-      <button class="subtab" onclick="switchSub('types',this)">🏷 타입 관리</button>
-    </div>
-
-    <!-- 업보 부여 -->
-    <div class="subpanel active" id="sub-assign">
-      <div class="card">
-        <div class="card-title">시청자 선택</div>
-        <input class="input" id="assign-search" placeholder="🔍 시청자 검색..." style="margin-bottom:12px" oninput="renderPick()">
-        <div class="pick" id="pick-list"><div class="spinner"></div></div>
-      </div>
-      <div class="card" id="assign-card" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div class="card-title" id="assign-title" style="margin:0">업보 부여</div>
-          <button class="btn btn-primary" onclick="saveCounts()">💾 저장</button>
+  <!-- 노래책 탭 -->
+  <div class="tab-panel" id="tab-song">
+    <div class="card">
+      <div class="card-title">🎵 노래 추가</div>
+      <div class="form-grid">
+        <div class="form-field"><label class="input-label">곡 제목 *</label><input class="input" id="song-title" placeholder="예: 밤편지"></div>
+        <div class="form-field"><label class="input-label">아티스트</label><input class="input" id="song-artist" placeholder="예: 아이유"></div>
+        <div class="form-field"><label class="input-label">장르</label>
+          <select class="input" id="song-genre">
+            <option value="K-Pop">K-Pop</option><option value="J-Pop">J-Pop</option><option value="Pop">Pop</option>
+            <option value="애교송">애교송</option><option value="기타">기타</option>
+          </select>
         </div>
-        <div class="counter-grid" id="counter-grid"></div>
+        <div class="form-field"><label class="input-label">난이도 (1~5)</label><input class="input" id="song-diff" type="number" min="1" max="5" value="3"></div>
+        <div class="form-field full">
+          <div class="hint">장르는 노래책 페이지의 탭(<code>전체 · K-Pop · J-Pop · Pop · 애교송 · 기타</code>)과 같은 값이에요. 난이도는 페이지에서 점 5개로 표시돼요.</div>
+        </div>
+        <div class="form-field full" style="display:flex;justify-content:flex-end"><button class="btn btn-primary" type="button" onclick="addSong()">+ 추가</button></div>
       </div>
     </div>
+    <div class="card">
+      <div class="card-title">등록된 노래</div>
+      <input class="input" id="song-search" placeholder="🔍 곡명 · 아티스트 검색" style="margin-bottom:12px" oninput="renderSongs()">
+      <div class="table-wrap"><table>
+        <thead><tr><th>제목</th><th>아티스트</th><th>장르</th><th>난이도</th><th>삭제</th></tr></thead>
+        <tbody id="song-list"><tr><td colspan="5"><div class="spinner"></div></td></tr></tbody>
+      </table></div>
+    </div>
+  </div>
 
-    <!-- 시청자 관리 -->
-    <div class="subpanel" id="sub-viewers">
-      <div class="card">
-        <div class="card-title">시청자 추가</div>
-        <div class="form-grid">
-          <div class="form-field"><label class="input-label">닉네임 *</label><input class="input" id="v-nick" placeholder="닉네임"></div>
-          <div class="form-field"><label class="input-label">SOOP 아이디</label><input class="input" id="v-soop" placeholder="user_id"></div>
+  <!-- 메모리(일기) 탭 -->
+  <div class="tab-panel" id="tab-diary">
+    <div class="card">
+      <div class="card-title">📔 메모리 추가</div>
+      <div class="form-grid">
+        <div class="form-field full"><label class="input-label">제목 *</label><input class="input" id="diary-title" placeholder="예: 오늘의 느긋한 하루"></div>
+        <div class="form-field"><label class="input-label">날짜</label><input class="input" id="diary-date" type="date"></div>
+        <div class="form-field"><label class="input-label">한 줄 기분 (선택)</label><input class="input" id="diary-mood" placeholder="예: 나른함"></div>
+        <div class="form-field full"><label class="input-label">내용</label><textarea class="input" id="diary-content" rows="5" placeholder="그날의 이야기를 적어주세요"></textarea></div>
+        <div class="form-field full"><label class="input-label">이미지 링크 (여러 개면 줄바꿈)</label><textarea class="input" id="diary-image-url" rows="2" placeholder="https://... (한 줄에 하나씩)"></textarea>
+          <div class="hint">SOOP <b>비공개 게시판</b>에 이미지를 올린 뒤 → 이미지 <b>우클릭 → “이미지 주소 복사”</b> → 여기에 붙여넣기. (글 주소 ✗ / <code>https://stimg.sooplive.com/…</code> ○)</div>
         </div>
-        <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="addViewer()">+ 추가</button></div>
-      </div>
-      <div class="card">
-        <div class="card-title">시청자 목록</div>
-        <input class="input" id="v-search" placeholder="🔍 검색..." style="margin-bottom:12px" oninput="renderViewers()">
-        <div id="viewer-list"><div class="spinner"></div></div>
+        <div class="form-field full" style="display:flex;justify-content:flex-end"><button class="btn btn-primary" type="button" onclick="addDiary()">+ 추가</button></div>
       </div>
     </div>
-
-    <!-- 타입 관리 -->
-    <div class="subpanel" id="sub-types">
-      <div class="card">
-        <div class="card-title">업보 타입 추가</div>
-        <div class="form-grid">
-          <div class="form-field"><label class="input-label">타입명 *</label><input class="input" id="t-name" placeholder="예: 랜덤 단컷"></div>
-          <div class="form-field"><label class="input-label">카테고리</label>
-            <select class="input" id="t-cat"><option value="일반">일반</option><option value="이벤트">이벤트</option></select>
-          </div>
-        </div>
-        <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="addType()">+ 추가</button></div>
-      </div>
-      <div class="card">
-        <div class="card-title">업보 타입 목록</div>
-        <div id="type-list"><div class="spinner"></div></div>
-      </div>
+    <div class="card">
+      <div class="card-title">등록된 메모리</div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>날짜</th><th>기분</th><th>제목</th><th>삭제</th></tr></thead>
+        <tbody id="diary-list"><tr><td colspan="4"><div class="spinner"></div></td></tr></tbody>
+      </table></div>
     </div>
   </div>
 
@@ -442,51 +429,6 @@
     </div>
   </div>
 
-
-  <!-- 노래책 탭 -->
-  <div class="tab-panel" id="tab-song">
-    <div class="card">
-      <div class="card-title">🎵 곡 추가</div>
-      <div class="form-grid">
-        <div class="form-field full"><label class="input-label">곡 제목 *</label><input class="input" id="song-title" placeholder="예: 첫사랑"></div>
-        <div class="form-field"><label class="input-label">아티스트</label><input class="input" id="song-artist" placeholder="예: 백아"></div>
-        <div class="form-field"><label class="input-label">장르</label>
-          <select class="input" id="song-genre"><option>K-Pop</option><option>J-Pop</option><option>Pop</option><option>애교송</option><option>기타</option></select>
-        </div>
-        <div class="form-field"><label class="input-label">난이도 (1~5 · 별 개수)</label><input class="input" id="song-diff" type="number" min="1" max="5" placeholder="3"></div>
-        <div class="form-field full" style="font-size:11px;color:var(--text-soft);margin-top:-4px">💡 노래책 페이지에서 <b>장르 탭 · 검색</b>으로 찾을 수 있어요. 고음 곡은 난이도를 높게 적어두면 편해요.</div>
-        <div class="form-field full" style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="addSong()">+ 추가</button></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">등록된 곡</div>
-      <div class="form-field"><input class="input" id="song-search" placeholder="🔍 제목 · 아티스트 검색" oninput="renderSongs()"></div>
-      <div class="table-wrap"><table><thead><tr><th>제목</th><th>아티스트</th><th>장르</th><th>난이도</th><th>삭제</th></tr></thead>
-      <tbody id="song-list"><tr><td colspan="5"><div class="spinner"></div></td></tr></tbody></table></div>
-    </div>
-  </div>
-
-  <!-- 추억창고 탭 -->
-  <div class="tab-panel" id="tab-diary">
-    <div class="card">
-      <div class="card-title">🖼 추억 추가</div>
-      <div class="form-grid">
-        <div class="form-field full"><label class="input-label">제목 *</label><input class="input" id="diary-title" placeholder="예: 첫 방송날"></div>
-        <div class="form-field"><label class="input-label">날짜</label><input class="input" id="diary-date" type="date"></div>
-        <div class="form-field"><label class="input-label">기분 / 태그</label><input class="input" id="diary-mood" placeholder="예: 행복 🐹"></div>
-        <div class="form-field full"><label class="input-label">내용</label><textarea class="input" id="diary-content" rows="4" placeholder="그날의 이야기를 적어주세요"></textarea></div>
-        <div class="form-field full"><label class="input-label">이미지 링크 (여러 개면 줄바꿈으로)</label><textarea class="input" id="diary-image-url" rows="2" placeholder="https://... (한 줄에 하나씩)"></textarea></div>
-        <div class="form-field full" style="font-size:11px;color:var(--text-soft);margin-top:-4px">💡 SOOP <b>비공개 게시판</b>에 이미지 올린 뒤 → <b>우클릭 → "이미지 주소 복사"</b>. 여기 올린 <b>최신 4장</b>이 <b>메인 "추억창고"</b> 칸에도 자동으로 떠요. 권장 <b>세로 3:4</b>.</div>
-        <div class="form-field full" style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="addDiary()">+ 추가</button></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">등록된 추억</div>
-      <div class="table-wrap"><table><thead><tr><th>제목</th><th>날짜</th><th>삭제</th></tr></thead>
-      <tbody id="diary-list"><tr><td colspan="3"><div class="spinner"></div></td></tr></tbody></table></div>
-    </div>
-  </div>
-
   <!-- 문의 탭 -->
   <div class="tab-panel" id="tab-inquiry">
     <div class="card">
@@ -500,51 +442,52 @@
     <div class="card">
       <div class="card-title">🎨 색상 팔레트</div>
       <div class="hint" style="margin-bottom:12px">
-        여기서 색을 바꾸면 <b>메인 · 프로필 · 모든 카테고리 페이지</b>에 즉시 반영돼요. (다크모드는 그대로 유지)<br>
+        여기서 색을 바꾸면 <b>모든 서브 페이지</b>에 즉시 반영돼요. (메인은 사진 배경 디자인이라 영향받지 않아요 / 다크모드는 그대로 유지)<br>
         비워두면 기본 색으로 돌아갑니다.
       </div>
       <div class="palette">
-        <div class="pal-row"><input type="color" id="c-theme-main" oninput="syncColor('theme-main')"><label>메인 색</label><input class="input" id="f-theme-main" placeholder="#FFEE9C" oninput="syncHex('theme-main')"><div class="pal-desc">버튼·배지·강조</div></div>
-        <div class="pal-row"><input type="color" id="c-theme-main-dark" oninput="syncColor('theme-main-dark')"><label>진한 메인</label><input class="input" id="f-theme-main-dark" placeholder="#A8801F" oninput="syncHex('theme-main-dark')"><div class="pal-desc">제목·요일 헤더</div></div>
-        <div class="pal-row"><input type="color" id="c-theme-main-deep" oninput="syncColor('theme-main-deep')"><label>더 진한 메인</label><input class="input" id="f-theme-main-deep" placeholder="#8A6A18" oninput="syncHex('theme-main-deep')"><div class="pal-desc">카드 제목</div></div>
-        <div class="pal-row"><input type="color" id="c-theme-main-light" oninput="syncColor('theme-main-light')"><label>연한 메인</label><input class="input" id="f-theme-main-light" placeholder="#FFFBE0" oninput="syncHex('theme-main-light')"><div class="pal-desc">테두리·배경 톤</div></div>
-        <div class="pal-row"><input type="color" id="c-theme-bg" oninput="syncColor('theme-bg')"><label>페이지 배경</label><input class="input" id="f-theme-bg" placeholder="#FFF9E8" oninput="syncHex('theme-bg')"><div class="pal-desc">바깥 배경색</div></div>
-        <div class="pal-row"><input type="color" id="c-theme-logo" oninput="syncColor('theme-logo')"><label>로고 글자</label><input class="input" id="f-theme-logo" placeholder="#8B6FC4" oninput="syncHex('theme-logo')"><div class="pal-desc">상단 로고</div></div>
+        <div class="pal-row"><input type="color" id="c-theme-main" oninput="syncColor('theme-main')"><label>메인 색</label><input class="input" id="f-theme-main" placeholder="#E79FB4" oninput="syncHex('theme-main')"><div class="pal-desc">버튼·배지·강조</div></div>
+        <div class="pal-row"><input type="color" id="c-theme-main-dark" oninput="syncColor('theme-main-dark')"><label>진한 메인</label><input class="input" id="f-theme-main-dark" placeholder="#C9718B" oninput="syncHex('theme-main-dark')"><div class="pal-desc">제목·요일 헤더</div></div>
+        <div class="pal-row"><input type="color" id="c-theme-main-deep" oninput="syncColor('theme-main-deep')"><label>더 진한 메인</label><input class="input" id="f-theme-main-deep" placeholder="#B25D79" oninput="syncHex('theme-main-deep')"><div class="pal-desc">카드 제목</div></div>
+        <div class="pal-row"><input type="color" id="c-theme-main-light" oninput="syncColor('theme-main-light')"><label>연한 메인</label><input class="input" id="f-theme-main-light" placeholder="#FBE6EC" oninput="syncHex('theme-main-light')"><div class="pal-desc">테두리·배경 톤</div></div>
+        <div class="pal-row"><input type="color" id="c-theme-bg" oninput="syncColor('theme-bg')"><label>페이지 배경</label><input class="input" id="f-theme-bg" placeholder="#FBF3E5" oninput="syncHex('theme-bg')"><div class="pal-desc">바깥 배경색</div></div>
+        <div class="pal-row"><input type="color" id="c-theme-logo" oninput="syncColor('theme-logo')"><label>로고 글자</label><input class="input" id="f-theme-logo" placeholder="#4A3D34" oninput="syncHex('theme-logo')"><div class="pal-desc">상단 로고</div></div>
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
         <button class="btn" onclick="resetPalette()">기본값으로</button>
-        <button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button>
+        <button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button>
       </div>
     </div>
     <div class="card">
       <div class="card-title">💡 팔레트 안내</div>
       <div class="hint" style="line-height:2">
-        여기서 바꾼 색은 <b>메인·프로필·공지·일정·노래책·업보·옷장·추억창고 전 페이지</b>에 한 번에 적용돼요.<br>
-        각 색을 바꾸고 <b>저장 ♥</b>을 누르면 사이트에 반영됩니다. (다크모드 색은 그대로 유지)<br>
-        <b>기본값으로</b> 버튼을 누르면 햄모찌 기본 노랑 팔레트로 되돌아가요.
+        여기서 바꾼 색은 <b>프로필 · 일정 · 노래책 · 공지 · 메모리 · 옷장</b> 전 페이지에 한 번에 적용돼요.<br>
+        각 색을 바꾸고 <b>저장 ♡</b>을 누르면 사이트에 반영됩니다. (다크모드 색은 그대로 유지)<br>
+        <b>기본값으로</b> 버튼을 누르면 햄모찌 기본 색으로 되돌아가요.
       </div>
     </div>
   </div>
 
 
 </div>
-<footer>© 2026 햄모찌 관리자 ♥</footer>
+</div>
+<footer><b>HAMMOZZI · CONTROL ROOM</b><br>© 2026 HAMMOZZI Official.</footer>
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../supabase.js"></script>
 <script>
-  const ADMIN_PASSWORD = '1234';
+  const ADMIN_PASSWORD = '{{관리자비밀번호}}';   // ← 버리는 비밀번호로 바꿔주세요 (소스에 그대로 보입니다)
 
+  /* ★ 페이지가 읽는 키 = 이 배열 = f-{키} 입력칸  — 세 집합이 항상 같아야 합니다 (§2-B.1) */
   const profileKeys = [
     'avatar','soop-id',
-    'info-name','info-name-en','info-reading','info-catchphrase','info-debut','info-birth',
-    'info-fandom','info-agency','info-gender','info-species','info-tags',
-    'info-game','info-genre','info-avoid','info-signature','info-song','info-content',
-    'sched-weekday','sched-weekend','bgm-title','bgm-url',
-    'quote','msg','rules','like-list','dislike-list','stats','milestones',
+    'info-name','info-catchphrase','info-debut','info-birth','info-fandom',
+    'info-mbti','info-game','info-song','info-content','info-tags',
+    'live-weekday','live-weekend','live-short','main-art',
+    'quote','msg','now','like-list','dislike-list','stats','milestones',
     'tmi-food','tmi-song','tmi-book','days',
-    'link-soop','link-x','link-discord',
+    'link-soop','link-youtube','link-x','link-cafe',
     'theme-main','theme-main-dark','theme-main-deep','theme-main-light','theme-bg','theme-logo'
   ];
 
@@ -553,7 +496,7 @@
       document.getElementById('loginOverlay').style.display = 'none';
       document.getElementById('adminBody').style.display = 'flex';
       loadProfileFields();
-      loadNotice(); loadSchedule(); loadWork(); loadDiary(); loadSong(); loadDress(); loadInquiry(); loadOriginalSongs();
+      loadNotice(); loadSchedule(); loadDiary(); loadSong(); loadDress(); loadInquiry(); loadOriginalSongs();
     } else {
       document.getElementById('loginErr').textContent = '비밀번호가 틀렸어요 >﹏<';
     }
@@ -609,12 +552,66 @@
     if (error) { showToast('❌ 저장 실패: ' + error.message); return; }
     showToast('✅ 저장됐어요!');
   }
+  function showCurrentAvatar(url) {
+    const cur = document.getElementById('current-avatar');
+    const none = document.getElementById('no-avatar');
+    const delBtn = document.getElementById('delete-avatar-btn');
+    if (!cur || !none) return;   // 프사는 SOOP 연동 전용 → 업로드/미리보기 UI 없음
+    if (url) {
+      cur.src = url; cur.style.display = 'inline-block'; none.style.display = 'none';
+      if (delBtn) delBtn.style.display = 'inline-flex';
+    } else {
+      cur.style.display = 'none'; none.style.display = 'inline';
+      if (delBtn) delBtn.style.display = 'none';
+    }
+  }
+  async function deleteAvatar() {
+    if (!confirm('프로필 사진을 삭제할까요?\n(삭제하면 SOOP 아이디 프사가 적용돼요)')) return;
+    let saved = {};
+    try {
+      const { data: rows } = await db.from('profile').select('data').eq('id', 1);
+      if (rows && rows.length > 0 && rows[0].data) saved = rows[0].data;
+    } catch(e) {}
+    saved['avatar'] = '';
+    const { error } = await db.from('profile').upsert({ id: 1, data: saved });
+    if (error) { showToast('❌ 삭제 실패: ' + error.message); return; }
+    showCurrentAvatar('');
+    showToast('🗑 사진 삭제됨! 이제 SOOP 아이디 프사가 떠요');
+  }
+  function previewUpload() {
+    const file = document.getElementById('avatar-file').files[0];
+    if (!file) return;
+    document.getElementById('avatar-preview').src = URL.createObjectURL(file);
+    document.getElementById('avatar-preview').style.display = 'block';
+    document.getElementById('upload-btn').style.display = 'inline-flex';
+  }
+  async function uploadAvatar() {
+    const file = document.getElementById('avatar-file').files[0];
+    if (!file) return;
+    const status = document.getElementById('upload-status');
+    status.textContent = '업로드 중...';
+    const ext = file.name.split('.').pop();
+    const { data, error } = await db.storage.from('images').upload('profile.' + ext, file, { upsert: true });
+    if (error) { status.textContent = '❌ 업로드 실패: ' + error.message; return; }
+    const { data: u } = db.storage.from('images').getPublicUrl('profile.' + ext);
+    const url = u.publicUrl + '?t=' + Date.now();
+    let saved = {};
+    try {
+      const { data: rows } = await db.from('profile').select('data').eq('id', 1);
+      if (rows && rows.length > 0 && rows[0].data) saved = rows[0].data;
+    } catch(e) {}
+    saved['avatar'] = url;
+    await db.from('profile').upsert({ id: 1, data: saved });
+    showCurrentAvatar(url);
+    status.textContent = '✅ 완료!';
+    showToast('✅ 프로필 사진 저장!');
+  }
 
   // ── 공지 ──
   async function loadNotice() {
     const data = await fetchAll('notice', { order: 'created_at', asc: false });
     const t = document.getElementById('noti-list');
-    if (!data.length) { t.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#ccc;padding:20px">없음</td></tr>'; return; }
+    if (!data.length) { t.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#ccc;padding:20px">없음</td></tr>'; return; }
     t.innerHTML = data.map(n => `<tr><td>${n.title}</td><td>${n.pinned?'📌':'-'}</td><td>${new Date(n.created_at).toLocaleDateString()}</td><td><button class="delete-btn" onclick="del('notice',${n.id},loadNotice)">🗑</button></td></tr>`).join('');
   }
   async function addNotice() {
@@ -662,155 +659,21 @@
     } else showToast('❌ 실패');
   }
 
-  // ── 업보 시스템 v2 ──
-  let viewers = [], types = [], counts = [];
-  let currentViewer = null, editCounts = {};
-
-  function switchSub(name, btn) {
-    document.querySelectorAll('.subpanel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.subtab').forEach(b => b.classList.remove('active'));
-    document.getElementById('sub-' + name).classList.add('active');
-    btn.classList.add('active');
-  }
-
-  async function loadWork() {
-    [viewers, types, counts] = await Promise.all([
-      fetchAll('viewers', { order:'sort_order', asc:true }),
-      fetchAll('upbo_types', { order:'sort_order', asc:true }),
-      fetchAll('upbo_counts', { order:'id', asc:true })
-    ]);
-    renderPick(); renderViewers(); renderTypes();
-    if (currentViewer) openAssign(currentViewer);
-  }
-
-  /* ===== 업보 부여 ===== */
-  function renderPick() {
-    const q = (document.getElementById('assign-search')?.value || '').trim().toLowerCase();
-    const list = viewers.filter(v => (v.nickname||'').toLowerCase().includes(q) || (v.soop_id||'').toLowerCase().includes(q));
-    const el = document.getElementById('pick-list');
-    if (!viewers.length) { el.innerHTML = '<div style="color:var(--text-soft);font-size:13px">먼저 시청자를 추가하세요</div>'; return; }
-    el.innerHTML = list.map(v => `
-      <div class="pick-item ${currentViewer===v.id?'sel':''}" onclick="openAssign(${v.id})">
-        <div class="pn">${v.nickname}</div>
-        <div class="pi">${v.soop_id||'-'}</div>
-      </div>`).join('');
-  }
-  function openAssign(vid) {
-    currentViewer = vid;
-    const v = viewers.find(x=>x.id===vid);
-    if (!v) return;
-    editCounts = {};
-    counts.filter(c=>c.viewer_id===vid).forEach(c=>{ editCounts[c.type_id]=c.count; });
-    document.getElementById('assign-title').textContent = `${v.nickname} 업보 부여`;
-    document.getElementById('assign-card').style.display = 'block';
-    renderPick();
-    if (!types.length) { document.getElementById('counter-grid').innerHTML = '<div style="color:var(--text-soft);font-size:13px">먼저 타입을 추가하세요</div>'; return; }
-    document.getElementById('counter-grid').innerHTML = types.map(t => `
-      <div class="counter">
-        <span class="cn">${t.name}${t.category==='이벤트'?'<span class="evt">이벤트</span>':''}</span>
-        <button class="cbtn" onclick="bump(${t.id},-1)">−</button>
-        <span class="cval" id="cv-${t.id}">${editCounts[t.id]||0}</span>
-        <button class="cbtn" onclick="bump(${t.id},1)">+</button>
-      </div>`).join('');
-  }
-  function bump(tid, d) {
-    editCounts[tid] = Math.max(0, (editCounts[tid]||0) + d);
-    document.getElementById('cv-'+tid).textContent = editCounts[tid];
-  }
-  async function saveCounts() {
-    if (!currentViewer) return;
-    const rows = types.map(t => ({ viewer_id: currentViewer, type_id: t.id, count: editCounts[t.id]||0, updated_at: new Date().toISOString() }));
-    const { error } = await db.from('upbo_counts').upsert(rows, { onConflict: 'viewer_id,type_id' });
-    if (error) { showToast('❌ 저장 실패: ' + error.message); return; }
-    showToast('✅ 저장됐어요!');
-    counts = await fetchAll('upbo_counts', { order:'id', asc:true });
-  }
-
-  /* ===== 시청자 관리 ===== */
-  function renderViewers() {
-    const q = (document.getElementById('v-search')?.value || '').trim().toLowerCase();
-    const list = viewers.filter(v => (v.nickname||'').toLowerCase().includes(q) || (v.soop_id||'').toLowerCase().includes(q));
-    const el = document.getElementById('viewer-list');
-    if (!viewers.length) { el.innerHTML = '<div style="color:var(--text-soft);font-size:13px;text-align:center;padding:16px">시청자가 없어요</div>'; return; }
-    el.innerHTML = list.map(v => `
-      <div class="vrow">
-        <span class="vn">${v.nickname}</span>
-        <span class="vid">${v.soop_id||'-'}</span>
-        <button class="vbtn" onclick="editViewer(${v.id})">수정</button>
-        <button class="vbtn del" onclick="delViewer(${v.id})">삭제</button>
-      </div>`).join('');
-  }
-  async function addViewer() {
-    const nick = document.getElementById('v-nick').value.trim();
-    if (!nick) { showToast('❗ 닉네임 필수!'); return; }
-    const maxOrder = viewers.reduce((m,v)=>Math.max(m, v.sort_order||0), 0);
-    const ok = await insertRow('viewers', { nickname: nick, soop_id: document.getElementById('v-soop').value.trim(), sort_order: maxOrder+1 });
-    if (ok) { showToast('✅ 추가!'); document.getElementById('v-nick').value=''; document.getElementById('v-soop').value=''; loadWork(); }
-    else showToast('❌ 실패');
-  }
-  async function editViewer(id) {
-    const v = viewers.find(x=>x.id===id);
-    const nick = prompt('닉네임', v.nickname); if (nick===null) return;
-    const sid = prompt('SOOP 아이디', v.soop_id||''); if (sid===null) return;
-    await updateRow('viewers', id, { nickname: nick.trim(), soop_id: sid.trim() });
-    showToast('✅ 수정!'); loadWork();
-  }
-  async function delViewer(id) {
-    if (!confirm('이 시청자를 삭제할까요?\n(업보 기록도 함께 사라져요)')) return;
-    await db.from('upbo_counts').delete().eq('viewer_id', id);
-    await deleteRow('viewers', id);
-    if (currentViewer===id) { currentViewer=null; document.getElementById('assign-card').style.display='none'; }
-    showToast('🗑 삭제!'); loadWork();
-  }
-
-  /* ===== 타입 관리 ===== */
-  function renderTypes() {
-    const el = document.getElementById('type-list');
-    if (!types.length) { el.innerHTML = '<div style="color:var(--text-soft);font-size:13px;text-align:center;padding:16px">타입이 없어요</div>'; return; }
-    el.innerHTML = types.map(t => `
-      <div class="type-row">
-        <span class="type-cat ${t.category}">${t.category}</span>
-        <span class="type-name">${t.name}</span>
-        <button class="vbtn" onclick="editType(${t.id})">수정</button>
-        <button class="vbtn del" onclick="delType(${t.id})">삭제</button>
-      </div>`).join('');
-  }
-  async function addType() {
-    const name = document.getElementById('t-name').value.trim();
-    if (!name) { showToast('❗ 타입명 필수!'); return; }
-    const maxOrder = types.reduce((m,t)=>Math.max(m, t.sort_order||0), 0);
-    const ok = await insertRow('upbo_types', { name, category: document.getElementById('t-cat').value, sort_order: maxOrder+1 });
-    if (ok) { showToast('✅ 추가!'); document.getElementById('t-name').value=''; loadWork(); }
-    else showToast('❌ 실패');
-  }
-  async function editType(id) {
-    const t = types.find(x=>x.id===id);
-    const name = prompt('타입명', t.name); if (name===null) return;
-    const cat = prompt('카테고리 (일반 / 이벤트)', t.category); if (cat===null) return;
-    await updateRow('upbo_types', id, { name: name.trim(), category: (cat.trim()==='이벤트'?'이벤트':'일반') });
-    showToast('✅ 수정!'); loadWork();
-  }
-  async function delType(id) {
-    if (!confirm('이 타입을 삭제할까요?\n(관련 업보 기록도 함께 사라져요)')) return;
-    await db.from('upbo_counts').delete().eq('type_id', id);
-    await deleteRow('upbo_types', id);
-    showToast('🗑 삭제!'); loadWork();
-  }
-
   // ── 일기 ──
   async function loadDiary() {
     const data = await fetchAll('diary', { order: 'diary_date', asc: false });
     const t = document.getElementById('diary-list');
-    if (!data.length) { t.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#ccc;padding:20px">없음</td></tr>'; return; }
-    t.innerHTML = data.map(d => `<tr><td>${d.title||'-'}</td><td>${d.diary_date||'-'}</td><td><button class="delete-btn" onclick="del('diary',${d.id},loadDiary)">🗑</button></td></tr>`).join('');
+    if (!t) return;
+    if (!data.length) { t.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--text-soft);padding:22px">아직 없어요</td></tr>'; return; }
+    t.innerHTML = data.map(d => `<tr><td>${d.diary_date||'-'}</td><td>${(d.mood||'-').replace(/</g,'&lt;')}</td><td>${(d.title||'').replace(/</g,'&lt;')}</td><td><button class="delete-btn" type="button" onclick="del('diary',${d.id},loadDiary)">🗑</button></td></tr>`).join('');
   }
   async function addDiary() {
     const title = document.getElementById('diary-title').value.trim();
     if (!title) { showToast('❗ 제목 필수!'); return; }
     const images = document.getElementById('diary-image-url').value.split(/[\n,]+/).map(s=>s.trim()).filter(Boolean);
     const image_url = images[0] || null;
-    const ok = await insertRow('diary', { title, content: document.getElementById('diary-content').value, mood: document.getElementById('diary-mood').value, diary_date: document.getElementById('diary-date').value, image_url, images });
-    if (ok) { showToast('✅ 추가!'); ['diary-title','diary-content','diary-date','diary-image-url','diary-mood'].forEach(id=>document.getElementById(id).value=''); loadDiary(); }
+    const ok = await insertRow('diary', { title, content: document.getElementById('diary-content').value, mood: (document.getElementById('diary-mood').value||''), diary_date: document.getElementById('diary-date').value || null, image_url, images });
+    if (ok) { showToast('✅ 추가!'); ['diary-title','diary-content','diary-date','diary-image-url','diary-mood'].forEach(id=>{var e=document.getElementById(id); if(e) e.value='';}); loadDiary(); }
     else showToast('❌ 실패');
   }
 
@@ -830,6 +693,7 @@
     const q = (document.getElementById('song-search')?.value || '').trim().toLowerCase();
     const list = songData.filter(s => !q || (s.title||'').toLowerCase().includes(q) || (s.artist||'').toLowerCase().includes(q));
     const t = document.getElementById('song-list');
+    if (!t) return;
     if (!songData.length) { t.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#ccc;padding:20px">없음</td></tr>'; return; }
     t.innerHTML = list.map(s => {
       const d = parseInt(s.difficulty)||0; let stars=''; for(let k=1;k<=d;k++) stars+='⭐';
@@ -852,7 +716,7 @@
     const el = document.getElementById('inquiry-list');
     if (!data.length) { el.innerHTML = '<div style="text-align:center;color:#ccc;padding:30px">문의가 없어요</div>'; return; }
     el.innerHTML = data.map(q => `
-      <div style="background:#fff;border:1px solid var(--main-light);border-radius:12px;padding:14px 16px;margin-bottom:9px">
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:9px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
           <span style="font-size:14px;font-weight:700;color:var(--main-dark)">${q.nickname||'익명'}</span>
           <span style="font-size:11px;color:var(--text-soft)">${(q.created_at||'').slice(0,16).replace('T',' ')}</span>
@@ -869,7 +733,7 @@
     if (!el) return;
     if (!data.length) { el.innerHTML = '<div style="font-size:13px;color:#ccc;text-align:center;padding:10px">등록된 곡 없음</div>'; return; }
     el.innerHTML = data.map(s => `
-      <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:#fff;border:1px solid var(--main-light);border-radius:10px;margin-bottom:7px">
+      <div style="display:flex;align-items:center;gap:8px;padding:10px 13px;background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:7px">
         <span style="flex:1;font-size:14px;font-weight:600">${(s.title||'').replace(/</g,'&lt;')}</span>
         <span style="font-size:11px;color:var(--text-soft)">${s.vod_id||''}</span>
         <button class="delete-btn" onclick="del('original_songs',${s.id},loadOriginalSongs)">🗑</button>
@@ -928,7 +792,7 @@
       const arr = dressCache.filter(d=>d.category===key).sort(dressByOrder);
       const shown = arr.filter(match);
       if(!shown.length) return;
-      html += `<div style="font-size:12px;font-weight:700;color:var(--main-deep);margin:14px 0 7px;letter-spacing:.05em">${label} <span style="color:var(--text-soft);font-weight:500">· ${shown.length}개</span></div>`;
+      html += `<div style="font-size:12px;font-weight:700;color:var(--main);margin:14px 0 7px;letter-spacing:.05em">${label} <span style="color:var(--text-soft);font-weight:500">· ${shown.length}개</span></div>`;
       html += shown.map(d=>row(d, arr.indexOf(d), arr.length)).join('');
     });
 
@@ -1002,10 +866,23 @@
   }
 </script>
 <script>
+/* 다크 모드 토글 */
+(function(){
+  var b = document.getElementById('dkbox');
+  function paint(){ if(b) b.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+  if(b) b.addEventListener('click', function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    paint();
+  });
+  paint();
+})();
+</script>
+<script>
 /* 🎨 색상 팔레트 */
 const PAL_DEFAULT = {
-  'theme-main':'#FFEE9C', 'theme-main-dark':'#A8801F', 'theme-main-deep':'#8A6A18',
-  'theme-main-light':'#FFFBE0', 'theme-bg':'#FFF9E8', 'theme-logo':'#8B6FC4'
+  'theme-main':'#E79FB4', 'theme-main-dark':'#C9718B', 'theme-main-deep':'#B25D79',
+  'theme-main-light':'#FBE6EC', 'theme-bg':'#FBF3E5', 'theme-logo':'#4A3D34'
 };
 function syncColor(k){
   const c=document.getElementById('c-'+k), f=document.getElementById('f-'+k);

@@ -16,9 +16,9 @@
    ============================================================ */
 
 /* ─────────── 설정 (이 사람에 맞게 바꾸세요) ─────────── */
-var FX_FLOAT = ['♡','✦','🎀','♡','✧','🔔'];   // 떠다니는 입자 모양 (햄모찌: 하트·리본·방울)
+var FX_FLOAT = ['♡','✦','♡','✧','·','✦'];   // 떠다니는 입자 모양 (햄모찌 = 하트 + 반짝)
 var FX_CLICK = '♡';                           // 클릭/프사톡 모양. 글자·이모지 또는 이미지(data:… / https://… .svg·.png)도 가능
-var FX_COUNT = 16;                            // 떠다니는 입자 개수 (많을수록 무거움)
+var FX_COUNT = 13;                            // 떠다니는 입자 개수 (많을수록 무거움)
 var FX_TILT  = true;                          // 카드 마우스오버 살짝 기울기 (끄려면 false)
 
 /* ─ 로딩화면 + 페이지 전환(커지는 등장) — 보통 그대로 두세요 ─ */
@@ -38,8 +38,6 @@ var FX_TRANS_MS    = 800;    // 커지는 등장 길이(ms). 더 느리게 = 숫
   var css = `
     body::before{ display:none !important; }            /* 빽빽한 정적 배경무늬 끄기 */
     #fx{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
-    .fx-bounce{ animation: fxAvBounce .55s cubic-bezier(.34,1.56,.64,1); }
-    @keyframes fxAvBounce{ 0%{transform:scale(1)} 30%{transform:scale(.94) translateY(4px)} 60%{transform:scale(1.04) translateY(-6px)} 100%{transform:scale(1)} }
     .fx-p{ position:absolute; top:-26px; color:var(--main); opacity:0; will-change:transform,opacity; animation:fxFall linear infinite; }
     @keyframes fxFall{
       0%{ transform:translateY(-26px) translateX(0) rotate(0); opacity:0; }
@@ -180,11 +178,7 @@ var FX_TRANS_MS    = 800;    // 커지는 등장 길이(ms). 더 느리게 = 숫
     var av = document.querySelector('.avatar-wrap, #avatarWrap, .avatar');
     if (av && !av.dataset.fxPop) {
       av.dataset.fxPop = '1'; av.style.cursor = 'pointer';
-      av.addEventListener('click', function (e) {
-        window.fxHearts(e.clientX, e.clientY, 10);
-        if (mqReduce) return;
-        av.classList.remove('fx-bounce'); void av.offsetWidth; av.classList.add('fx-bounce');
-      });
+      av.addEventListener('click', function (e) { window.fxHearts(e.clientX, e.clientY, 10); });
     }
   }
 

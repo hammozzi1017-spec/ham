@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="햄모찌 CLOSET">
+<title>햄모찌 · CLOSET</title>
+<link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
+<link rel="stylesheet" href="../style.css">
+<style>
+.mode-seg{ display:inline-flex; gap:4px; padding:4px; border-radius:999px; background:var(--main-light); }
+  .seg-btn{ border:0; background:transparent; color:var(--main-deep); font-family:var(--kr); font-size:13px; font-weight:700; padding:9px 18px; border-radius:999px; cursor:pointer; transition:.2s; white-space:nowrap; }
+  .seg-btn.active{ background:var(--card); color:var(--main-deep); box-shadow:0 4px 12px rgba(150,110,80,.14); }
+  .cat-tabs{ display:flex; gap:7px; flex-wrap:wrap; margin-top:14px; }
+  .cat-tab{ display:inline-flex; align-items:center; gap:7px; padding:9px 17px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--text-mid); font-family:var(--kr); font-size:13px; font-weight:700; cursor:pointer; transition:.2s; }
+  .cat-tab:hover{ border-color:var(--main); color:var(--main-deep); }
+  .cat-tab.active{ background:var(--main-dark); color:#fff; border-color:var(--main-dark); }
+  .cat-tab .cnt{ font-family:var(--sans); font-weight:900; font-size:10px; padding:1px 7px; border-radius:999px; background:var(--main-light); color:var(--main-deep); }
+  .cat-tab.active .cnt{ background:rgba(255,255,255,.26); color:#fff; }
+
+  /* 새 옷 = 포스터 */
+  .poster-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:22px; }
+  @media (max-width:900px){ .poster-grid{ grid-template-columns:repeat(2,1fr); gap:14px; } }
+  @media (max-width:520px){ .poster-grid{ grid-template-columns:1fr; } }
+  .poster{ position:relative; aspect-ratio:3/4; border-radius:var(--r-md); overflow:hidden; cursor:pointer; background:linear-gradient(160deg,#FBE7D5,#F3D5E2); border:1px solid var(--line); box-shadow:var(--shadow); transition:transform .25s, box-shadow .25s; }
+  .poster:hover{ transform:translateY(-6px); box-shadow:var(--shadow-hover); }
+  .poster img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+  .poster:hover img{ transform:scale(1.05); }
+  .poster .ph-ph{ position:absolute; inset:0; display:grid; place-items:center; font-size:40px; opacity:.4; }
+  .poster::before{ content:''; position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(to bottom, rgba(60,40,30,.34), transparent 30%, transparent 46%, rgba(48,32,24,.82)); }
+  .poster .frame{ position:absolute; inset:11px; border:1px solid rgba(255,255,255,.5); border-radius:12px; z-index:3; pointer-events:none; }
+  .poster .p-top{ position:absolute; top:0; left:0; right:0; z-index:4; padding:17px 18px; display:flex; align-items:flex-start; justify-content:space-between; gap:8px; color:#fff; }
+  .poster .p-brand{ font-family:var(--sans); font-weight:900; font-size:9.5px; letter-spacing:.24em; text-shadow:0 1px 4px rgba(0,0,0,.5); }
+  .poster .p-new{ padding:3px 10px; border-radius:999px; background:var(--main); color:#fff; font-family:var(--sans); font-weight:900; font-size:9px; letter-spacing:.14em; }
+  .poster .p-bottom{ position:absolute; left:0; right:0; bottom:0; z-index:4; padding:18px; color:#fff; }
+  .poster .p-cat{ display:inline-block; padding:3px 11px; border-radius:999px; border:1px solid rgba(255,255,255,.42); background:rgba(255,255,255,.16); font-family:var(--sans); font-weight:900; font-size:9px; letter-spacing:.14em; margin-bottom:11px; }
+  .poster .p-name{ font-family:var(--serif); font-style:italic; font-size:24px; line-height:1.12; text-shadow:0 2px 10px rgba(0,0,0,.55); word-break:keep-all; }
+  .poster .p-meta{ margin-top:8px; font-family:var(--sans); font-weight:800; font-size:10px; letter-spacing:.12em; opacity:.9; }
+  .poster .p-desc{ margin-top:7px; font-size:11.5px; line-height:1.5; opacity:.86; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+  /* 기존 옷 = 그리드 */
+  .item-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:15px; margin-top:22px; }
+  @media (max-width:900px){ .item-grid{ grid-template-columns:repeat(3,1fr); gap:12px; } }
+  @media (max-width:560px){ .item-grid{ grid-template-columns:repeat(2,1fr); gap:10px; } }
+  .item-card{ position:relative; aspect-ratio:3/4; border-radius:var(--r-md); overflow:hidden; cursor:pointer; background:linear-gradient(160deg,#FBE7D5,#F3D5E2); border:1px solid var(--line); transition:transform .22s, box-shadow .22s; }
+  .item-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-hover); }
+  .item-card img{ width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease; }
+  .item-card:hover img{ transform:scale(1.05); }
+  .item-card .ph{ position:absolute; inset:0; display:grid; place-items:center; font-size:34px; opacity:.4; }
+  .item-cap{ position:absolute; left:0; right:0; bottom:0; padding:26px 14px 13px; background:linear-gradient(to top, rgba(48,32,24,.8), rgba(48,32,24,.22) 58%, transparent); color:#fff; pointer-events:none; }
+  .item-cap .name{ font-size:14px; font-weight:700; line-height:1.3; }
+  .item-cap .desc{ margin-top:3px; font-size:11px; opacity:.88; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+  /* 라이트박스 */
+  .lightbox{ position:fixed; inset:0; background:rgba(40,28,22,.88); display:none; align-items:center; justify-content:center; z-index:600; padding:24px; }
+  .lightbox.open{ display:flex; }
+  .lightbox .inner{ display:flex; flex-direction:column; align-items:center; max-width:92%; max-height:90%; }
+  .lightbox img{ max-width:100%; max-height:74vh; border-radius:var(--r-md); box-shadow:0 20px 60px rgba(0,0,0,.5); }
+  .lightbox-cap{ margin-top:18px; text-align:center; color:#FFF6E9; }
+  .lightbox-cap .lb-name{ font-family:var(--serif); font-style:italic; font-size:22px; }
+  .lightbox-cap .lb-desc{ margin-top:6px; font-size:13px; opacity:.8; max-width:520px; line-height:1.6; }
+  .lightbox-close{ position:absolute; top:18px; right:24px; color:#fff; font-size:34px; cursor:pointer; line-height:1; opacity:.85; }
+</style>
+</head>
+<body class="sub">
+<script>if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');</script>
+
+<header class="head-cream">
+  <a class="brand" href="../" aria-label="햄모찌 홈">
+    <span class="brand-bell">●</span><span>HAMMOZZI</span><small>햄모찌</small>
+  </a>
+  <nav class="main-nav nav-ink" aria-label="메인 메뉴">
+    <a href="../profile/">PROFILE</a>
+    <a href="../schedule/">SCHEDULE</a>
+    <a href="../song/">SONG BOOK</a>
+    <a href="../notice/">NOTICE</a>
+    <a href="../memory/">MEMORY</a>
+    <a href="../closet/" class="on">CLOSET</a>
+  </nav>
+  <div class="hd-act">
+    <button class="hd-btn" id="dkbox" type="button" aria-label="다크 모드">🌙</button>
+    <button class="hd-ask" type="button" onclick="openAsk()">ASK ✉</button>
+  </div>
+</header>
+
+<main class="sheet wrap">
+  <div class="stagger">
+<section class="phero">
+  <span class="ghost">room</span>
+  <div class="ph-in">
+    <div class="kick"><span class="no">FILE NO.06</span> DRESS ROOM</div>
+    <h1>Dress<em>room</em></h1>
+    <p class="ph-kr">햄모찌의 옷장이에요. 새로 입은 옷은 <b>포스터</b>로, 이미 입었던 옷은 <b>기존 옷</b>에 정리해 둘게요.</p>
+  </div>
+  <div class="ph-rail">
+    <p><span class="micro">ITEMS</span><b id="rail-count">—</b></p>
+    <p><span class="micro">NEW</span><b id="rail-new">—</b></p>
+  </div>
+</section>
+
+<section class="panel mt14">
+  <div class="kick"><span class="no">RACK</span> PICK A LOOK</div>
+  <div class="sec-t mt14"><h2>Wardrobe</h2><span>이미지를 누르면 크게 볼 수 있어요</span></div>
+  <div class="mode-seg" id="mode-seg">
+    <button class="seg-btn active" type="button" data-mode="new">✨ 새 옷</button>
+    <button class="seg-btn" type="button" data-mode="old">🗂 기존 옷</button>
+  </div>
+  <div class="cat-tabs" id="cat-tabs"></div>
+  <div id="dress-body"><div class="spinner"></div></div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLb()">
+  <span class="lightbox-close" onclick="closeLb()">×</span>
+  <div class="inner">
+    <img id="lb-img" src="" alt="">
+    <div class="lightbox-cap">
+      <div class="lb-name" id="lb-name"></div>
+      <div class="lb-desc" id="lb-desc"></div>
+    </div>
+  </div>
+</div>
+  </div>
+</main>
+
+<footer>
+  <b>HAMMOZZI · DREAM ARCHIVE</b><br>
+  © 2026 HAMMOZZI Official. · 비즈니스 문의 — {{이메일}}
+</footer>
+
+<div class="askmask" id="askmask">
+  <div class="askmodal">
+    <p class="micro">MESSAGE TO MOZZI</p>
+    <h3>꾹꾹이의 쪽지</h3>
+    <p>햄모찌에게 하고 싶은 말을 남겨주세요! (익명)</p>
+    <textarea id="askmsg" placeholder="문의 내용을 입력해주세요..."></textarea>
+    <div class="askbtns">
+      <button class="no" type="button" onclick="closeAsk()">취소</button>
+      <button class="yes" type="button" onclick="sendAsk()">보내기</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../supabase.js"></script>
+<script>
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fmtDate(s){ try{ const d=new Date(s); if(isNaN(d)) return ''; return String(d.getFullYear()).slice(2)+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0'); }catch(e){ return ''; } }
+
+/* 분류를 바꿀 땐 세 곳 동시 수정: 여기 CATS + admin <select id="dr-cat"> + admin DRESS_CATS */
+const CATS = [
+  { key:'hair',   label:'헤어' },
+  { key:'outfit', label:'의상' },
+  { key:'lens',   label:'렌즈' }
+];
+const LABELS = Object.fromEntries(CATS.map(function(c){ return [c.key, c.label]; }));
+const PER_PAGE = 9;
+
+function isNew(it){
+  return (it.badges || []).some(function(b){
+    var label = (b && (b.label != null ? b.label : b)) || '';
+    return String(label).trim().toUpperCase() === 'NEW';
+  });
+}
+
+let allItems = [], curCat = CATS[0].key, curMode = 'new', curPage = 1;
+
+async function load(){
+  try{
+    const res = await db.from('dress_items').select('*').order('sort_order').order('created_at');
+    allItems = (res && res.data) || [];
+  }catch(e){ allItems = []; }
+  document.getElementById('rail-count').textContent = allItems.length + '벌';
+  document.getElementById('rail-new').textContent = allItems.filter(isNew).length + '벌';
+  document.querySelectorAll('#mode-seg .seg-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      curMode = btn.dataset.mode; curPage = 1;
+      document.querySelectorAll('#mode-seg .seg-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.mode === curMode); });
+      buildTabs(); render();
+    });
+  });
+  buildTabs(); render();
+  try{ if(typeof enableIframeAutoHeight==='function') enableIframeAutoHeight(); }catch(e){}
+}
+function viewItems(){
+  if(curMode === 'new'){
+    return allItems.filter(function(i){ return i.category === curCat && isNew(i); })
+      .slice().sort(function(a,b){ return new Date(b.created_at||0) - new Date(a.created_at||0); });
+  }
+  return allItems.filter(function(i){ return i.category === curCat && !isNew(i); });
+}
+function buildTabs(){
+  const wrap = document.getElementById('cat-tabs');
+  wrap.innerHTML = '';
+  CATS.forEach(function(c){
+    const cnt = allItems.filter(function(i){ return i.category === c.key && (curMode === 'new' ? isNew(i) : !isNew(i)); }).length;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'cat-tab' + (c.key === curCat ? ' active' : '');
+    b.innerHTML = esc(c.label) + ' <span class="cnt">' + cnt + '</span>';
+    b.onclick = function(){ curCat = c.key; curPage = 1; buildTabs(); render(); };
+    wrap.appendChild(b);
+  });
+}
+function posterHTML(pageItems){
+  return '<div class="poster-grid">' + pageItems.map(function(it, idx){
+    const img = it.image_url ? '<img src="'+esc(it.image_url)+'" alt="'+esc(it.name)+'" loading="lazy" referrerpolicy="no-referrer">' : '<span class="ph-ph">✦</span>';
+    const cat = (it.category && LABELS[it.category]) ? '<span class="p-cat">'+esc(LABELS[it.category])+'</span>' : '';
+    const date = it.created_at ? '<div class="p-meta">'+fmtDate(it.created_at)+'</div>' : '';
+    return '<div class="poster" data-idx="'+idx+'">' + img + '<div class="frame"></div>'
+      + '<div class="p-top"><span class="p-brand">HAMMOZZI</span><span class="p-new">✦ NEW</span></div>'
+      + '<div class="p-bottom">' + cat + '<div class="p-name">'+esc(it.name)+'</div>' + date
+      + (it.description ? '<div class="p-desc">'+esc(it.description)+'</div>' : '')
+      + '</div></div>';
+  }).join('') + '</div>';
+}
+function gridHTML(pageItems){
+  return '<div class="item-grid">' + pageItems.map(function(item, idx){
+    const hasImg = !!item.image_url;
+    const inner = hasImg ? '<img src="'+esc(item.image_url)+'" alt="'+esc(item.name)+'" loading="lazy" referrerpolicy="no-referrer">' : '<span class="ph">✦</span>';
+    return '<div class="item-card" data-idx="'+idx+'">' + inner
+      + '<div class="item-cap"><div class="name">'+esc(item.name)+'</div>'
+      + (item.description ? '<div class="desc">'+esc(item.description)+'</div>' : '')
+      + '</div></div>';
+  }).join('') + '</div>';
+}
+function render(){
+  const body = document.getElementById('dress-body');
+  const items = viewItems();
+  if(!items.length){
+    body.innerHTML = (curMode === 'new')
+      ? '<div class="empty"><div class="empty-icon">✨</div>' + (LABELS[curCat]||'') + ' 새 옷이 아직 없어요<br><span style="font-size:12px;opacity:.85">admin에서 옷을 올릴 때 “✨ 새 옷으로 올리기”를 체크하면 포스터로 걸려요</span></div>'
+      : '<div class="empty"><div class="empty-icon">🗂</div>' + (LABELS[curCat]||'') + ' 옷걸이가 아직 비어 있어요</div>';
+    return;
+  }
+  const totalPages = Math.max(1, Math.ceil(items.length / PER_PAGE));
+  if(curPage > totalPages) curPage = 1;
+  const pageItems = items.slice((curPage-1)*PER_PAGE, curPage*PER_PAGE);
+  let pager = '';
+  if(totalPages > 1){
+    pager = '<div class="pager">';
+    for(let i=1;i<=totalPages;i++) pager += '<button class="pg'+(i===curPage?' active':'')+'" type="button" data-pg="'+i+'">'+i+'</button>';
+    pager += '</div>';
+  }
+  body.innerHTML = ((curMode === 'new') ? posterHTML(pageItems) : gridHTML(pageItems)) + pager;
+  body.querySelectorAll('[data-idx]').forEach(function(el){
+    el.addEventListener('click', function(){
+      const it = pageItems[+el.dataset.idx];
+      if(it && it.image_url) openLb(it);
+    });
+  });
+  body.querySelectorAll('.pg').forEach(function(btn){
+    btn.addEventListener('click', function(){ curPage = +btn.dataset.pg; render(); window.scrollTo(0,0); });
+  });
+}
+function openLb(item){
+  document.getElementById('lb-img').src = item.image_url;
+  document.getElementById('lb-name').textContent = item.name || '';
+  const d = document.getElementById('lb-desc');
+  d.textContent = item.description || '';
+  d.style.display = item.description ? 'block' : 'none';
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLb(){ document.getElementById('lightbox').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLb(); });
+load();
+</script>
+<script>
+/* 다크 모드 · 문의 모달 · FOUC 해제 */
+(function(){
+  var b = document.getElementById('dkbox');
+  function paint(){ if(b) b.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+  if(b) b.addEventListener('click', function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    paint();
+  });
+  paint();
+  function ready(){ document.body.classList.add('ready'); }
+  window.addEventListener('load', ready);
+  setTimeout(ready, 1400);
+})();
+function openAsk(){ document.getElementById('askmask').classList.add('on'); }
+function closeAsk(){ document.getElementById('askmask').classList.remove('on'); }
+async function sendAsk(){
+  var t = document.getElementById('askmsg');
+  var v = (t.value||'').trim();
+  if(!v){ alert('내용을 입력해주세요!'); return; }
+  try{ await insertRow('inquiries', { message: v }); alert('쪽지가 도착했어요! 고마워요 꾹꾹이 🩷'); }
+  catch(e){ alert('전송에 실패했어요. 잠시 후 다시 시도해 주세요.'); }
+  t.value=''; closeAsk();
+}
+document.getElementById('askmask').addEventListener('click', function(e){ if(e.target.id==='askmask') closeAsk(); });
+</script>
+<script src="../fx.js"></script>
+</body>
+</html>

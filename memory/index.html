@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="햄모찌 MEMORY">
+<title>햄모찌 · MEMORY</title>
+<link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
+<link rel="stylesheet" href="../style.css">
+<style>
+.mgrid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:820px){ .mgrid{ grid-template-columns:1fr; } }
+  .mcard{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg);
+    box-shadow:var(--shadow); overflow:hidden; transition:transform .25s, box-shadow .25s;
+  }
+  .mcard:hover{ transform:translateY(-4px); box-shadow:var(--shadow-hover); }
+  .mtop{ display:flex; align-items:center; gap:13px; padding:20px 22px; cursor:pointer; }
+  .mno{ flex:none; display:grid; place-items:center; width:38px; height:38px; border-radius:12px; background:var(--main-light); color:var(--main-deep); font-family:var(--sans); font-weight:900; font-size:11px; letter-spacing:.06em; }
+  .minfo{ flex:1; min-width:0; }
+  .mtitle{ font-size:15.5px; font-weight:700; color:var(--text); word-break:keep-all; }
+  .mdate{ margin-top:3px; font-family:var(--sans); font-weight:800; font-size:10.5px; letter-spacing:.14em; color:var(--text-soft); }
+  .mthumb{ flex:none; width:46px; height:46px; border-radius:12px; object-fit:cover; border:1px solid var(--line); }
+  .marrow{ flex:none; color:var(--main); font-size:15px; transition:transform .25s; }
+  .mcard.open .marrow{ transform:rotate(90deg); }
+  .mbody{ max-height:0; overflow:hidden; transition:max-height .4s ease; }
+  .mcard.open .mbody{ max-height:5000px; }
+  .mbody-in{ padding:0 22px 22px; font-size:14.5px; line-height:1.9; color:var(--text-mid); white-space:pre-wrap; }
+  .post-img{ display:block; max-width:100%; border-radius:var(--r-md); border:1px solid var(--line); margin-bottom:12px; }
+
+  .cmt-wrap{ margin-top:18px; padding-top:16px; border-top:1px dotted var(--line); }
+  .cmt-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+  .cmt-item{ background:var(--main-light); border-radius:var(--r-sm); padding:11px 14px; white-space:normal; }
+  .cmt-item .cn{ font-size:12px; font-weight:800; color:var(--main-deep); }
+  .cmt-item .cm{ margin-top:3px; font-size:14px; color:var(--text); line-height:1.6; white-space:pre-wrap; word-break:break-word; }
+  .cmt-empty{ font-size:13px; color:var(--text-soft); padding-bottom:10px; }
+  .cmt-form{ display:flex; gap:7px; flex-wrap:wrap; }
+  .cmt-nick{ width:104px; }
+  .cmt-msg{ flex:1; min-width:140px; }
+  .cmt-nick, .cmt-msg{ padding:11px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--text); font-family:var(--kr); font-size:13.5px; outline:none; box-sizing:border-box; }
+  .cmt-nick:focus, .cmt-msg:focus{ border-color:var(--main); }
+  .cmt-send{ padding:11px 20px; border:0; border-radius:999px; background:var(--main-dark); color:#fff; font-family:var(--kr); font-size:13.5px; font-weight:700; cursor:pointer; }
+  @media (max-width:520px){ .cmt-nick, .cmt-msg, .cmt-send{ width:100%; min-width:0; } }
+</style>
+</head>
+<body class="sub">
+<script>if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');</script>
+
+<header class="head-cream">
+  <a class="brand" href="../" aria-label="햄모찌 홈">
+    <span class="brand-bell">●</span><span>HAMMOZZI</span><small>햄모찌</small>
+  </a>
+  <nav class="main-nav nav-ink" aria-label="메인 메뉴">
+    <a href="../profile/">PROFILE</a>
+    <a href="../schedule/">SCHEDULE</a>
+    <a href="../song/">SONG BOOK</a>
+    <a href="../notice/">NOTICE</a>
+    <a href="../memory/" class="on">MEMORY</a>
+    <a href="../closet/">CLOSET</a>
+  </nav>
+  <div class="hd-act">
+    <button class="hd-btn" id="dkbox" type="button" aria-label="다크 모드">🌙</button>
+    <button class="hd-ask" type="button" onclick="openAsk()">ASK ✉</button>
+  </div>
+</header>
+
+<main class="sheet wrap">
+  <div class="stagger">
+<section class="phero">
+  <span class="ghost">box</span>
+  <div class="ph-in">
+    <div class="kick"><span class="no">FILE NO.05</span> MEMORY BOX</div>
+    <h1>Memory<em>box</em></h1>
+    <p class="ph-kr">햄모찌가 모아 둔 방송 일기예요. 카드를 누르면 그날의 이야기가 열려요.</p>
+  </div>
+  <div class="ph-rail">
+    <p><span class="micro">ENTRIES</span><b id="rail-count">—</b></p>
+    <p><span class="micro">LATEST</span><b id="rail-last">—</b></p>
+  </div>
+</section>
+
+<section class="panel mt14">
+  <div class="kick"><span class="no">BOX</span> KEEP THE TINY DAYS</div>
+  <div class="sec-t mt14"><h2>Diary</h2><span>방송 일기</span></div>
+  <div class="mgrid" id="diary-list"><div class="spinner"></div></div>
+  <div class="pager" id="pagination"></div>
+</section>
+  </div>
+</main>
+
+<footer>
+  <b>HAMMOZZI · DREAM ARCHIVE</b><br>
+  © 2026 HAMMOZZI Official. · 비즈니스 문의 — {{이메일}}
+</footer>
+
+<div class="askmask" id="askmask">
+  <div class="askmodal">
+    <p class="micro">MESSAGE TO MOZZI</p>
+    <h3>꾹꾹이의 쪽지</h3>
+    <p>햄모찌에게 하고 싶은 말을 남겨주세요! (익명)</p>
+    <textarea id="askmsg" placeholder="문의 내용을 입력해주세요..."></textarea>
+    <div class="askbtns">
+      <button class="no" type="button" onclick="closeAsk()">취소</button>
+      <button class="yes" type="button" onclick="sendAsk()">보내기</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../supabase.js"></script>
+<script>
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+const PAGE_SIZE = 8;
+let allData = [], currentPage = 1;
+
+async function init(){
+  try{ allData = await fetchAll('diary', { order:'diary_date', asc:false }) || []; }catch(e){ allData = []; }
+  document.getElementById('rail-count').textContent = allData.length + '편';
+  document.getElementById('rail-last').textContent = (allData[0] && allData[0].diary_date) ? allData[0].diary_date : '—';
+  renderPage(1);
+}
+function renderPage(page){
+  currentPage = page;
+  const start = (page-1) * PAGE_SIZE;
+  const items = allData.slice(start, start + PAGE_SIZE);
+  const el = document.getElementById('diary-list');
+  if(!allData.length){
+    el.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">✧</div>상자가 아직 비어 있어요<br>첫 번째 기억을 담는 중이에요</div>';
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+  el.innerHTML = items.map(function(d, i){
+    const no = allData.length - (start + i);
+    const imgs = (d.images && d.images.length) ? d.images : (d.image_url ? [d.image_url] : []);
+    const imgHtml = imgs.map(function(u){ return '<img src="'+esc(u)+'" class="post-img" loading="lazy" alt="" referrerpolicy="no-referrer">'; }).join('');
+    const thumb = imgs.length ? '<img src="'+esc(imgs[0])+'" class="mthumb" loading="lazy" alt="" referrerpolicy="no-referrer">' : '';
+    return '<div class="mcard" data-id="'+d.id+'">'
+      + '<div class="mtop" onclick="toggleDiary(this)">'
+      + '<span class="mno">'+String(no).padStart(2,'0')+'</span>'
+      + '<div class="minfo"><div class="mtitle">'+esc(d.title)+'</div><div class="mdate">'+esc(d.diary_date||'')+'</div></div>'
+      + thumb + '<span class="marrow">›</span></div>'
+      + '<div class="mbody"><div class="mbody-in">' + imgHtml + esc(d.content || '')
+      + '<div class="cmt-wrap"><p class="micro" style="margin:0 0 10px">COMMENTS</p>'
+      + '<div class="cmt-list" id="cmt-list-'+d.id+'"></div>'
+      + '<div class="cmt-form">'
+      + '<input class="cmt-nick" id="cmt-nick-'+d.id+'" placeholder="닉네임" onclick="event.stopPropagation()">'
+      + '<input class="cmt-msg" id="cmt-msg-'+d.id+'" placeholder="댓글 남기기..." onclick="event.stopPropagation()" onkeydown="if(event.key===\'Enter\')addComment(\''+d.id+'\')">'
+      + '<button class="cmt-send" type="button" onclick="event.stopPropagation();addComment(\''+d.id+'\')">등록</button>'
+      + '</div></div></div></div></div>';
+  }).join('');
+
+  const totalPages = Math.ceil(allData.length / PAGE_SIZE);
+  const pg = document.getElementById('pagination');
+  pg.innerHTML = '';
+  if(totalPages > 1){
+    for(let i=1;i<=totalPages;i++){
+      const btn = document.createElement('button');
+      btn.type='button'; btn.className = 'pg' + (i===page ? ' active' : ''); btn.textContent = i;
+      btn.onclick = function(){ renderPage(i); window.scrollTo(0,0); };
+      pg.appendChild(btn);
+    }
+  }
+}
+function toggleDiary(topEl){
+  const item = topEl.closest('.mcard');
+  const wasOpen = item.classList.contains('open');
+  item.classList.toggle('open');
+  if(!wasOpen){ loadComments(item.dataset.id); }
+}
+async function loadComments(diaryId){
+  const list = document.getElementById('cmt-list-' + diaryId);
+  if(!list) return;
+  let all = [];
+  try{ all = await fetchAll('comments', { order:'created_at', asc:true }) || []; }catch(e){ all = []; }
+  const mine = all.filter(function(c){ return String(c.diary_id) === String(diaryId); });
+  if(!mine.length){ list.innerHTML = '<div class="cmt-empty">아직 댓글이 없어요. 첫 댓글을 남겨보세요!</div>'; return; }
+  list.innerHTML = mine.map(function(c){
+    return '<div class="cmt-item"><div class="cn">'+esc(c.nickname||'익명')+'</div><div class="cm">'+esc(c.message||'')+'</div></div>';
+  }).join('');
+  try{ if(typeof enableIframeAutoHeight==='function') enableIframeAutoHeight(); }catch(e){}
+}
+async function addComment(diaryId){
+  const msgEl = document.getElementById('cmt-msg-' + diaryId);
+  const nickEl = document.getElementById('cmt-nick-' + diaryId);
+  const msg = (msgEl.value||'').trim();
+  if(!msg){ alert('댓글을 입력해주세요'); return; }
+  const nick = (nickEl.value||'').trim() || '익명';
+  const ok = await insertRow('comments', { diary_id: diaryId, nickname: nick, message: msg });
+  if(ok){ msgEl.value=''; loadComments(diaryId); } else alert('댓글 등록에 실패했어요 ㅠㅠ');
+}
+init();
+</script>
+<script>
+/* 다크 모드 · 문의 모달 · FOUC 해제 */
+(function(){
+  var b = document.getElementById('dkbox');
+  function paint(){ if(b) b.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+  if(b) b.addEventListener('click', function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    paint();
+  });
+  paint();
+  function ready(){ document.body.classList.add('ready'); }
+  window.addEventListener('load', ready);
+  setTimeout(ready, 1400);
+})();
+function openAsk(){ document.getElementById('askmask').classList.add('on'); }
+function closeAsk(){ document.getElementById('askmask').classList.remove('on'); }
+async function sendAsk(){
+  var t = document.getElementById('askmsg');
+  var v = (t.value||'').trim();
+  if(!v){ alert('내용을 입력해주세요!'); return; }
+  try{ await insertRow('inquiries', { message: v }); alert('쪽지가 도착했어요! 고마워요 꾹꾹이 🩷'); }
+  catch(e){ alert('전송에 실패했어요. 잠시 후 다시 시도해 주세요.'); }
+  t.value=''; closeAsk();
+}
+document.getElementById('askmask').addEventListener('click', function(e){ if(e.target.id==='askmask') closeAsk(); });
+</script>
+<script src="../fx.js"></script>
+</body>
+</html>

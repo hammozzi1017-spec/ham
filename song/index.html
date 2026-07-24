@@ -1,199 +1,202 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>햄모찌 · 노래책</title>
-  <link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
-  <style>
-    .song-head { display:flex; align-items:center; gap:9px; margin-bottom:14px; }
-    .song-head .t { font-size:22px; font-weight:800; color:var(--main-deep); }
-    body.dark .song-head .t { color:var(--main-dark); }
-    .filter-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:8px; }
-    .search-box { flex:1; min-width:200px; padding:12px 18px; border-radius:999px; border:1.5px solid var(--main-light); font-size:14px; outline:none; background:#fff; }
-    .search-box:focus { border-color:var(--main); }
-    .genre-tabs { display:flex; gap:6px; flex-wrap:wrap; }
-    .gt { padding:8px 15px; border-radius:999px; border:1.5px solid var(--main-light); background:var(--card); color:var(--text-mid); font-size:13px; font-weight:700; cursor:pointer; transition:all .2s; }
-    body.dark .gt:not(.active) { color:var(--text); }
-    .gt.active { background:var(--main); color:#6E5B24; border-color:var(--main); font-weight:800; }
-    .count-line { font-size:13px; color:var(--text-soft); margin:14px 0 6px; }
-    table { width:100%; border-collapse:collapse; }
-    thead th { text-align:left; font-size:12px; font-weight:800; color:var(--main-deep); padding:10px 12px; background:var(--main-light); }
-    thead th:first-child { border-radius:8px 0 0 8px; } thead th:last-child { border-radius:0 8px 8px 0; }
-    tbody td { padding:13px 12px; border-bottom:1px solid var(--main-light); font-size:14px; color:var(--text); }
-    tbody tr:hover td { background:var(--main-light); }
-    .s-num { color:var(--text-soft); font-size:13px; width:36px; }
-    .s-title { font-weight:600; }
-    .s-genre { font-size:11px; font-weight:800; background:var(--main-light); color:var(--main-deep); padding:3px 10px; border-radius:999px; white-space:nowrap; display:inline-block; }
-    body.dark .s-genre { color:#FFE7A8; }
-    .s-diff { display:inline-flex; gap:3px; }
-    .dot { width:8px; height:8px; border-radius:50%; background:var(--main-light); }
-    .dot.on { background:var(--main); }
-    .pagination { display:flex; justify-content:center; gap:6px; margin-top:16px; }
-    .pg { width:34px; height:34px; border-radius:50%; border:1.5px solid var(--main-light); background:#fff; color:var(--text-mid); font-size:13px; font-weight:600; cursor:pointer; }
-    .pg.active { background:var(--main); color:var(--on-main); border-color:var(--main); }
-    body.dark thead th { background:var(--main-light); }
-    body.dark tbody tr:hover td { background:var(--main-light); }
-    body.dark .search-box { background:var(--card); color:var(--text); }
-    body.dark .pg { background:var(--card); color:var(--text); }
-    @media (max-width:560px){
-      .hide-m { display:none; }
-      thead th { padding:9px 8px; font-size:11px; }
-      tbody td { padding:11px 6px; font-size:13px; }
-      .s-num { width:24px; font-size:12px; }
-      .s-genre { font-size:10px; padding:2px 8px; }
-      .dot { width:7px; height:7px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="햄모찌 SONG BOOK">
+<title>햄모찌 · SONG BOOK</title>
+<link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
+<link rel="stylesheet" href="../style.css">
+<style>
+.filter-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .search-box{ flex:1; min-width:220px; padding:13px 20px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--text); font-family:var(--kr); font-size:14px; outline:none; transition:.2s; }
+  .search-box:focus{ border-color:var(--main); }
+  .gtabs{ display:flex; gap:7px; flex-wrap:wrap; margin-top:14px; }
+  .gt{ padding:8px 16px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--text-mid); font-family:var(--kr); font-size:12.5px; font-weight:700; cursor:pointer; transition:.2s; }
+  .gt:hover{ border-color:var(--main); color:var(--main-deep); }
+  .gt.active{ background:var(--main-dark); color:#fff; border-color:var(--main-dark); }
+  .count-line{ margin:20px 0 6px; font-family:var(--sans); font-weight:900; font-size:10px; letter-spacing:.2em; color:var(--text-soft); }
+
+  .slist{ margin-top:6px; }
+  .srow{ display:grid; grid-template-columns:44px 1fr 150px 92px 76px; align-items:center; gap:12px; padding:15px 6px; }
+  .srow + .srow{ border-top:1px dotted var(--line); }
+  .srow:hover{ background:var(--main-light); border-radius:12px; }
+  .srow .n{ font-family:var(--sans); font-weight:900; font-size:11px; letter-spacing:.1em; color:var(--text-soft); }
+  .srow .t{ font-size:15px; font-weight:700; color:var(--text); word-break:keep-all; }
+  .srow .a{ font-size:13px; color:var(--text-soft); }
+  .srow .diff{ display:flex; gap:4px; justify-content:flex-end; }
+  .dot{ width:7px; height:7px; border-radius:50%; background:var(--main-light); border:1px solid var(--line); }
+  .dot.on{ background:var(--main); border-color:var(--main); }
+  .shead{ display:grid; grid-template-columns:44px 1fr 150px 92px 76px; gap:12px; padding:0 6px 10px; border-bottom:1px solid var(--line); }
+  .shead span{ font-family:var(--sans); font-weight:900; font-size:9.5px; letter-spacing:.2em; color:var(--text-soft); }
+  .shead span:last-child{ text-align:right; }
+  @media (max-width:820px){
+    .srow, .shead{ grid-template-columns:34px 1fr 76px; }
+    .srow .a, .shead span:nth-child(3){ display:none; }
+    .srow .g, .shead span:nth-child(4){ display:none; }
+  }
+</style>
 </head>
-<body>
-<script>if(localStorage.getItem("theme")==="dark")document.body.classList.add("dark");</script>
-<svg width="0" height="0" style="position:absolute">
-<symbol id="gop" viewBox="0 0 110 98">
-  <circle cx="55" cy="52" r="30" fill="#FFEE9C" stroke="#C79A2E" stroke-width="6"/>
-  <path d="M25 44h60" stroke="#C79A2E" stroke-width="6" stroke-linecap="round"/>
-  <circle cx="55" cy="66" r="6" fill="#C79A2E"/>
-  <path d="M40 20c-8-8-18-6-16 4 1 6 10 8 16 4Zm30 0c8-8 18-6 16 4-1 6-10 8-16 4Z" fill="#F7B8CB" stroke="#D4527D" stroke-width="4" stroke-linejoin="round"/>
-</symbol>
-</svg>
+<body class="sub">
+<script>if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');</script>
 
-
-<div class="pagewrap">
-  <div class="pagecard">
-  <!-- nav -->
-  <div class="nav">
-    <a class="nav-logo" href="../"><span class="lg"><svg viewBox="0 0 110 98" style="width:22px;height:22px"><use href="#gop"/></svg></span>햄모찌<span class="nav-sub">DREAM MUSIC BOX</span></a>
-    <nav class="nm"><a href="../">홈</a><a href="../profile/">프로필</a><a href="../schedule/">일정</a><a href="../song/" class="act">노래책</a><a href="../notice/">공지</a><a href="../work/">업보</a><a href="../dress/">옷장</a><a href="../diary/">추억창고</a></nav>
-    <div class="dk" id="dkbox"><span class="sw"><i></i></span></div>
-    <button class="ask" onclick="openAsk()">문의</button>
-    <a class="live" href="https://www.sooplive.com/station/hammojji" target="_blank"><i></i>LIVE</a>
+<header class="head-cream">
+  <a class="brand" href="../" aria-label="햄모찌 홈">
+    <span class="brand-bell">●</span><span>HAMMOZZI</span><small>햄모찌</small>
+  </a>
+  <nav class="main-nav nav-ink" aria-label="메인 메뉴">
+    <a href="../profile/">PROFILE</a>
+    <a href="../schedule/">SCHEDULE</a>
+    <a href="../song/" class="on">SONG BOOK</a>
+    <a href="../notice/">NOTICE</a>
+    <a href="../memory/">MEMORY</a>
+    <a href="../closet/">CLOSET</a>
+  </nav>
+  <div class="hd-act">
+    <button class="hd-btn" id="dkbox" type="button" aria-label="다크 모드">🌙</button>
+    <button class="hd-ask" type="button" onclick="openAsk()">ASK ✉</button>
   </div>
+</header>
 
-  <div class="container stagger">
-  <div class="pagehero">
-    <span class="ph-kick">SONG BOOK · TRACK 04</span>
-    <h1 class="ph-title">노래책</h1>
-    <p class="ph-sub">🎵 모찌가 부를 수 있는 곡들</p>
-    <span class="ph-deco d1">✦</span>
-    <span class="ph-deco d2">♪</span>
-    <span class="ph-deco d3">♡</span>
+<main class="sheet wrap">
+  <div class="stagger">
+<section class="phero">
+  <span class="ghost">book</span>
+  <div class="ph-in">
+    <div class="kick"><span class="no">FILE NO.03</span> SOUND SHELF</div>
+    <h1>Song<em>book</em></h1>
+    <p class="ph-kr">햄모찌가 부를 수 있는 노래 목록이에요. 신청곡은 방송 중에 살며시 말해주세요.</p>
   </div>
+  <div class="ph-rail">
+    <p><span class="micro">SONGS</span><b id="rail-total">—</b></p>
+    <p><span class="micro">GENRE</span><b id="rail-genre">전체</b></p>
+  </div>
+</section>
 
-  <div class="card">
-    <div class="song-head"><span style="font-size:22px">🎵</span><span class="t">노래책</span></div>
-    <div class="filter-row">
-      <input class="search-box" id="search" placeholder="🔍 곡명 · 아티스트 검색...">
+<section class="panel mt14">
+  <div class="kick"><span class="no">INDEX</span> SEARCH THE SHELF</div>
+  <div class="filter-row mt14">
+    <input class="search-box" id="search" placeholder="곡명 · 아티스트 검색" autocomplete="off">
+  </div>
+  <div class="gtabs" id="genre-tabs"></div>
+  <div class="count-line" id="count"></div>
+  <div class="shead"><span>NO</span><span>TITLE</span><span>ARTIST</span><span>GENRE</span><span>LEVEL</span></div>
+  <div class="slist" id="song-body"><div class="spinner"></div></div>
+  <div class="pager" id="pagination"></div>
+</section>
+  </div>
+</main>
+
+<footer>
+  <b>HAMMOZZI · DREAM ARCHIVE</b><br>
+  © 2026 HAMMOZZI Official. · 비즈니스 문의 — {{이메일}}
+</footer>
+
+<div class="askmask" id="askmask">
+  <div class="askmodal">
+    <p class="micro">MESSAGE TO MOZZI</p>
+    <h3>꾹꾹이의 쪽지</h3>
+    <p>햄모찌에게 하고 싶은 말을 남겨주세요! (익명)</p>
+    <textarea id="askmsg" placeholder="문의 내용을 입력해주세요..."></textarea>
+    <div class="askbtns">
+      <button class="no" type="button" onclick="closeAsk()">취소</button>
+      <button class="yes" type="button" onclick="sendAsk()">보내기</button>
     </div>
-    <div class="genre-tabs" id="genre-tabs"></div>
-    <div class="count-line" id="count"></div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th class="s-num">#</th><th>제목</th><th class="hide-m">아티스트</th><th>장르</th><th>난이도</th></tr></thead>
-        <tbody id="song-body"><tr><td colspan="5"><div class="spinner"></div></td></tr></tbody>
-      </table>
-    </div>
-    <div class="pagination" id="pagination"></div>
   </div>
 </div>
-  </div>
-</div>
-
-<footer>© 2026 햄모찌 Official.<br>비즈니스 문의 — 문의 버튼을 이용해 주세요</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../supabase.js"></script>
 <script>
-  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  const GENRES = ['전체','K-Pop','J-Pop','Pop','애교송','기타'];
-  const PAGE = 30;
-  let songs = [], curGenre = '전체', curPage = 1, keyword = '';
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+const GENRES = ['전체','K-Pop','J-Pop','Pop','애교송','기타'];
+const PAGE = 30;
+let songs = [], curGenre = '전체', curPage = 1, keyword = '';
 
-  async function init() {
-    songs = await fetchAll('songs', { order: 'id', asc: true });
-    renderGenres(); render();
-    enableIframeAutoHeight();
+async function init(){
+  try{ songs = await fetchAll('songs', { order:'id', asc:true }) || []; }catch(e){ songs = []; }
+  renderGenres(); render();
+  try{ if(typeof enableIframeAutoHeight==='function') enableIframeAutoHeight(); }catch(e){}
+}
+function renderGenres(){
+  document.getElementById('genre-tabs').innerHTML = GENRES.map(function(g){
+    return '<button class="gt'+(g===curGenre?' active':'')+'" type="button" onclick="selGenre(\''+g+'\')">'+g+'</button>';
+  }).join('');
+  document.getElementById('rail-genre').textContent = curGenre;
+}
+function selGenre(g){ curGenre=g; curPage=1; renderGenres(); render(); }
+function filtered(){
+  return songs.filter(function(s){
+    const okG = curGenre==='전체' || s.genre===curGenre;
+    const q = keyword.toLowerCase();
+    const okQ = !q || (s.title||'').toLowerCase().indexOf(q)>=0 || (s.artist||'').toLowerCase().indexOf(q)>=0;
+    return okG && okQ;
+  });
+}
+function render(){
+  const list = filtered();
+  const totalPages = Math.max(1, Math.ceil(list.length / PAGE));
+  if(curPage > totalPages) curPage = 1;
+  const pageItems = list.slice((curPage-1)*PAGE, curPage*PAGE);
+  document.getElementById('count').textContent = 'TOTAL ' + list.length + ' SONGS · PAGE ' + curPage + ' / ' + totalPages;
+  document.getElementById('rail-total').textContent = songs.length + '곡';
+  const body = document.getElementById('song-body');
+  if(!list.length){
+    body.innerHTML = '<div class="empty"><div class="empty-icon">♪</div>선반이 아직 비어 있어요<br>노래가 하나씩 채워질 예정이에요</div>';
+    document.getElementById('pagination').innerHTML = '';
+    return;
   }
-  function renderGenres() {
-    document.getElementById('genre-tabs').innerHTML = GENRES.map(g =>
-      `<button class="gt ${g===curGenre?'active':''}" onclick="selGenre('${g}')">${g}</button>`).join('');
-  }
-  function selGenre(g){ curGenre=g; curPage=1; renderGenres(); render(); enableIframeAutoHeight(); }
-
-  function filtered() {
-    return songs.filter(s => {
-      const okG = curGenre==='전체' || s.genre===curGenre;
-      const q = keyword.toLowerCase();
-      const okQ = !q || (s.title||'').toLowerCase().includes(q) || (s.artist||'').toLowerCase().includes(q);
-      return okG && okQ;
-    });
-  }
-  function render() {
-    const list = filtered();
-    const totalPages = Math.max(1, Math.ceil(list.length / PAGE));
-    if (curPage > totalPages) curPage = 1;
-    const pageItems = list.slice((curPage-1)*PAGE, curPage*PAGE);
-    document.getElementById('count').textContent = `총 ${list.length}곡 · ${curPage}/${totalPages} 페이지`;
-    const body = document.getElementById('song-body');
-    if (!list.length) { body.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="empty-icon">🎵</div>노래가 없어요</div></td></tr>'; document.getElementById('pagination').innerHTML=''; return; }
-    body.innerHTML = pageItems.map((s, i) => {
-      const num = (curPage-1)*PAGE + i + 1;
-      const diff = parseInt(s.difficulty)||0;
-      let dots=''; for(let k=1;k<=5;k++) dots+=`<span class="dot${k<=diff?' on':''}"></span>`;
-      return `<tr>
-        <td class="s-num">${num}</td>
-        <td class="s-title">${esc(s.title)}</td>
-        <td class="hide-m">${esc(s.artist)||'-'}</td>
-        <td><span class="s-genre">${esc(s.genre)||'기타'}</span></td>
-        <td><span class="s-diff">${dots}</span></td>
-      </tr>`;
-    }).join('');
-    const pg = document.getElementById('pagination'); pg.innerHTML='';
-    if (totalPages>1) for(let i=1;i<=totalPages;i++){
-      const b=document.createElement('button'); b.className='pg'+(i===curPage?' active':''); b.textContent=i;
-      b.onclick=()=>{ curPage=i; render(); enableIframeAutoHeight(); window.scrollTo(0,0); };
+  body.innerHTML = pageItems.map(function(s, i){
+    const num = (curPage-1)*PAGE + i + 1;
+    const diff = parseInt(s.difficulty,10) || 0;
+    let dots = '';
+    for(let k=1;k<=5;k++) dots += '<span class="dot'+(k<=diff?' on':'')+'"></span>';
+    return '<div class="srow"><span class="n">'+String(num).padStart(2,'0')+'</span>'
+      + '<span class="t">'+esc(s.title)+'</span>'
+      + '<span class="a">'+(esc(s.artist)||'—')+'</span>'
+      + '<span class="g"><span class="chip">'+(esc(s.genre)||'기타')+'</span></span>'
+      + '<span class="diff">'+dots+'</span></div>';
+  }).join('');
+  const pg = document.getElementById('pagination'); pg.innerHTML='';
+  if(totalPages>1){
+    for(let i=1;i<=totalPages;i++){
+      const b=document.createElement('button');
+      b.type='button'; b.className='pg'+(i===curPage?' active':''); b.textContent=i;
+      b.onclick=function(){ curPage=i; render(); window.scrollTo(0,0); };
       pg.appendChild(b);
     }
   }
-  document.getElementById('search').addEventListener('input', e=>{ keyword=e.target.value.trim(); curPage=1; render(); enableIframeAutoHeight(); });
-  init();
+}
+document.getElementById('search').addEventListener('input', function(e){ keyword = e.target.value.trim(); curPage = 1; render(); });
+init();
 </script>
-
-<!-- 공통 연출(입자·클릭·기울기) -->
-<script src="../fx.js"></script>
-
-<div class="askmask" id="askmask">
-  <div class="askmodal">
-    <h3>💬 문의하기</h3>
-    <p>햄모찌에게 하고 싶은 말을 남겨주세요! (익명)</p>
-    <textarea id="askmsg" placeholder="문의 내용을 입력해주세요..."></textarea>
-    <div class="askbtns">
-      <button class="no" onclick="closeAsk()">취소</button>
-      <button class="yes" onclick="sendAsk()">보내기</button>
-    </div>
-  </div>
-</div>
 <script>
+/* 다크 모드 · 문의 모달 · FOUC 해제 */
+(function(){
+  var b = document.getElementById('dkbox');
+  function paint(){ if(b) b.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+  if(b) b.addEventListener('click', function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    paint();
+  });
+  paint();
+  function ready(){ document.body.classList.add('ready'); }
+  window.addEventListener('load', ready);
+  setTimeout(ready, 1400);
+})();
 function openAsk(){ document.getElementById('askmask').classList.add('on'); }
 function closeAsk(){ document.getElementById('askmask').classList.remove('on'); }
 async function sendAsk(){
   var t = document.getElementById('askmsg');
-  var v = (t.value || '').trim();
+  var v = (t.value||'').trim();
   if(!v){ alert('내용을 입력해주세요!'); return; }
-  try{ await insertRow('inquiries', { message: v }); alert('문의가 전송되었습니다! 고마워요 🐹'); }
+  try{ await insertRow('inquiries', { message: v }); alert('쪽지가 도착했어요! 고마워요 꾹꾹이 🩷'); }
   catch(e){ alert('전송에 실패했어요. 잠시 후 다시 시도해 주세요.'); }
-  t.value = ''; closeAsk();
+  t.value=''; closeAsk();
 }
-document.getElementById('askmask').onclick = function(e){ if(e.target.id === 'askmask') closeAsk(); };
-(function(){
-  var box = document.getElementById('dkbox'); if(!box) return;
-  box.onclick = function(){
-    document.body.classList.toggle('dark');
-    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-  };
-})();
+document.getElementById('askmask').addEventListener('click', function(e){ if(e.target.id==='askmask') closeAsk(); });
 </script>
-
+<script src="../fx.js"></script>
 </body>
 </html>
