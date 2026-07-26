@@ -218,3 +218,10 @@ CREATE POLICY "overlay_all" ON public.overlay_state FOR ALL USING (true) WITH CH
 INSERT INTO profile (id, data) VALUES (1, '{}'::jsonb) ON CONFLICT (id) DO NOTHING;
 
 -- 끝! 이미지는 전부 "링크" 방식이라 Storage 설정이 필요 없습니다.
+
+
+-- ══════════════════════════════════════════════
+-- 🎟 스탬프 시스템 (햄모찌 추가분) — 여러 번 실행해도 안전
+-- ══════════════════════════════════════════════
+ALTER TABLE viewers ADD COLUMN IF NOT EXISTS stamps INT DEFAULT 0;
+UPDATE viewers SET stamps = 0 WHERE stamps IS NULL;

@@ -75,6 +75,9 @@
     font-size:10px; letter-spacing:.14em; color:var(--text-mid); transition:.2s;
   }
   .side-links a:hover{ border-color:var(--main); color:var(--main-deep); }
+  .side-links a[aria-disabled]{ opacity:.55; cursor:default; }
+  .side-links a[aria-disabled]:hover{ border-color:var(--line); color:var(--text-mid); }
+  .lk-note{ font-family:var(--kr); font-weight:700; font-size:9.5px; letter-spacing:0; color:var(--text-soft); }
 
   @media (max-width:1080px){
     .pro-hero{ grid-template-columns:minmax(200px,.9fr) 1.2fr; }
@@ -163,6 +166,7 @@
     <a href="../notice/">NOTICE</a>
     <a href="../memory/">MEMORY</a>
     <a href="../closet/">CLOSET</a>
+    <a href="../stamp/">STAMP</a>
   </nav>
   <div class="hd-act">
     <button class="hd-btn" id="dkbox" type="button" aria-label="다크 모드">🌙</button>
@@ -187,8 +191,8 @@
       </div>
 
       <div class="hero-mid">
-        <p class="micro" style="margin:0">WELCOME TO MY TINY DREAM</p>
-        <h1>Ham<em>mozzi</em></h1>
+        <p class="micro" style="margin:0" data-hook="hero-label">WELCOME TO MY TINY DREAM</p>
+        <h1><span data-hook="hero-name-1">Ham</span><em data-hook="hero-name-2">mozzi</em></h1>
         <p class="hero-quote" data-hook="info-catchphrase">귀차니즘 때문에 가출한
 <b>햄스터 영물</b></p>
         <div class="hero-meta">
@@ -209,18 +213,18 @@
         <div class="idcard">
           <div class="id-top">
             <span class="micro">SPIRIT ID</span>
-            <span class="micro">NO. 0106</span>
+            <span class="micro" data-hook="id-no">NO. 0106</span>
           </div>
           <div class="id-name" data-hook="info-name">햄모찌</div>
           <div class="id-en">HAMMOZZI</div>
-          <div class="dotrow"><span class="k">MBTI</span><span class="v" data-hook="info-mbti">INFP</span></div>
-          <div class="dotrow"><span class="k">GAME</span><span class="v" data-hook="info-game">공포게임 · 리듬게임</span></div>
-          <div class="dotrow"><span class="k">SONG</span><span class="v" data-hook="info-song">잔잔한 발라드</span></div>
+          <div class="dotrow"><span class="k">MBTI</span><span class="v" data-hook="info-mbti">ISTP</span></div>
+          <div class="dotrow"><span class="k">GAME</span><span class="v" data-hook="info-game">롤 · 배그 · 마크</span></div>
+          <div class="dotrow"><span class="k">SONG</span><span class="v" data-hook="info-song">신나는 K-POP / J-POP</span></div>
         </div>
         <div class="side-links">
           <a id="lk-soop" href="https://www.sooplive.com/station/hammojji" target="_blank" rel="noreferrer">SOOP <span>↗</span></a>
           <a id="lk-x" href="https://x.com/mojji81290" target="_blank" rel="noreferrer">X <span>↗</span></a>
-          <a id="lk-youtube" href="https://www.youtube.com" target="_blank" rel="noreferrer">YOUTUBE <span>↗</span></a>
+          <a id="lk-youtube" href="#" aria-disabled="true">YOUTUBE <span class="lk-note">준비 중</span></a>
           <a id="lk-cafe" href="https://discord.gg/pH8bUYjHqb" target="_blank" rel="noreferrer">DISCORD <span>↗</span></a>
         </div>
       </div>
@@ -231,7 +235,7 @@
       <div class="kick"><span class="no">FILE 01</span> ABOUT MOZZI</div>
       <div class="sec-t mt14"><h2>Tiny hamster,</h2><span>햄모찌를 소개할게요</span></div>
       <p class="about" data-hook="msg">안녕하세요, 햄스터 영물 햄모찌예요!
-귀차니즘 때문에 굴에서 가출해서, 지금은 꾹꾹이들 곁에서 지내고 있어요.
+일하는 게 싫어서 가출하는 바람에 꾹꾹이들만 고생 중이에요.
 게임하고 수다 떨고 가끔 노래하는 아주 느긋한 하루를 보내요.</p>
       <div class="tagset mt14" id="tagset">
         <span class="chip">느긋함</span><span class="chip">햄스터</span><span class="chip">수다쟁이</span>
@@ -248,8 +252,8 @@
           <div class="stat"><div class="stat-h">텐션 <i>92</i></div><div class="bar"><i style="width:92%"></i></div></div>
           <div class="stat"><div class="stat-h">게으름 <i>99</i></div><div class="bar"><i style="width:99%"></i></div></div>
           <div class="stat"><div class="stat-h">애교 <i>88</i></div><div class="bar"><i style="width:88%"></i></div></div>
-          <div class="stat"><div class="stat-h">먹성 <i>95</i></div><div class="bar"><i style="width:95%"></i></div></div>
-          <div class="stat"><div class="stat-h">담력 <i>30</i></div><div class="bar"><i style="width:30%"></i></div></div>
+          <div class="stat"><div class="stat-h">먹성 <i>30</i></div><div class="bar"><i style="width:30%"></i></div></div>
+          <div class="stat"><div class="stat-h">담력 <i>10</i></div><div class="bar"><i style="width:10%"></i></div></div>
         </div>
       </section>
 
@@ -258,11 +262,11 @@
         <div class="sec-t mt14"><h2>Sweet &amp; sour</h2><span>좋아함 · 싫어함</span></div>
         <div class="lk-t">♡ 좋아해요</div>
         <div class="tagset" id="likes">
-          <span class="chip">디저트</span><span class="chip">고양이</span><span class="chip">낮잠</span><span class="chip">꾹꾹이</span>
+          <span class="chip">디저트</span><span class="chip">고양이</span><span class="chip">꾹꾹이</span><span class="chip">그림</span>
         </div>
         <div class="lk-t no mt22">✕ 싫어해요</div>
         <div class="tagset" id="dislikes">
-          <span class="chip line">부지런한 아침</span><span class="chip line">무서운 소리</span>
+          <span class="chip line">공포</span><span class="chip line">처리해야 할 서류더미</span>
         </div>
       </section>
     </div>
@@ -288,9 +292,9 @@
         <div class="kick"><span class="no">FILE 05</span> TMI</div>
         <div class="sec-t mt14"><h2>Small things</h2><span>사소한 이야기</span></div>
         <div class="tmi">
-          <div><span class="micro">FOOD</span><b data-hook="tmi-food">해바라기씨 쿠키</b></div>
-          <div><span class="micro">SONG</span><b data-hook="tmi-song">요즘 듣는 노래</b></div>
-          <div><span class="micro">BOOK</span><b data-hook="tmi-book">최근 읽은 책</b></div>
+          <div><span class="micro">FOOD</span><b data-hook="tmi-food">바밤바</b></div>
+          <div><span class="micro">SONG</span><b data-hook="tmi-song">キュートなキューたい</b></div>
+          <div><span class="micro">BOOK</span><b data-hook="tmi-book">던전을 그리는 화가</b></div>
         </div>
       </section>
 
@@ -300,7 +304,7 @@
         <div id="milestones">
           <div class="ms done"><span class="dot"></span><span class="txt">첫 방송 켜기</span><span class="st">DONE</span></div>
           <div class="ms"><span class="dot"></span><span class="txt">꾹꾹이 1000명</span><span class="st">NOW</span></div>
-          <div class="ms"><span class="dot"></span><span class="txt">첫 노래 커버 업로드</span><span class="st">SOON</span></div>
+          <div class="ms"><span class="dot"></span><span class="txt">베스 달성</span><span class="st">SOON</span></div>
         </div>
       </section>
     </div>
@@ -320,7 +324,7 @@
 
 <footer>
   <b>HAMMOZZI · DREAM ARCHIVE</b><br>
-  © 2026 HAMMOZZI Official. · 비즈니스 문의 — {{이메일}}
+  © 2026 HAMMOZZI Official. · 비즈니스 문의 — <span data-common="contact-mail">{{이메일}}</span>
 </footer>
 
 <div class="askmask" id="askmask">
@@ -380,13 +384,20 @@ async function loadProfile(){
   });
 
   /* 2. 프사 (직접 URL 우선 → SOOP 아이디) */
-  var av = asText(p['avatar']) || soopAvatar(asText(p['soop-id'])) ;
+  var av = asText(p['hero-art']) || asText(p['avatar']) || soopAvatar(asText(p['soop-id']));
   if(av) document.getElementById('av').src = av;
 
   /* 3. 링크 */
   [['lk-soop','link-soop'],['lk-youtube','link-youtube'],['lk-x','link-x'],['lk-cafe','link-cafe']].forEach(function(pair){
     var u = asText(p[pair[1]]); if(u) document.getElementById(pair[0]).href = u;
   });
+  /* 유튜브: 주소가 비어 있으면 "준비 중"으로 두고 클릭 막기 (개설하면 admin에 주소만 넣으면 자동으로 살아남) */
+  var yt = document.getElementById('lk-youtube');
+  var ytUrl = asText(p['link-youtube']);
+  if(ytUrl){
+    yt.removeAttribute('aria-disabled'); yt.target = '_blank'; yt.rel = 'noreferrer';
+    yt.innerHTML = 'YOUTUBE <span>↗</span>';
+  }
 
   /* 4. 특징 태그 */
   var tags = asList(p['info-tags']);

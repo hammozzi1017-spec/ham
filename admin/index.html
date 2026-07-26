@@ -28,8 +28,9 @@
   .page-subtitle{ font-size:13px; color:var(--text-soft); margin-top:-4px; }
 
   .tabs{ display:flex; gap:4px; flex-wrap:wrap; padding:5px; border-radius:999px; background:var(--main-light); }
-  .tab-btn{ flex:1; min-width:78px; padding:10px 8px; border:0; border-radius:999px; background:transparent;
+  .tab-btn{ flex:1 1 auto; min-width:max-content; padding:10px 13px; border:0; border-radius:999px; background:transparent;
     font-family:var(--kr); font-size:12.5px; font-weight:700; color:var(--main-deep); cursor:pointer; transition:.2s; white-space:nowrap; }
+  @media (max-width:720px){ .tab-btn{ font-size:11.5px; padding:9px 11px; } }
   .tab-btn.active{ background:var(--card); color:var(--main-deep); box-shadow:0 4px 12px rgba(150,110,80,.16); }
   .tab-panel{ display:none; } .tab-panel.active{ display:block; }
 
@@ -83,6 +84,51 @@
   .cdot-orange{background:#EDA469}.cdot-blue{background:#77A9DC}.cdot-purple{background:#A78BD1}
   .cdot-red{background:#DE7878}.cdot-gray{background:#B4A99D}
 
+  .subtabs{ display:flex; gap:7px; flex-wrap:wrap; margin-bottom:16px; }
+  .subtab{ padding:9px 16px; border-radius:999px; border:1px solid var(--line); background:var(--card);
+    color:var(--text-mid); font-family:var(--kr); font-size:13px; font-weight:700; cursor:pointer; transition:.2s; }
+  .subtab:hover{ border-color:var(--main); color:var(--main-deep); }
+  .subtab.active{ background:var(--main-dark); color:#fff; border-color:var(--main-dark); }
+  .subpanel{ display:none; } .subpanel.active{ display:block; }
+
+  .pick{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:9px; }
+  .pick-item{ padding:12px 14px; border:1px solid var(--line); border-radius:var(--r-sm); background:var(--card); cursor:pointer; transition:.2s; }
+  .pick-item:hover{ border-color:var(--main); }
+  .pick-item.sel{ border-color:var(--main-dark); background:var(--main-light); }
+  .pick-item .pn{ font-size:14px; font-weight:700; color:var(--text); }
+  .pick-item .pi{ margin-top:2px; font-family:var(--sans); font-weight:800; font-size:10px; letter-spacing:.1em; color:var(--text-soft); }
+
+  .counter-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:9px; }
+  .counter{ display:flex; align-items:center; gap:7px; padding:11px 13px; border:1px solid var(--line); border-radius:var(--r-sm); background:var(--card); }
+  .counter .cn{ flex:1; font-size:13px; color:var(--text); }
+  .counter .cn .evt{ margin-left:5px; padding:1px 7px; border-radius:999px; background:var(--gold); color:#7A5A22;
+    font-family:var(--sans); font-weight:900; font-size:8.5px; letter-spacing:.08em; }
+  .cbtn{ width:27px; height:27px; border-radius:50%; border:1px solid var(--line); background:var(--card);
+    color:var(--main-deep); font-weight:800; font-size:14px; line-height:1; cursor:pointer; }
+  .cbtn:hover{ background:var(--main); color:#fff; border-color:var(--main); }
+  .cval{ min-width:28px; text-align:center; font-family:var(--sans); font-weight:900; color:var(--main-deep); }
+
+  .vrow{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:12px 14px; margin-bottom:8px;
+    border:1px solid var(--line); border-radius:var(--r-sm); background:var(--card); }
+  .vrow .vn{ flex:1; min-width:90px; font-size:14px; font-weight:700; color:var(--text); }
+  .vrow .vid{ font-family:var(--sans); font-weight:800; font-size:10px; letter-spacing:.1em; color:var(--text-soft); }
+  .vrow .stampbox{ display:flex; align-items:center; gap:6px; padding:4px 8px; border-radius:999px; background:var(--main-light); }
+  .vrow .stampbox .sv{ min-width:34px; text-align:center; font-family:var(--sans); font-weight:900; font-size:11px; color:var(--main-deep); }
+  .vbtn{ padding:6px 12px; border:0; border-radius:999px; background:var(--main-light); color:var(--main-deep);
+    font-family:var(--kr); font-size:12px; font-weight:700; cursor:pointer; }
+  .vbtn:hover{ background:var(--main); color:#fff; }
+  .vbtn.del{ background:#F4E3E3; color:#C4566A; }
+  .vbtn.del:hover{ background:#C4566A; color:#fff; }
+  body.dark .vbtn.del{ background:#4A3030; color:#F0B4B4; }
+
+  .type-row{ display:flex; align-items:center; gap:9px; padding:11px 14px; margin-bottom:7px;
+    border:1px solid var(--line); border-radius:var(--r-sm); background:var(--card); }
+  .type-cat{ padding:2px 10px; border-radius:999px; font-family:var(--sans); font-weight:900; font-size:9px; letter-spacing:.1em; }
+  .type-cat.일반{ background:var(--main-light); color:var(--main-deep); }
+  .type-cat.이벤트{ background:var(--gold); color:#7A5A22; }
+  body.dark .type-cat.이벤트{ color:#F5E3BE; }
+  .type-name{ flex:1; font-size:14px; color:var(--text); }
+
   .row-line{ display:flex; align-items:center; gap:9px; padding:10px 12px; margin-bottom:8px;
     background:var(--card); border:1px solid var(--line); border-radius:var(--r-sm); }
   .check-line{ display:flex; align-items:center; gap:6px; font-size:14px; color:var(--text); }
@@ -128,6 +174,7 @@
       <button class="tab-btn" type="button" onclick="switchTab('song',this)">🎵 노래책</button>
       <button class="tab-btn" type="button" onclick="switchTab('diary',this)">📔 메모리</button>
       <button class="tab-btn" type="button" onclick="switchTab('dress',this)">👗 옷장</button>
+      <button class="tab-btn" type="button" onclick="switchTab('work',this)">🎟 업보·스탬프</button>
       <button class="tab-btn" type="button" onclick="switchTab('inquiry',this)">✉️ 문의</button>
       <button class="tab-btn" type="button" onclick="switchTab('theme',this)">🎨 테마</button>
     </div>
@@ -147,6 +194,12 @@
         <label class="input-label">SOOP 아이디 (위 링크를 비우면 이걸로 자동 연동)</label>
         <input class="input" id="f-soop-id" type="text" placeholder="hammojji" oninput="previewAvatar()">
       </div>
+      <div class="form-field">
+        <label class="input-label">프로필 큰 사진 (아치 프레임) URL — 언제든 교체 가능 ⭐</label>
+        <input class="input" id="f-hero-art" type="url" placeholder="https://... .png / .jpg / .gif">
+        <div class="hint">프로필 페이지 <b>왼쪽 큰 사진</b>만 따로 바꾸는 칸이에요. 비우면 위의 프사(또는 SOOP 프사)를 그대로 써요.<br>
+        권장 비율 <b>세로 4:5</b> (예: 900×1125). SOOP 비공개 게시판에 올린 뒤 이미지 <b>우클릭 → “이미지 주소 복사”</b>로 얻은 주소를 넣으면 돼요.</div>
+      </div>
       <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
         <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;background:var(--main-light);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:26px">
           <img id="av-preview" alt="" style="width:100%;height:100%;object-fit:cover;display:none" onerror="this.style.display='none';var p=document.getElementById('av-ph');if(p)p.style.display='flex'">
@@ -164,7 +217,8 @@
       <div class="form-field"><label class="input-label">생일 (MM.DD — D-Day 자동계산)</label><input class="input" id="f-info-birth" type="text" placeholder="예: 10.17"><div class="hint"><code>MM.DD</code> 형식으로 넣어야 프사 옆 <b>D-Day</b>가 자동 계산돼요.</div></div>
       <div class="form-field"><label class="input-label">팬 애칭</label><input class="input" id="f-info-fandom" type="text" placeholder="예: 팬 애칭"></div>
       <div class="form-field"><label class="input-label">MBTI</label><input class="input" id="f-info-mbti" type="text" placeholder="예: MBTI"></div>
-      <div class="form-field"><label class="input-label">특징 태그 (쉼표 구분)</label><input class="input" id="f-info-tags" type="text" placeholder="예: 밝음, 착함, 열정 (쉼표 구분)"></div>
+      <div class="form-field"><label class="input-label">특징 태그 (쉼표 구분)</label><input class="input" id="f-info-tags" type="text" placeholder="예: 느긋함, 햄스터, 수다쟁이"></div>
+      <div class="form-field"><label class="input-label">비즈니스 문의 메일</label><input class="input" id="f-contact-mail" type="text" placeholder="mozzi@example.com"><div class="hint">전 페이지 <b>푸터</b>에 표시돼요.</div></div>
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♡</button></div>
     </div>
 
@@ -227,7 +281,17 @@
   </div>
 
   <div class="tab-panel" id="tab-profile">
-<div class="card">
+    <div class="card">
+      <div class="card-title">🖋 프로필 상단(히어로) 문구</div>
+      <div class="form-grid">
+        <div class="form-field full"><label class="input-label">작은 영문 라벨</label><input class="input" id="f-hero-label" type="text" placeholder="WELCOME TO MY TINY DREAM"><div class="hint">큰 이름 위의 작은 영문 줄이에요.</div></div>
+        <div class="form-field"><label class="input-label">큰 이름 · 앞부분</label><input class="input" id="f-hero-name-1" type="text" placeholder="Ham"></div>
+        <div class="form-field"><label class="input-label">큰 이름 · 뒷부분 (분홍색)</label><input class="input" id="f-hero-name-2" type="text" placeholder="mozzi"></div>
+        <div class="form-field full"><label class="input-label">SPIRIT ID 번호</label><input class="input" id="f-id-no" type="text" placeholder="NO. 0106"><div class="hint">오른쪽 명함 카드 오른쪽 위 작은 글씨예요.</div></div>
+        <div class="form-field full" style="display:flex;justify-content:flex-end"><button class="btn btn-primary" type="button" onclick="saveLocalProfile()">저장 ♡</button></div>
+      </div>
+    </div>
+    <div class="card">
       <div class="card-title">⭐ 한마디 & 하고픈 말</div>
       <div class="form-field"><label class="input-label">오늘의 한마디 (줄바꿈=엔터)</label><textarea class="input" id="f-quote" placeholder="예: 오늘도 와줘서 고마워요!" rows="3"></textarea><div class="hint">프로필 페이지 상단 큰 따옴표 문구예요.</div></div>
       <div class="form-field"><label class="input-label">하고픈 말</label><textarea class="input" id="f-msg" rows="3" placeholder="예: 안녕하세요! 햄모찌입니다!"></textarea><div class="hint">메인·프로필의 <b>About</b> 칸에 표시돼요. 줄바꿈=엔터.</div></div>
@@ -278,6 +342,8 @@
         <b>· 생일</b> — <code>MM.DD</code> (예: 06.08). D-Day가 자동 계산돼요.<br>
         <b>· 방송 요일</b> — 체크한 요일만 방송으로 표시, 나머지는 자동 "휴방".<br>
         <b>· 방송 시간</b> — 🏠 메인 탭의 <code>방송 시간 · 메인 화면</code> 카드에서 수정해요.<br>
+        <b>· 프로필 큰 사진</b> — 🏠 메인 탭 <code>프로필 큰 사진(아치 프레임) URL</code>. 언제든 주소만 바꾸면 즉시 교체돼요.<br>
+        <b>· 스탬프</b> — 🎟 업보·스탬프 탭 → <code>👥 꾹꾹이 · 스탬프</code>에서 ＋/− (즉시 저장).<br>
         <b>· 옷장 사진</b> — 세로 <b>3:4 (900×1200 권장)</b>. SOOP 비공개 게시판에 올린 뒤 사진 우클릭 → "이미지 주소 복사"로 얻은 <code>https://stimg.sooplive.com/…</code> 주소를 넣으세요. (게시글 주소 ✗)<br>
         <b>· 공지/일기 이미지</b> — 위와 같은 방법. 원본 글을 지우면 이미지도 깨집니다.<br>
         <b>· VOD</b> — SOOP 다시보기 주소의 <b>숫자 ID만</b> 입력 (예: <code>vod.sooplive.co.kr/player/<b>123456789</b></code>).<br>
@@ -383,22 +449,23 @@
   <!-- 메모리(일기) 탭 -->
   <div class="tab-panel" id="tab-diary">
     <div class="card">
-      <div class="card-title">📔 메모리 추가</div>
+      <div class="card-title">📔 메모리 사진 올리기</div>
       <div class="form-grid">
-        <div class="form-field full"><label class="input-label">제목 *</label><input class="input" id="diary-title" placeholder="예: 오늘의 느긋한 하루"></div>
+        <div class="form-field full"><label class="input-label">사진 제목 *</label><input class="input" id="diary-title" placeholder="예: 첫 방송 기념 사진"></div>
         <div class="form-field"><label class="input-label">날짜</label><input class="input" id="diary-date" type="date"></div>
-        <div class="form-field"><label class="input-label">한 줄 기분 (선택)</label><input class="input" id="diary-mood" placeholder="예: 나른함"></div>
-        <div class="form-field full"><label class="input-label">내용</label><textarea class="input" id="diary-content" rows="5" placeholder="그날의 이야기를 적어주세요"></textarea></div>
-        <div class="form-field full"><label class="input-label">이미지 링크 (여러 개면 줄바꿈)</label><textarea class="input" id="diary-image-url" rows="2" placeholder="https://... (한 줄에 하나씩)"></textarea>
-          <div class="hint">SOOP <b>비공개 게시판</b>에 이미지를 올린 뒤 → 이미지 <b>우클릭 → “이미지 주소 복사”</b> → 여기에 붙여넣기. (글 주소 ✗ / <code>https://stimg.sooplive.com/…</code> ○)</div>
+        <div class="form-field"><label class="input-label">태그 · 기분 (선택)</label><input class="input" id="diary-mood" placeholder="예: 첫방송"></div>
+        <div class="form-field full"><label class="input-label">사진 설명 (선택)</label><textarea class="input" id="diary-content" rows="4" placeholder="사진에 붙일 짧은 설명"></textarea></div>
+        <div class="form-field full"><label class="input-label">사진 링크 * (여러 장이면 줄바꿈)</label><textarea class="input" id="diary-image-url" rows="3" placeholder="https://... (한 줄에 하나씩)"></textarea>
+          <div class="hint">SOOP <b>비공개 게시판</b>에 사진을 올린 뒤 → 이미지 <b>우클릭 → “이미지 주소 복사”</b> → 여기에 붙여넣기. (글 주소 ✗ / <code>https://stimg.sooplive.com/…</code> ○)<br>
+          여러 줄로 넣으면 <b>한 카드에 여러 장</b>이 묶여요 (사진첩에서 ‹ › 로 넘겨봄). 권장 비율 <b>세로 4:5</b>.</div>
         </div>
         <div class="form-field full" style="display:flex;justify-content:flex-end"><button class="btn btn-primary" type="button" onclick="addDiary()">+ 추가</button></div>
       </div>
     </div>
     <div class="card">
-      <div class="card-title">등록된 메모리</div>
+      <div class="card-title">등록된 사진</div>
       <div class="table-wrap"><table>
-        <thead><tr><th>날짜</th><th>기분</th><th>제목</th><th>삭제</th></tr></thead>
+        <thead><tr><th>날짜</th><th>태그</th><th>제목</th><th>삭제</th></tr></thead>
         <tbody id="diary-list"><tr><td colspan="4"><div class="spinner"></div></td></tr></tbody>
       </table></div>
     </div>
@@ -426,6 +493,91 @@
     <div class="card">
       <div class="card-title">등록된 옷장 항목</div>
       <div id="dress-list"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  <!-- 업보 · 스탬프 탭 -->
+  <div class="tab-panel" id="tab-work">
+    <div class="subtabs">
+      <button class="subtab active" type="button" onclick="switchSub('assign',this)">📋 업보 부여</button>
+      <button class="subtab" type="button" onclick="switchSub('viewers',this)">👥 꾹꾹이 · 스탬프</button>
+      <button class="subtab" type="button" onclick="switchSub('types',this)">🏷 업보 타입</button>
+      <button class="subtab" type="button" onclick="switchSub('stampset',this)">🎟 스탬프 설정</button>
+    </div>
+
+    <!-- 업보 부여 -->
+    <div class="subpanel active" id="sub-assign">
+      <div class="card">
+        <div class="card-title">꾹꾹이 선택</div>
+        <input class="input" id="assign-search" placeholder="🔍 꾹꾹이 검색..." style="margin-bottom:12px" oninput="renderPick()">
+        <div class="pick" id="pick-list"><div class="spinner"></div></div>
+      </div>
+      <div class="card" id="assign-card" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px">
+          <div class="card-title" id="assign-title" style="margin:0">업보 부여</div>
+          <button class="btn btn-primary" type="button" onclick="saveCounts()">💾 저장</button>
+        </div>
+        <div class="counter-grid" id="counter-grid"></div>
+        <div class="hint">＋ / − 로 개수를 조절한 뒤 <b>저장</b>을 눌러야 반영돼요. STAMP 페이지의 “업보 기록”에 그대로 표시됩니다.</div>
+      </div>
+    </div>
+
+    <!-- 꾹꾹이 · 스탬프 -->
+    <div class="subpanel" id="sub-viewers">
+      <div class="card">
+        <div class="card-title">꾹꾹이 추가</div>
+        <div class="form-grid">
+          <div class="form-field"><label class="input-label">닉네임 *</label><input class="input" id="v-nick" placeholder="닉네임"></div>
+          <div class="form-field"><label class="input-label">SOOP 아이디 (선택)</label><input class="input" id="v-soop" placeholder="user_id">
+            <div class="hint">아이디를 넣으면 STAMP 페이지 카드에 <b>SOOP 프사</b>가 자동으로 떠요.</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" type="button" onclick="addViewer()">+ 추가</button></div>
+      </div>
+      <div class="card">
+        <div class="card-title">꾹꾹이 목록 · 스탬프 적립</div>
+        <input class="input" id="v-search" placeholder="🔍 검색..." style="margin-bottom:12px" oninput="renderViewers()">
+        <div id="viewer-list"><div class="spinner"></div></div>
+        <div class="hint">스탬프 옆 <b>＋ / −</b> 를 누르면 <b>바로 저장</b>돼요 (따로 저장 버튼 없음). 목표 칸 수는 <b>🎟 스탬프 설정</b>에서 바꿔요.</div>
+      </div>
+    </div>
+
+    <!-- 업보 타입 -->
+    <div class="subpanel" id="sub-types">
+      <div class="card">
+        <div class="card-title">업보 타입 추가</div>
+        <div class="form-grid">
+          <div class="form-field"><label class="input-label">타입명 *</label><input class="input" id="t-name" placeholder="예: 랜덤 단컷"></div>
+          <div class="form-field"><label class="input-label">카테고리</label>
+            <select class="input" id="t-cat"><option value="일반">일반</option><option value="이벤트">이벤트</option></select>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" type="button" onclick="addType()">+ 추가</button></div>
+      </div>
+      <div class="card">
+        <div class="card-title">업보 타입 목록</div>
+        <div id="type-list"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- 스탬프 설정 -->
+    <div class="subpanel" id="sub-stampset">
+      <div class="card">
+        <div class="card-title">🎟 스탬프북 설정</div>
+        <div class="form-field"><label class="input-label">목표 칸 수</label>
+          <input class="input" id="f-stamp-goal" type="number" min="1" max="30" placeholder="10" oninput="renderViewers()">
+          <div class="hint">1~30 사이 숫자. 비우면 <b>10칸</b>이에요. STAMP 페이지의 카드 칸 수가 이 숫자로 바뀝니다.</div>
+        </div>
+        <div class="form-field"><label class="input-label">적립 방법 안내 (줄바꿈=엔터)</label>
+          <textarea class="input" id="f-stamp-rule" rows="4" placeholder="방송에서 룰렛 · 쿠폰에 당첨되면 스탬프가 한 칸씩 쌓여요."></textarea>
+          <div class="hint">STAMP 페이지 왼쪽 설명 글이에요.</div>
+        </div>
+        <div class="form-field"><label class="input-label">보상 문구</label>
+          <textarea class="input" id="f-stamp-reward" rows="2" placeholder="스탬프 10칸을 모으면 · 원하는 게임 한 판 같이하기 🎮"></textarea>
+          <div class="hint">진한 갈색 <b>REWARD</b> 박스에 들어가는 문구예요.</div>
+        </div>
+        <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" type="button" onclick="saveLocalProfile()">저장 ♡</button></div>
+      </div>
     </div>
   </div>
 
@@ -477,7 +629,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="../supabase.js"></script>
 <script>
-  const ADMIN_PASSWORD = '{{관리자비밀번호}}';   // ← 버리는 비밀번호로 바꿔주세요 (소스에 그대로 보입니다)
+  const ADMIN_PASSWORD = '1234';   // ⚠️ 임시 비번입니다. 배포 전 반드시 '버리는 비밀번호'로 바꿔주세요 (소스에 그대로 보입니다)
 
   /* ★ 페이지가 읽는 키 = 이 배열 = f-{키} 입력칸  — 세 집합이 항상 같아야 합니다 (§2-B.1) */
   const profileKeys = [
@@ -485,6 +637,8 @@
     'info-name','info-catchphrase','info-debut','info-birth','info-fandom',
     'info-mbti','info-game','info-song','info-content','info-tags',
     'live-weekday','live-weekend','live-short','main-art',
+    'hero-art','hero-label','hero-name-1','hero-name-2','id-no','contact-mail',
+    'stamp-goal','stamp-rule','stamp-reward',
     'quote','msg','now','like-list','dislike-list','stats','milestones',
     'tmi-food','tmi-song','tmi-book','days',
     'link-soop','link-youtube','link-x','link-cafe',
@@ -495,7 +649,7 @@
     if (document.getElementById('pwInput').value === ADMIN_PASSWORD) {
       document.getElementById('loginOverlay').style.display = 'none';
       document.getElementById('adminBody').style.display = 'flex';
-      loadProfileFields();
+      loadProfileFields().then(loadWork);   // 목표 칸 수(f-stamp-goal)를 읽은 뒤 스탬프 렌더
       loadNotice(); loadSchedule(); loadDiary(); loadSong(); loadDress(); loadInquiry(); loadOriginalSongs();
     } else {
       document.getElementById('loginErr').textContent = '비밀번호가 틀렸어요 >﹏<';
@@ -659,7 +813,170 @@
     } else showToast('❌ 실패');
   }
 
-  // ── 일기 ──
+  // ── 업보 · 스탬프 시스템 ──
+  let viewers = [], types = [], counts = [];
+  let currentViewer = null, editCounts = {};
+
+  function switchSub(name, btn) {
+    document.querySelectorAll('.subpanel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.subtab').forEach(b => b.classList.remove('active'));
+    document.getElementById('sub-' + name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function stampGoal(){
+    const g = parseInt((document.getElementById('f-stamp-goal') || {}).value, 10);
+    return (g > 0 && g <= 30) ? g : 10;
+  }
+
+  async function loadWork() {
+    try {
+      [viewers, types, counts] = await Promise.all([
+        fetchAll('viewers', { order:'sort_order', asc:true }),
+        fetchAll('upbo_types', { order:'sort_order', asc:true }),
+        fetchAll('upbo_counts', { order:'id', asc:true })
+      ]);
+    } catch(e) { viewers = []; types = []; counts = []; }
+    renderPick(); renderViewers(); renderTypes();
+    if (currentViewer) openAssign(currentViewer);
+  }
+
+  /* ===== 업보 부여 ===== */
+  function renderPick() {
+    const el = document.getElementById('pick-list');
+    if (!el) return;
+    const q = (document.getElementById('assign-search')?.value || '').trim().toLowerCase();
+    const list = viewers.filter(v => (v.nickname||'').toLowerCase().includes(q) || (v.soop_id||'').toLowerCase().includes(q));
+    if (!viewers.length) { el.innerHTML = '<div style="color:var(--text-soft);font-size:13px">먼저 👥 꾹꾹이 · 스탬프 탭에서 꾹꾹이를 추가하세요</div>'; return; }
+    el.innerHTML = list.map(v => `
+      <div class="pick-item ${currentViewer===v.id?'sel':''}" onclick="openAssign(${v.id})">
+        <div class="pn">${(v.nickname||'').replace(/</g,'&lt;')}</div>
+        <div class="pi">${(v.soop_id||'-').replace(/</g,'&lt;')}</div>
+      </div>`).join('');
+  }
+  function openAssign(vid) {
+    currentViewer = vid;
+    const v = viewers.find(x=>x.id===vid);
+    if (!v) return;
+    editCounts = {};
+    counts.filter(c=>c.viewer_id===vid).forEach(c=>{ editCounts[c.type_id]=c.count; });
+    document.getElementById('assign-title').textContent = `${v.nickname} 업보 부여`;
+    document.getElementById('assign-card').style.display = 'block';
+    renderPick();
+    if (!types.length) { document.getElementById('counter-grid').innerHTML = '<div style="color:var(--text-soft);font-size:13px">먼저 🏷 업보 타입을 추가하세요</div>'; return; }
+    document.getElementById('counter-grid').innerHTML = types.map(t => `
+      <div class="counter">
+        <span class="cn">${(t.name||'').replace(/</g,'&lt;')}${t.category==='이벤트'?'<span class="evt">EVENT</span>':''}</span>
+        <button class="cbtn" type="button" onclick="bump(${t.id},-1)">−</button>
+        <span class="cval" id="cv-${t.id}">${editCounts[t.id]||0}</span>
+        <button class="cbtn" type="button" onclick="bump(${t.id},1)">+</button>
+      </div>`).join('');
+  }
+  function bump(tid, d) {
+    editCounts[tid] = Math.max(0, (editCounts[tid]||0) + d);
+    document.getElementById('cv-' + tid).textContent = editCounts[tid];
+  }
+  async function saveCounts() {
+    if (!currentViewer) return;
+    const rows = types.map(t => ({ viewer_id: currentViewer, type_id: t.id, count: editCounts[t.id]||0, updated_at: new Date().toISOString() }));
+    const { error } = await db.from('upbo_counts').upsert(rows, { onConflict: 'viewer_id,type_id' });
+    if (error) { showToast('❌ 저장 실패: ' + error.message); return; }
+    showToast('✅ 저장됐어요!');
+    counts = await fetchAll('upbo_counts', { order:'id', asc:true });
+  }
+
+  /* ===== 꾹꾹이 · 스탬프 ===== */
+  function renderViewers() {
+    const el = document.getElementById('viewer-list');
+    if (!el) return;
+    const q = (document.getElementById('v-search')?.value || '').trim().toLowerCase();
+    const list = viewers.filter(v => (v.nickname||'').toLowerCase().includes(q) || (v.soop_id||'').toLowerCase().includes(q));
+    if (!viewers.length) { el.innerHTML = '<div style="color:var(--text-soft);font-size:13px;text-align:center;padding:18px">아직 꾹꾹이가 없어요</div>'; return; }
+    const goal = stampGoal();
+    el.innerHTML = list.map(v => `
+      <div class="vrow">
+        <span class="vn">${(v.nickname||'').replace(/</g,'&lt;')}</span>
+        <span class="vid">${(v.soop_id||'-').replace(/</g,'&lt;')}</span>
+        <span class="stampbox">
+          <button class="cbtn" type="button" onclick="bumpStamp(${v.id},-1)">−</button>
+          <span class="sv" id="sv-${v.id}">${Math.max(0, parseInt(v.stamps,10)||0)} / ${goal}</span>
+          <button class="cbtn" type="button" onclick="bumpStamp(${v.id},1)">+</button>
+        </span>
+        <button class="vbtn" type="button" onclick="editViewer(${v.id})">수정</button>
+        <button class="vbtn del" type="button" onclick="delViewer(${v.id})">삭제</button>
+      </div>`).join('');
+  }
+  async function bumpStamp(id, d) {
+    const v = viewers.find(x=>x.id===id); if (!v) return;
+    const goal = stampGoal();
+    const next = Math.max(0, Math.min(goal, (parseInt(v.stamps,10)||0) + d));
+    v.stamps = next;
+    const el = document.getElementById('sv-' + id);
+    if (el) el.textContent = next + ' / ' + goal;
+    const ok = await updateRow('viewers', id, { stamps: next });
+    if (!ok) showToast('❌ 스탬프 저장 실패 (SQL에 stamps 칸이 있는지 확인)');
+    else showToast('🎟 스탬프 ' + next + '개');
+  }
+  async function addViewer() {
+    const nick = document.getElementById('v-nick').value.trim();
+    if (!nick) { showToast('❗ 닉네임 필수!'); return; }
+    const maxOrder = viewers.reduce((m,v)=>Math.max(m, v.sort_order||0), 0);
+    const ok = await insertRow('viewers', { nickname: nick, soop_id: document.getElementById('v-soop').value.trim(), sort_order: maxOrder+1, stamps: 0 });
+    if (ok) { showToast('✅ 추가!'); document.getElementById('v-nick').value=''; document.getElementById('v-soop').value=''; loadWork(); }
+    else showToast('❌ 실패');
+  }
+  async function editViewer(id) {
+    const v = viewers.find(x=>x.id===id); if (!v) return;
+    const nick = prompt('닉네임', v.nickname); if (nick===null) return;
+    const sid = prompt('SOOP 아이디', v.soop_id||''); if (sid===null) return;
+    const st = prompt('스탬프 개수', String(parseInt(v.stamps,10)||0)); if (st===null) return;
+    await updateRow('viewers', id, { nickname: nick.trim(), soop_id: sid.trim(), stamps: Math.max(0, parseInt(st,10)||0) });
+    showToast('✅ 수정!'); loadWork();
+  }
+  async function delViewer(id) {
+    if (!confirm('이 꾹꾹이를 삭제할까요?\n(업보 기록도 함께 사라져요)')) return;
+    await db.from('upbo_counts').delete().eq('viewer_id', id);
+    await deleteRow('viewers', id);
+    if (currentViewer===id) { currentViewer=null; document.getElementById('assign-card').style.display='none'; }
+    showToast('🗑 삭제!'); loadWork();
+  }
+
+  /* ===== 업보 타입 ===== */
+  function renderTypes() {
+    const el = document.getElementById('type-list');
+    if (!el) return;
+    if (!types.length) { el.innerHTML = '<div style="color:var(--text-soft);font-size:13px;text-align:center;padding:18px">타입이 없어요</div>'; return; }
+    el.innerHTML = types.map(t => `
+      <div class="type-row">
+        <span class="type-cat ${t.category}">${t.category}</span>
+        <span class="type-name">${(t.name||'').replace(/</g,'&lt;')}</span>
+        <button class="vbtn" type="button" onclick="editType(${t.id})">수정</button>
+        <button class="vbtn del" type="button" onclick="delType(${t.id})">삭제</button>
+      </div>`).join('');
+  }
+  async function addType() {
+    const name = document.getElementById('t-name').value.trim();
+    if (!name) { showToast('❗ 타입명 필수!'); return; }
+    const maxOrder = types.reduce((m,t)=>Math.max(m, t.sort_order||0), 0);
+    const ok = await insertRow('upbo_types', { name, category: document.getElementById('t-cat').value, sort_order: maxOrder+1 });
+    if (ok) { showToast('✅ 추가!'); document.getElementById('t-name').value=''; loadWork(); }
+    else showToast('❌ 실패');
+  }
+  async function editType(id) {
+    const t = types.find(x=>x.id===id); if (!t) return;
+    const name = prompt('타입명', t.name); if (name===null) return;
+    const cat = prompt('카테고리 (일반 / 이벤트)', t.category); if (cat===null) return;
+    await updateRow('upbo_types', id, { name: name.trim(), category: (cat.trim()==='이벤트'?'이벤트':'일반') });
+    showToast('✅ 수정!'); loadWork();
+  }
+  async function delType(id) {
+    if (!confirm('이 타입을 삭제할까요?\n(관련 업보 기록도 함께 사라져요)')) return;
+    await db.from('upbo_counts').delete().eq('type_id', id);
+    await deleteRow('upbo_types', id);
+    showToast('🗑 삭제!'); loadWork();
+  }
+
+  // ── 메모리(사진) ──
   async function loadDiary() {
     const data = await fetchAll('diary', { order: 'diary_date', asc: false });
     const t = document.getElementById('diary-list');

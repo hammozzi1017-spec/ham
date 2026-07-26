@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="햄모찌 STAMP">
+<title>햄모찌 · STAMP</title>
+<link rel="icon" type="image/jpeg" href="https://profile.img.sooplive.co.kr/LOGO/ha/hammojji/hammojji.jpg">
+<link rel="stylesheet" href="../style.css">
+<style>
+.rule-grid{ display:grid; grid-template-columns:1.35fr .95fr; gap:16px; }
+  @media (max-width:860px){ .rule-grid{ grid-template-columns:1fr; } }
+  .rule-txt{ font-size:14.5px; line-height:1.95; color:var(--text-mid); white-space:pre-line; word-break:keep-all; }
+
+  /* 스탬프 카드 */
+  .stampbook{ padding:22px 24px; border-radius:var(--r-lg); border:1px dashed var(--main);
+    background:linear-gradient(180deg,rgba(255,247,233,.9),rgba(251,230,236,.55)); }
+  body.dark .stampbook{ background:linear-gradient(180deg,rgba(70,56,48,.7),rgba(60,44,50,.5)); }
+  .stamp-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:16px; }
+  @media (max-width:520px){ .stamp-grid{ grid-template-columns:repeat(4,1fr); gap:9px; } }
+  .slot{ position:relative; aspect-ratio:1/1; border-radius:50%; display:grid; place-items:center; text-align:center;
+    border:1.5px dashed var(--line); background:var(--card); color:var(--text-soft); }
+  .slot .num{ font-family:var(--sans); font-weight:900; font-size:15px; line-height:1; }
+  .slot .lb{ margin-top:3px; font-family:var(--sans); font-weight:900; font-size:7px; letter-spacing:.18em; }
+  .slot.on{ border:0; color:#fff; background:linear-gradient(160deg,var(--main),var(--main-dark));
+    box-shadow:0 8px 18px rgba(201,113,139,.28); }
+  .slot.on .num{ font-size:17px; }
+  .slot.alt.on{ background:linear-gradient(160deg,#DCD3C2,#B9AC97); box-shadow:0 8px 18px rgba(140,120,95,.24); }
+  .prog{ height:8px; border-radius:999px; background:var(--main-light); overflow:hidden; margin-top:18px; }
+  .prog i{ display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,var(--main),var(--main-dark)); }
+  .prog-row{ display:flex; align-items:baseline; justify-content:space-between; margin-top:9px;
+    font-family:var(--sans); font-weight:900; font-size:11px; letter-spacing:.12em; color:var(--text-soft); }
+  .prog-row b{ color:var(--main-deep); font-size:13px; }
+  .reward{ margin-top:16px; padding:14px 16px; border-radius:var(--r-md); background:var(--cocoa); color:#FFF3E4;
+    font-size:13.5px; line-height:1.7; white-space:pre-line; }
+  .reward .rl{ display:block; font-family:var(--sans); font-weight:900; font-size:9px; letter-spacing:.2em; opacity:.75; margin-bottom:5px; }
+
+  /* 꾹꾹이 카드 */
+  .vsearch{ width:100%; padding:13px 20px; border-radius:999px; border:1px solid var(--line); background:var(--card);
+    color:var(--text); font-family:var(--kr); font-size:14px; outline:none; margin-top:14px; box-sizing:border-box; }
+  .vsearch:focus{ border-color:var(--main); }
+  .vgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:18px; }
+  @media (max-width:900px){ .vgrid{ grid-template-columns:repeat(3,1fr); gap:11px; } }
+  @media (max-width:560px){ .vgrid{ grid-template-columns:repeat(2,1fr); } }
+  .vcard{ padding:20px 14px 18px; text-align:center; border-radius:var(--r-md); border:1px solid var(--line);
+    background:var(--card); cursor:pointer; transition:transform .2s, box-shadow .2s, border-color .2s; }
+  .vcard:hover{ transform:translateY(-4px); box-shadow:var(--shadow-hover); border-color:var(--main); }
+  .vav, .vav-fb{ width:60px; height:60px; border-radius:50%; margin:0 auto 10px; display:block; object-fit:cover;
+    border:2px solid var(--main-light); background:var(--main-light); }
+  .vav-fb{ display:grid; place-items:center; font-family:var(--sans); font-weight:900; font-size:20px; color:var(--main-deep); }
+  .vnick{ font-size:14px; font-weight:700; color:var(--text); word-break:keep-all; }
+  .vid{ margin-top:2px; font-family:var(--sans); font-weight:800; font-size:10px; letter-spacing:.1em; color:var(--text-soft); }
+  .vmeta{ display:flex; justify-content:center; gap:6px; margin-top:10px; flex-wrap:wrap; }
+  .vpill{ padding:3px 11px; border-radius:999px; font-family:var(--sans); font-weight:900; font-size:9.5px; letter-spacing:.1em; }
+  .vpill.s{ background:var(--main); color:#fff; }
+  .vpill.k{ background:var(--main-light); color:var(--main-deep); }
+
+  /* 모달 */
+  .ov{ position:fixed; inset:0; z-index:600; display:none; background:rgba(48,34,26,.62); padding:22px; overflow-y:auto; }
+  .ov.show{ display:block; }
+  .vmodal{ max-width:520px; margin:40px auto; background:var(--card); border:1px solid var(--line);
+    border-radius:var(--r-lg); box-shadow:0 30px 80px rgba(50,34,26,.4); overflow:hidden; }
+  .vm-top{ display:flex; align-items:center; gap:14px; padding:22px 24px; border-bottom:1px dotted var(--line); position:relative; }
+  .vm-x{ position:absolute; top:16px; right:18px; border:0; background:none; font-size:20px; color:var(--text-soft); cursor:pointer; }
+  .vm-body{ padding:22px 24px 26px; }
+  .krow{ display:flex; align-items:center; gap:10px; padding:12px 0; }
+  .krow + .krow{ border-top:1px dotted var(--line); }
+  .krow .nm{ flex:1; font-size:14px; color:var(--text); font-weight:600; }
+  .krow .ev{ padding:2px 9px; border-radius:999px; background:var(--gold); color:#7A5A22; font-family:var(--sans); font-weight:900; font-size:9px; letter-spacing:.1em; }
+  body.dark .krow .ev{ color:#F5E3BE; }
+  .krow .ct{ min-width:44px; text-align:center; padding:3px 11px; border-radius:999px; background:var(--main-light);
+    color:var(--main-deep); font-family:var(--sans); font-weight:900; font-size:11px; }
+</style>
+</head>
+<body class="sub">
+<script>if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');</script>
+
+<header class="head-cream">
+  <a class="brand" href="../" aria-label="햄모찌 홈">
+    <span class="brand-bell">●</span><span>HAMMOZZI</span><small>햄모찌</small>
+  </a>
+  <nav class="main-nav nav-ink" aria-label="메인 메뉴">
+    <a href="../profile/">PROFILE</a>
+    <a href="../schedule/">SCHEDULE</a>
+    <a href="../song/">SONG BOOK</a>
+    <a href="../notice/">NOTICE</a>
+    <a href="../memory/">MEMORY</a>
+    <a href="../closet/">CLOSET</a>
+    <a href="../stamp/" class="on">STAMP</a>
+  </nav>
+  <div class="hd-act">
+    <button class="hd-btn" id="dkbox" type="button" aria-label="다크 모드">🌙</button>
+    <button class="hd-ask" type="button" onclick="openAsk()">ASK ✉</button>
+  </div>
+</header>
+
+<main class="sheet wrap">
+  <div class="stagger">
+<section class="phero">
+  <span class="ghost">book</span>
+  <div class="ph-in">
+    <div class="kick"><span class="no">FILE NO.07</span> KKUKKUKI RECORD</div>
+    <h1>Stamp<em>book</em></h1>
+    <p class="ph-kr">꾹꾹이들의 스탬프와 업보를 모아 둔 기록실이에요. 이름을 눌러 내 카드를 확인해요.</p>
+  </div>
+  <div class="ph-rail">
+    <p><span class="micro">KKUKKUKI</span><b id="rail-v">—</b></p>
+    <p><span class="micro">STAMPS</span><b id="rail-s">—</b></p>
+  </div>
+</section>
+
+<section class="panel mt14">
+  <div class="kick"><span class="no">RULE</span> HOW TO COLLECT</div>
+  <div class="sec-t mt14"><h2>Stamp book</h2><span>꾹꾹이 스탬프북</span></div>
+  <div class="rule-grid">
+    <div>
+      <p class="rule-txt" data-hook="stamp-rule">방송에서 룰렛 · 쿠폰에 당첨되면 스탬프가 한 칸씩 쌓여요.
+칸을 다 채우면 햄모찌가 준비한 보상을 받을 수 있어요.
+스탬프는 방송이 끝난 뒤 햄모찌가 직접 적립해 드려요.</p>
+      <div class="reward mt22">
+        <span class="rl">REWARD</span>
+        <span data-hook="stamp-reward">스탬프 10칸을 모으면 · 원하는 게임 한 판 같이하기 🎮</span>
+      </div>
+    </div>
+    <div class="stampbook">
+      <p class="micro" style="margin:0">SAMPLE CARD</p>
+      <div class="stamp-grid" id="sample-card"></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel mt14">
+  <div class="kick"><span class="no">BOARD</span> KKUKKUKI LIST</div>
+  <div class="sec-t mt14"><h2>Record</h2><span>꾹꾹이별 스탬프 · 업보</span></div>
+  <input class="vsearch" id="vsearch" placeholder="꾹꾹이 닉네임 · 아이디 검색" autocomplete="off">
+  <div class="vgrid" id="vgrid"><div class="spinner" style="grid-column:1/-1"></div></div>
+</section>
+
+<div class="ov" id="ov">
+  <div class="vmodal">
+    <div class="vm-top" id="vm-top"></div>
+    <div class="vm-body" id="vm-body"></div>
+  </div>
+</div>
+  </div>
+</main>
+
+<footer>
+  <b>HAMMOZZI · DREAM ARCHIVE</b><br>
+  © 2026 HAMMOZZI Official. · 비즈니스 문의 — <span data-common="contact-mail">{{이메일}}</span>
+</footer>
+
+<div class="askmask" id="askmask">
+  <div class="askmodal">
+    <p class="micro">MESSAGE TO MOZZI</p>
+    <h3>꾹꾹이의 쪽지</h3>
+    <p>햄모찌에게 하고 싶은 말을 남겨주세요! (익명)</p>
+    <textarea id="askmsg" placeholder="문의 내용을 입력해주세요..."></textarea>
+    <div class="askbtns">
+      <button class="no" type="button" onclick="closeAsk()">취소</button>
+      <button class="yes" type="button" onclick="sendAsk()">보내기</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="../supabase.js"></script>
+<script>
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function soopAvatar(id){
+  if(!id) return null;
+  id = String(id).trim().toLowerCase();
+  if(id.length < 2) return null;
+  return 'https://profile.img.sooplive.co.kr/LOGO/'+id.slice(0,2)+'/'+id+'/'+id+'.jpg';
+}
+let viewers = [], types = [], counts = [], GOAL = 10;
+
+function stampsOf(v){ return Math.max(0, parseInt(v.stamps, 10) || 0); }
+function karmaOf(vid){
+  return counts.filter(function(c){ return c.viewer_id === vid && c.count > 0; })
+               .reduce(function(s,c){ return s + c.count; }, 0);
+}
+
+function slotsHTML(filled, goal, alt){
+  let h = '';
+  for(let i=1;i<=goal;i++){
+    const on = i <= filled;
+    h += '<div class="slot'+(alt?' alt':'')+(on?' on':'')+'">'
+       + '<div><div class="num">'+(on?'♥':i)+'</div><div class="lb">'+(on?'MOZZI':'STAMP')+'</div></div></div>';
+  }
+  return h;
+}
+
+async function init(){
+  try{
+    const res = await db.from('profile').select('data').eq('id',1).single();
+    const p = (res && res.data && res.data.data) || {};
+    const g = parseInt(p['stamp-goal'], 10);
+    if(g > 0 && g <= 30) GOAL = g;
+    document.querySelectorAll('[data-hook]').forEach(function(el){
+      const v = p[el.getAttribute('data-hook')];
+      if(v !== undefined && v !== null && String(v).trim() !== '') el.textContent = String(v);
+    });
+  }catch(e){}
+
+  document.getElementById('sample-card').innerHTML = slotsHTML(Math.min(6, GOAL), GOAL, false);
+
+  try{
+    const r = await Promise.all([
+      fetchAll('viewers',    { order:'sort_order', asc:true }),
+      fetchAll('upbo_types', { order:'sort_order', asc:true }),
+      fetchAll('upbo_counts',{ order:'id', asc:true })
+    ]);
+    viewers = r[0] || []; types = r[1] || []; counts = r[2] || [];
+  }catch(e){ viewers = []; types = []; counts = []; }
+
+  document.getElementById('rail-v').textContent = viewers.length + '명';
+  document.getElementById('rail-s').textContent = viewers.reduce(function(n,v){ return n + stampsOf(v); }, 0) + '개';
+  render(viewers);
+  try{ if(typeof enableIframeAutoHeight==='function') enableIframeAutoHeight(); }catch(e){}
+}
+
+function render(list){
+  const grid = document.getElementById('vgrid');
+  if(!list.length){
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">&#10022;</div>아직 등록된 꾹꾹이가 없어요<br>admin에서 꾹꾹이를 추가하면 여기에 카드가 생겨요</div>';
+    return;
+  }
+  grid.innerHTML = list.map(function(v){
+    const av = soopAvatar(v.soop_id);
+    const ini = (v.nickname || '?').charAt(0);
+    const avHtml = av
+      ? '<img class="vav" src="'+esc(av)+'" alt="" referrerpolicy="no-referrer" onerror="this.outerHTML=\'<div class=&quot;vav-fb&quot;>'+esc(ini)+'</div>\'">'
+      : '<div class="vav-fb">'+esc(ini)+'</div>';
+    return '<div class="vcard" data-id="'+v.id+'">' + avHtml
+      + '<div class="vnick">'+esc(v.nickname)+'</div>'
+      + (v.soop_id ? '<div class="vid">'+esc(v.soop_id)+'</div>' : '<div class="vid">&nbsp;</div>')
+      + '<div class="vmeta"><span class="vpill s">STAMP '+stampsOf(v)+'/'+GOAL+'</span>'
+      + '<span class="vpill k">업보 '+karmaOf(v.id)+'</span></div></div>';
+  }).join('');
+  grid.querySelectorAll('.vcard').forEach(function(c){
+    c.addEventListener('click', function(){ openModal(c.dataset.id); });
+  });
+}
+
+function openModal(vid){
+  const v = viewers.filter(function(x){ return String(x.id) === String(vid); })[0];
+  if(!v) return;
+  const av = soopAvatar(v.soop_id);
+  const ini = (v.nickname || '?').charAt(0);
+  const avHtml = av
+    ? '<img class="vav" style="margin:0" src="'+esc(av)+'" alt="" referrerpolicy="no-referrer" onerror="this.outerHTML=\'<div class=&quot;vav-fb&quot; style=&quot;margin:0&quot;>'+esc(ini)+'</div>\'">'
+    : '<div class="vav-fb" style="margin:0">'+esc(ini)+'</div>';
+  document.getElementById('vm-top').innerHTML = avHtml
+    + '<div><div class="micro">KKUKKUKI</div><div style="font-size:19px;font-weight:800;color:var(--main-deep);margin-top:4px">'+esc(v.nickname)+'</div>'
+    + (v.soop_id ? '<div class="vid" style="text-align:left">'+esc(v.soop_id)+'</div>' : '') + '</div>'
+    + '<button class="vm-x" type="button" onclick="closeModal()">&times;</button>';
+
+  const filled = Math.min(stampsOf(v), GOAL);
+  const pct = GOAL ? Math.round(filled / GOAL * 100) : 0;
+
+  const my = {};
+  counts.filter(function(c){ return String(c.viewer_id) === String(vid); }).forEach(function(c){ my[c.type_id] = c.count; });
+  const rows = types.filter(function(t){ return (my[t.id] || 0) > 0; }).map(function(t){
+    return '<div class="krow"><span class="nm">'+esc(t.name)+'</span>'
+      + (t.category === '이벤트' ? '<span class="ev">EVENT</span>' : '')
+      + '<span class="ct">&times;'+my[t.id]+'</span></div>';
+  }).join('');
+
+  document.getElementById('vm-body').innerHTML =
+      '<div class="stampbook"><p class="micro" style="margin:0">STAMP CARD</p>'
+    + '<div class="stamp-grid">' + slotsHTML(filled, GOAL, false) + '</div>'
+    + '<div class="prog"><i style="width:'+pct+'%"></i></div>'
+    + '<div class="prog-row"><span>COLLECTED</span><span><b>'+filled+'</b> / '+GOAL+'</span></div></div>'
+    + '<div class="kick mt22"><span class="no">KARMA</span> 업보 기록</div>'
+    + (rows || '<div class="empty" style="padding:28px 0">아직 업보가 없어요 ♡</div>');
+
+  document.getElementById('ov').classList.add('show');
+}
+function closeModal(){ document.getElementById('ov').classList.remove('show'); }
+document.getElementById('ov').addEventListener('click', function(e){ if(e.target.id === 'ov') closeModal(); });
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+document.getElementById('vsearch').addEventListener('input', function(e){
+  const q = e.target.value.trim().toLowerCase();
+  render(viewers.filter(function(v){
+    return (v.nickname||'').toLowerCase().indexOf(q) >= 0 || (v.soop_id||'').toLowerCase().indexOf(q) >= 0;
+  }));
+});
+init();
+</script>
+<script>
+/* 다크 모드 · 문의 모달 · FOUC 해제 */
+(function(){
+  var b = document.getElementById('dkbox');
+  function paint(){ if(b) b.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; }
+  if(b) b.addEventListener('click', function(){
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    paint();
+  });
+  paint();
+  function ready(){ document.body.classList.add('ready'); }
+  window.addEventListener('load', ready);
+  setTimeout(ready, 1400);
+})();
+function openAsk(){ document.getElementById('askmask').classList.add('on'); }
+function closeAsk(){ document.getElementById('askmask').classList.remove('on'); }
+async function sendAsk(){
+  var t = document.getElementById('askmsg');
+  var v = (t.value||'').trim();
+  if(!v){ alert('내용을 입력해주세요!'); return; }
+  try{ await insertRow('inquiries', { message: v }); alert('쪽지가 도착했어요! 고마워요 꾹꾹이 🩷'); }
+  catch(e){ alert('전송에 실패했어요. 잠시 후 다시 시도해 주세요.'); }
+  t.value=''; closeAsk();
+}
+document.getElementById('askmask').addEventListener('click', function(e){ if(e.target.id==='askmask') closeAsk(); });
+</script>
+<script src="../fx.js"></script>
+</body>
+</html>

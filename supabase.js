@@ -141,6 +141,11 @@ async function applyTheme(){
   try{
     const { data } = await db.from('profile').select('data').eq('id',1).single();
     const p = (data && data.data) || {};
+    /* 공통 훅(data-common): 전 페이지 푸터 메일 등 — 페이지별 data-hook 로더와 겹치지 않게 분리 */
+    document.querySelectorAll('[data-common]').forEach(function(el){
+      var v = p[el.getAttribute('data-common')];
+      if(v !== undefined && v !== null && String(v).trim() !== '') el.textContent = String(v);
+    });
     const map = {
       'theme-main':      '--main',
       'theme-main-dark': '--main-dark',
