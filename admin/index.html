@@ -648,7 +648,7 @@
   function tryLogin() {
     if (document.getElementById('pwInput').value === ADMIN_PASSWORD) {
       document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('adminBody').style.display = 'flex';
+      document.getElementById('adminBody').style.display = 'block';   // ⚠️ flex 금지 (헤더+본문이 가로로 밀림)
       loadProfileFields().then(loadWork);   // 목표 칸 수(f-stamp-goal)를 읽은 뒤 스탬프 렌더
       loadNotice(); loadSchedule(); loadDiary(); loadSong(); loadDress(); loadInquiry(); loadOriginalSongs();
     } else {
